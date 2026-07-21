@@ -15,12 +15,21 @@ export const WA_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=hi`;
 export const WA_SUPPORT_LINK =
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('I have a question about QuizPe')}`;
 export const SUPPORT_EMAIL = 'support@quizpe.in';
+
+// When we read messages, and how long a parent should expect to wait. Stated in
+// one place so the site, the WhatsApp replies and the support ticket page can
+// never quote different promises back to the same parent.
+export const SUPPORT_HOURS = '9 AM – 6 PM';
+export const SUPPORT_SLA = 'within 24–48 hours';
+export const SUPPORT_LINE = `We read messages between ${SUPPORT_HOURS} and reply ${SUPPORT_SLA}.`;
 // ServerPe App Solutions operates QuizPe. Its address is used for the statutory
 // Grievance Officer only — parents should always write to SUPPORT_EMAIL.
 export const COMPANY_EMAIL = 'support@serverpe.in';
 
 export const HERO = {
   eyebrow: 'No app · No login · No registration',
+  // Sits directly under the headline: the single-line claim, before any detail.
+  promise: 'The quickest and simplest way to get a daily quiz to your child.',
   title: 'A daily quiz on WhatsApp that your child will actually finish.',
   sub:
     'Ten fresh questions every evening, matched to your child’s board, grade and everything ' +
@@ -46,7 +55,7 @@ export const HOW_IT_WORKS = [
     step: '3',
     icon: '🔔',
     title: 'A reminder before it starts',
-    body: 'One gentle nudge about half an hour ahead, so the evening does not run away. Never more than one. Reply STOP any time.',
+    body: 'One gentle nudge about half an hour ahead, so the evening does not run away. Never more than one. Reply STOP to pause everything, START to resume.',
   },
   {
     step: '4',
@@ -185,7 +194,8 @@ export const FAQ = [
        'named proprietor, a registered business address and a Grievance Officer, all published in the ' +
        'footer of this page. Messages reach you through a Meta-verified WhatsApp Business account, not an ' +
        'anonymous number. In practice that means at most one reminder and one quiz message a day, plus ' +
-       'your report. No promotional broadcasts, ever. Reply STOP and reminders end immediately.',
+       'your report. No promotional broadcasts, ever. Reply STOP and every message stops immediately — ' +
+       'reply START whenever you want them back.',
   },
   {
     q: 'Where do the questions come from?',

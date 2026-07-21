@@ -6,7 +6,7 @@
 import { useEffect, useState } from 'react';
 import Reveal from '../components/Reveal.jsx';
 import { api, safe } from '../lib/api';
-import { SUPPORT_EMAIL, WA_SUPPORT_LINK, WHATSAPP_DISPLAY } from '../content';
+import { SUPPORT_EMAIL, WA_SUPPORT_LINK, WHATSAPP_DISPLAY, SUPPORT_HOURS, SUPPORT_SLA } from '../content';
 
 const EMPTY = { user_name: '', mobile_number: '', email: '', query_type: '', message: '' };
 
@@ -51,7 +51,7 @@ export default function Contact() {
           <h2 className="h2 mt-4">Ask us anything</h2>
           <p className="lede mt-3">
             Whether it is a board we do not cover yet, a question about pricing, or a school enquiry —
-            write to us and you will hear back within 24 hours.
+            write to us and you will hear back {SUPPORT_SLA}.
           </p>
 
           <div className="card p-6 mt-6 space-y-4">
@@ -72,8 +72,15 @@ export default function Contact() {
               </a>
             </div>
             <div>
+              <p className="text-xs font-bold uppercase tracking-wide text-muted">Support hours</p>
+              <p className="text-sm text-muted">{SUPPORT_HOURS}, every day</p>
+              <p className="text-[11px] text-muted mt-0.5">
+                Messages sent outside these hours are picked up the next morning.
+              </p>
+            </div>
+            <div>
               <p className="text-xs font-bold uppercase tracking-wide text-muted">Response time</p>
-              <p className="text-sm text-muted">Within 24 hours, every day</p>
+              <p className="text-sm text-muted">Replies {SUPPORT_SLA}</p>
             </div>
           </div>
         </Reveal>
@@ -88,7 +95,9 @@ export default function Contact() {
                 <p className="inline-block mt-2 px-4 py-2 rounded-xl bg-brand-accent/10 text-brand font-black text-lg tracking-wide">
                   {state.ref}
                 </p>
-                <p className="text-muted text-sm mt-3">We will reply within 24 hours.</p>
+                <p className="text-muted text-sm mt-3">
+                  We reply {SUPPORT_SLA}, during our support hours of {SUPPORT_HOURS}.
+                </p>
                 <button type="button" className="btn-ghost mt-5 !py-2.5 !text-sm"
                         onClick={() => setState({ busy: false, error: '', ref: '' })}>
                   Send another

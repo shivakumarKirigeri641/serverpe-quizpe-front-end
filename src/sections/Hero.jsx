@@ -21,7 +21,13 @@ export default function Hero({ stats }) {
           </motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: .6, delay: .15 }} className="mt-5 lede max-w-xl">
+                    transition={{ duration: .6, delay: .1 }}
+                    className="mt-4 text-lg sm:text-xl font-bold text-brand-accent max-w-xl">
+            {HERO.promise}
+          </motion.p>
+
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: .6, delay: .15 }} className="mt-4 lede max-w-xl">
             {HERO.sub}
           </motion.p>
 
