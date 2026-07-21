@@ -5,8 +5,13 @@
  * still render if the API is briefly unreachable.
  */
 
+// Empty in development, where Vite proxies /public and /legal to port 5008.
+// In production the site is quizpe.in and the API is api.quizpe.in, so this is
+// set to that absolute origin at build time via VITE_API_BASE.
+const BASE = (import.meta.env.VITE_API_BASE || '').replace(/\/$/, '');
+
 const call = async (path, opts) => {
-  const res = await fetch(path, opts);
+  const res = await fetch(`${BASE}${path}`, opts);
   const data = await res.json().catch(() => ({}));
   if (!res.ok || data.success === false) throw new Error(data.error || 'Request failed');
   return data;
