@@ -1,0 +1,9 @@
+# QuizPe — https://quizpe.in
+User-agent: *
+Allow: /
+
+# Nothing here is private, but these serve data rather than pages
+Disallow: /public/
+Disallow: /admin/
+
+Sitemap: https://quizpe.in/sitemap.xml

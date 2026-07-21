@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+  body { @apply bg-cream text-ink font-sans; }
+  /* anchors land below the sticky header */
+  section[id] { scroll-margin-top: 84px; }
+}
+
+@layer components {
+  .container-x { @apply max-w-6xl mx-auto px-5; }
+  .btn      { @apply inline-flex items-center justify-center gap-2 rounded-full font-bold
+                     transition active:scale-[.98] px-6 py-3.5 text-[15px]; }
+  .btn-wa   { @apply btn bg-brand-accent text-white hover:bg-brand-light shadow-lift; }
+  .btn-ghost{ @apply btn bg-white text-brand border-2 border-line hover:border-brand-accent; }
+  .card     { @apply bg-white rounded-3xl border border-line shadow-soft; }
+  .eyebrow  { @apply inline-block text-[11px] font-extrabold tracking-[0.14em] uppercase
+                     text-brand-accent bg-brand-accent/10 rounded-full px-3 py-1.5; }
+  .h2       { @apply text-3xl sm:text-4xl font-extrabold text-brand leading-tight; }
+  .lede     { @apply text-muted text-base sm:text-lg leading-relaxed; }
+  .input    { @apply w-full rounded-xl border-2 border-line px-4 py-3 text-[15px]
+                     outline-none focus:border-brand-accent transition bg-white; }
+  .label    { @apply block text-xs font-bold text-muted mb-1.5; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
