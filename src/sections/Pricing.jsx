@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Reveal from '../components/Reveal.jsx';
 import { api, safe } from '../lib/api';
-import { WA_LINK } from '../content';
+import { WA_LINK, SUPPORT_EMAIL } from '../content';
 
 /** Copy per plan code. Prices, durations and seats come from the API — only
  *  the selling points live here, so a price change never needs a rebuild. */
@@ -90,13 +90,35 @@ export default function Pricing() {
               </Reveal>
             );
           })}
+          <Reveal delay={plans.length * 0.07}>
+            <div className="card h-full p-6 flex flex-col border-dashed border-2">
+              <h3 className="font-extrabold text-brand">4 or more children?</h3>
+              <div className="mt-2 text-4xl font-black text-brand">Let’s talk</div>
+              <p className="text-xs font-bold text-brand-accent mt-1">Families, tuition centres, schools</p>
+              <ul className="mt-5 space-y-2 flex-1">
+                {['Everything in the paid plans', 'A quiz and report per child',
+                  'Different boards and grades', 'Priced for your group'].map((pt) => (
+                  <li key={pt} className="flex gap-2 text-sm text-muted">
+                    <span className="text-brand-accent font-bold" aria-hidden>✓</span>{pt}
+                  </li>
+                ))}
+              </ul>
+              <a href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent('QuizPe for 4+ children')}`}
+                 className="btn-ghost mt-6 w-full !py-3 !text-sm">
+                ✉️ Contact me
+              </a>
+              <p className="text-[11px] text-muted mt-2 text-center">{SUPPORT_EMAIL}</p>
+            </div>
+          </Reveal>
         </div>
         )}
 
         <Reveal delay={0.25}>
           <p className="text-center text-sm text-muted mt-8 max-w-2xl mx-auto">
-            All prices include GST at {data?.gst_pct ?? 18}%. A proper tax invoice reaches you on WhatsApp after every payment.
-            Cancel any time; full refund within 7 days if it is not right for your child.
+            All prices include GST at {data?.gst_pct ?? 18}%. A proper tax invoice reaches you on WhatsApp
+            after every payment. Every plan has exactly the same features — the only difference is how many
+            children it covers. Paid periods are not refundable, which is precisely why the free trial is
+            there: try it fully first, then decide.
           </p>
         </Reveal>
       </div>

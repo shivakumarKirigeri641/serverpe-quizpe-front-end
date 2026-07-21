@@ -6,7 +6,7 @@
  * copy that could drift out of date.
  */
 
-import { WA_LINK, WHATSAPP_DISPLAY, SUPPORT_EMAIL } from '../content';
+import { WA_LINK, WA_SUPPORT_LINK, WHATSAPP_DISPLAY, SUPPORT_EMAIL, COMPANY_EMAIL } from '../content';
 
 const LEGAL_BASE = '/legal.html';
 
@@ -74,9 +74,10 @@ export default function Footer({ legal, business }) {
         <div>
           <h3 className="text-white font-bold text-sm uppercase tracking-wide">Contact</h3>
           <ul className="mt-4 space-y-2 text-sm">
-            <li>💬 <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+            <li>💬 <a href={WA_SUPPORT_LINK} target="_blank" rel="noopener noreferrer"
                      className="hover:text-white">{WHATSAPP_DISPLAY}</a></li>
             <li>✉️ <a href={`mailto:${SUPPORT_EMAIL}`} className="hover:text-white">{SUPPORT_EMAIL}</a></li>
+            <li className="text-white/50 text-[11px]">For anything about QuizPe, write to the address above.</li>
           </ul>
 
           {g.name && (
@@ -85,6 +86,11 @@ export default function Footer({ legal, business }) {
               <p>{g.name}{g.designation ? `, ${g.designation}` : ''}</p>
               {g.email && <p><a href={`mailto:${g.email}`} className="hover:text-white">{g.email}</a></p>}
               {g.phone && <p>{g.phone}</p>}
+              <p className="text-white/40 mt-1">
+                This is the statutory contact for {business.company_name || 'ServerPe App Solutions'},
+                the company that operates QuizPe. For help with the service itself, please use{' '}
+                {SUPPORT_EMAIL}.
+              </p>
               <p className="text-white/50 mt-1">
                 Acknowledged within {g.acknowledge_hours}h · resolved within {g.resolve_days} days
               </p>
@@ -95,16 +101,21 @@ export default function Footer({ legal, business }) {
 
       <div className="border-t border-white/15">
         <div className="container-x py-6 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs">
-          <p>© {year} {business.company_name || 'ServerPe App Solutions'}. All rights reserved.</p>
+          <p>
+            QuizPe™ is a service of {business.company_name || 'ServerPe App Solutions'}™.
+            {' '}All rights reserved, {year}.
+          </p>
           {business.gstin && <p>GSTIN {business.gstin}</p>}
           {business.address && <p className="text-white/50">{business.address}</p>}
           <p className="lg:ml-auto font-semibold text-white/90">
-            Powered by: {business.company_name || 'ServerPe App Solutions'}
+            Powered by: {business.company_name || 'ServerPe App Solutions'}™
           </p>
         </div>
         <div className="container-x pb-6 text-[11px] text-white/45 leading-relaxed">
           <p>
-            QuizPe provides supplementary practice questions written in-house to match syllabus topics.
+            QuizPe™ and ServerPe App Solutions™ are unregistered trade marks; applications are pending.
+            QuizPe provides supplementary practice questions composed in-house on syllabus topics — nothing
+            is copied or reproduced from any textbook or publisher.
             We are not affiliated with, endorsed by or connected to CBSE, NCERT, ICSE, any state board,
             school or textbook publisher. All trademarks belong to their respective owners.
             No examination result or academic outcome is promised or guaranteed.

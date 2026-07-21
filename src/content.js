@@ -10,7 +10,14 @@
 export const WHATSAPP_NUMBER = '916363271302';
 export const WHATSAPP_DISPLAY = '+91 63632 71302';
 export const WA_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=hi`;
+// Contacting support is a different intent from enrolling. Sending "hi" would
+// drop the parent into the signup flow instead of a conversation.
+export const WA_SUPPORT_LINK =
+  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('I have a question about QuizPe')}`;
 export const SUPPORT_EMAIL = 'support@quizpe.in';
+// ServerPe App Solutions operates QuizPe. Its address is used for the statutory
+// Grievance Officer only — parents should always write to SUPPORT_EMAIL.
+export const COMPANY_EMAIL = 'support@serverpe.in';
 
 export const HERO = {
   eyebrow: 'No app · No login · No registration',
@@ -38,8 +45,8 @@ export const HOW_IT_WORKS = [
   {
     step: '3',
     icon: '🔔',
-    title: 'A reminder an hour before',
-    body: 'One gentle nudge so the evening does not run away. Never more than one. Reply STOP any time.',
+    title: 'A reminder before it starts',
+    body: 'One gentle nudge about half an hour ahead, so the evening does not run away. Never more than one. Reply STOP any time.',
   },
   {
     step: '4',
@@ -127,16 +134,19 @@ export const PARENT_NOTE = {
 export const WHY_EVENING = {
   title: 'Why the evening?',
   body:
-    'Quizzes go out between 7 and 9 PM — after school, after tuition, before dinner. You choose the exact ' +
-    'time and can change it whenever your routine changes. It is deliberately short: five to ten minutes ' +
-    'is long enough to matter and short enough that a tired child will still do it.',
+    'Your nudge arrives between 7 and 9 PM — after school, after tuition, before dinner — and you choose ' +
+    'the exact time. But the quiz itself stays open until 11:45 PM, so a late class or a long homework ' +
+    'session never costs your child the day. It is deliberately short: five to ten minutes is long enough ' +
+    'to matter and short enough that a tired child will still do it.',
 };
 
 export const FAQ = [
   {
     q: 'Does my child need a phone?',
-    a: 'No. The quiz arrives on your WhatsApp. You hand them your phone for five minutes and take it back. ' +
-       'Children never have an account or a login with us.',
+    a: 'No, and they do not need one of their own. The quiz arrives on your WhatsApp and opens in a single ' +
+       'page. Most parents sit with their child while they answer — you stay in control of the device the ' +
+       'whole time, and there is nothing to browse away to. Children never have an account, a login or a ' +
+       'password with us.',
   },
   {
     q: 'Is there an app to install?',
@@ -146,8 +156,8 @@ export const FAQ = [
   {
     q: 'Which boards and grades do you cover?',
     a: 'CBSE/NCERT, ICSE and Karnataka State board, in English medium, for the grades listed on this page. ' +
-       'We only offer a board and grade once we genuinely have the content for it — you will never be sold ' +
-       'something we cannot deliver.',
+       'A board and grade appears only once the questions for it are genuinely ready, so what you see here ' +
+       'is what we can deliver from day one.',
   },
   {
     q: 'What if my child misses a day?',
@@ -156,23 +166,33 @@ export const FAQ = [
   },
   {
     q: 'Can I add more than one child?',
-    a: 'Yes. Plans cover one, two or three children, each with their own board, grade and progress. Every ' +
-       'child gets their own quiz and their own report.',
+    a: 'Yes. Plans cover one, two or three children, each with their own board, grade and progress — every ' +
+       'child gets their own quiz and their own report. Every plan includes exactly the same features; the ' +
+       'only difference is how many children it covers. For four or more, write to support@quizpe.in and ' +
+       'we will set it up for you.',
   },
   {
     q: 'How much does it cost?',
-    a: 'There is a free trial that needs no payment details at all. Paid plans start at ₹99 — roughly the ' +
-       'price of one coffee for a month of daily practice.',
+    a: 'Start with the 7-day free trial — it needs no payment details at all and ends by itself. Use those ' +
+       'seven days to see whether your child actually sits down and does it. If it works for your family, ' +
+       'renew onto a paid plan; if it does not, simply let the trial lapse and nothing is charged. Paid ' +
+       'plans start at ₹99 for 28 days, about ₹3.50 a day.',
   },
   {
-    q: 'Will you spam me?',
-    a: 'No. At most one reminder and one quiz message a day, plus your report. No promotional broadcasts. ' +
-       'Reply STOP and reminders end immediately.',
+    q: 'Will you spam me? Who is actually behind this?',
+    a: 'No, and you can check exactly who we are. QuizPe is operated by ServerPe App Solutions, a sole ' +
+       'proprietorship registered with the Government of India for GST — GSTIN 29BSMPK7696H1ZT — with a ' +
+       'named proprietor, a registered business address and a Grievance Officer, all published in the ' +
+       'footer of this page. Messages reach you through a Meta-verified WhatsApp Business account, not an ' +
+       'anonymous number. In practice that means at most one reminder and one quiz message a day, plus ' +
+       'your report. No promotional broadcasts, ever. Reply STOP and reminders end immediately.',
   },
   {
     q: 'Where do the questions come from?',
-    a: 'We write them ourselves to match syllabus topics. We do not copy from textbooks or any publisher, ' +
-       'and we are not affiliated with any board — we simply align to what the syllabus covers.',
+    a: 'We study the syllabus a chapter at a time and then write entirely new questions ourselves on the ' +
+       'same concepts. Nothing is copied, scanned or reproduced from any textbook, workbook or publisher — ' +
+       'a chapter tells us that a child should be practising place value or regrouping this month, and we ' +
+       'compose fresh questions on that idea. We are not affiliated with any board or publisher.',
   },
   {
     q: 'What happens to my child’s data?',
@@ -181,8 +201,9 @@ export const FAQ = [
   },
   {
     q: 'Can I cancel?',
-    a: 'Any time. Your plan runs to the end of the period you paid for, and we refund within 7 days if it ' +
-       'is not right for you.',
+    a: 'Yes — you can stop at any time and your plan simply runs to the end of the period you have already ' +
+       'paid for, with no further charge. Paid periods are not refundable, which is exactly why the 7-day ' +
+       'free trial exists: try it properly first, and pay only once you know it suits your child.',
   },
 ];
 

@@ -6,7 +6,7 @@
 import { useEffect, useState } from 'react';
 import Reveal from '../components/Reveal.jsx';
 import { api, safe } from '../lib/api';
-import { SUPPORT_EMAIL, WA_LINK, WHATSAPP_DISPLAY } from '../content';
+import { SUPPORT_EMAIL, WA_SUPPORT_LINK, WHATSAPP_DISPLAY } from '../content';
 
 const EMPTY = { user_name: '', mobile_number: '', email: '', query_type: '', message: '' };
 
@@ -57,10 +57,13 @@ export default function Contact() {
           <div className="card p-6 mt-6 space-y-4">
             <div>
               <p className="text-xs font-bold uppercase tracking-wide text-muted">Fastest way</p>
-              <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+              <a href={WA_SUPPORT_LINK} target="_blank" rel="noopener noreferrer"
                  className="font-bold text-brand hover:text-brand-accent">
                 💬 WhatsApp {WHATSAPP_DISPLAY}
               </a>
+              <p className="text-[11px] text-muted mt-0.5">
+                Opens a conversation — it will not start an enrolment.
+              </p>
             </div>
             <div>
               <p className="text-xs font-bold uppercase tracking-wide text-muted">Email</p>
