@@ -39,6 +39,17 @@ export function policySlug(pathname = window.location.pathname) {
   return SLUG_TO_CODE[slug] ? slug : null;
 }
 
+/**
+ * doc_code -> clean URL, e.g. 'data_retention' -> '/data-deletion'.
+ * Used by the footer so policy links stay on this site instead of bouncing to
+ * the API host. Falls back to the API's readable page if a document ever
+ * appears that has no page here, so a link is never dead.
+ */
+export function policyHref(code, apiOrigin = '') {
+  const slug = Object.keys(SLUG_TO_CODE).find((k) => SLUG_TO_CODE[k] === code);
+  return slug ? `/${slug}` : `${apiOrigin}/legal.html?doc=${encodeURIComponent(code)}`;
+}
+
 export default function Policy({ slug }) {
   const code = SLUG_TO_CODE[slug];
   const [doc, setDoc] = useState(null);

@@ -1,19 +1,16 @@
 /**
  * Footer with the legal links, business identity and Grievance Officer.
  *
- * Policy links open the back-end's own readable page in a new tab, so a parent
- * always sees the current version straight from the database rather than a
- * copy that could drift out of date.
+ * Each policy has its own clean URL on this site (/privacy, /terms,
+ * /data-deletion …) and its text is read from the back-end at view time, so a
+ * parent always sees the current version and it can never drift from the copy
+ * the product actually uses.
  */
 
 import { WA_LINK, WA_SUPPORT_LINK, WHATSAPP_DISPLAY, SUPPORT_EMAIL, COMPANY_EMAIL } from '../content';
 import { API_ORIGIN } from '../lib/api';
+import { policyHref } from '../sections/Policy.jsx';
 
-// The legal viewer page is served by the back-end (api.quizpe.in/legal.html),
-// not the site host, so these links must be absolute to the API origin — a
-// relative '/legal.html' on quizpe.in just hits the SPA fallback and shows the
-// homepage instead of the policy.
-const LEGAL_BASE = `${API_ORIGIN}/legal.html`;
 
 export default function Footer({ legal, business }) {
   const docs = legal?.documents || [];
@@ -55,24 +52,22 @@ export default function Footer({ legal, business }) {
         <nav aria-label="Legal">
           <h3 className="text-white font-bold text-sm uppercase tracking-wide">Legal</h3>
           <ul className="mt-4 space-y-2 text-sm">
+            {/* Policies live on this site at their own clean URLs (/privacy,
+                /terms, /data-deletion …), so these are same-site links and open
+                in place — no bounce to the API host. */}
             {docs.length ? docs.map((d) => (
               <li key={d.doc_code}>
-                {/* new tab: a parent reading a policy should not lose the page */}
-                <a href={`${LEGAL_BASE}?doc=${encodeURIComponent(d.doc_code)}`}
-                   target="_blank" rel="noopener noreferrer"
+                <a href={policyHref(d.doc_code, API_ORIGIN)}
                    className="hover:text-white transition">{d.title}</a>
               </li>
             )) : (
               <>
-                <li><a href={`${LEGAL_BASE}?doc=terms`} target="_blank" rel="noopener noreferrer">Terms of Service</a></li>
-                <li><a href={`${LEGAL_BASE}?doc=privacy`} target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
-                <li><a href={`${LEGAL_BASE}?doc=refund`} target="_blank" rel="noopener noreferrer">Refund Policy</a></li>
+                <li><a href="/terms" className="hover:text-white transition">Terms of Service</a></li>
+                <li><a href="/privacy" className="hover:text-white transition">Privacy Policy</a></li>
+                <li><a href="/refund" className="hover:text-white transition">Refund Policy</a></li>
+                <li><a href="/data-deletion" className="hover:text-white transition">Data Deletion</a></li>
               </>
             )}
-            <li>
-              <a href={`${LEGAL_BASE}?consent=1`} target="_blank" rel="noopener noreferrer"
-                 className="hover:text-white transition font-semibold">What you agree to</a>
-            </li>
           </ul>
         </nav>
 
