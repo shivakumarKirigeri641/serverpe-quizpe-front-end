@@ -7,8 +7,8 @@
  * explanations, the one-per-mobile trial, and the WhatsApp-only delivery.
  */
 
-export const WHATSAPP_NUMBER = '916363271302';
-export const WHATSAPP_DISPLAY = '+91 63632 71302';
+export const WHATSAPP_NUMBER = '918618592876';
+export const WHATSAPP_DISPLAY = '+91 86185 92876';
 export const WA_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=hi`;
 // Contacting support is a different intent from enrolling. Sending "hi" would
 // drop the parent into the signup flow instead of a conversation.
@@ -164,9 +164,10 @@ export const FAQ = [
   },
   {
     q: 'Which boards and grades do you cover?',
-    a: 'CBSE/NCERT, ICSE and Karnataka State board, in English medium, for the grades listed on this page. ' +
-       'A board and grade appears only once the questions for it are genuinely ready, so what you see here ' +
-       'is what we can deliver from day one.',
+    a: 'Today: CBSE/NCERT and Karnataka State board, in English medium, for the grades listed on this page. ' +
+       'ICSE is being prepared now, as are Kannada medium and Science. A board, grade or subject appears ' +
+       'here only once its questions are genuinely ready — so what you see listed is what we can deliver ' +
+       'from day one, and nothing is promised before it exists.',
   },
   {
     q: 'What if my child misses a day?',
@@ -231,20 +232,41 @@ export const ABOUT = {
     'QuizPe runs every night, including holidays, because the habit is the point. Ten minutes of recall, a ' +
     'little fun, and an explanation for every question — repeated daily — does more than an hour of cramming ' +
     'once a month.',
-    'Today we support ICSE, CBSE/NCERT and Karnataka State board in English medium. I am adding more states ' +
-    'and more languages as fast as I can prepare the content properly, because doing it badly would be worse ' +
-    'than not doing it at all.',
+    'Today we support CBSE/NCERT and Karnataka State board in English medium. ICSE, Kannada medium and ' +
+    'Science are being written now, with more languages and subjects after that. I add them only as fast ' +
+    'as I can prepare the content properly, because doing it badly would be worse than not doing it at all.',
   ],
   ask:
     'If you find this useful, tell me what is missing. Which board, which grade, which language should come ' +
     'next? I read every message, and what parents ask for is what I build next.',
 };
 
+/**
+ * The roadmap, staged honestly.
+ *
+ * `status: 'progress'` means the content is actively being written and will
+ * appear soon; 'planned' means it is intended but not started. Saying which is
+ * which matters: a parent choosing today should know the difference between
+ * "weeks away" and "someday", and a board only ever goes live once its
+ * questions are genuinely ready.
+ */
 export const COMING_SOON = [
-  { icon: '🗣️', title: 'More languages', body: 'Kannada, Hindi and other mediums — the report engine already supports them.' },
-  { icon: '🗺️', title: 'More states', body: 'Every state and union territory board, added as content is prepared.' },
-  { icon: '➕', title: 'More subjects', body: 'Science, English, EVS and Social alongside Mathematics.' },
-  { icon: '🏫', title: 'Schools & tuition centres', body: 'Bulk enrolment with a teacher view. Get in touch if that is you.' },
+  {
+    icon: '📗', status: 'progress', title: 'ICSE board — all grades',
+    body: 'Being prepared now, grade by grade, the same way CBSE and Karnataka State were.',
+  },
+  {
+    icon: '🗣️', status: 'progress', title: 'Kannada medium',
+    body: 'In progress. Hindi, Urdu and other languages follow — the quiz and report engine already handles them.',
+  },
+  {
+    icon: '🔬', status: 'progress', title: 'Science',
+    body: 'In progress alongside Mathematics. Social Science, English and EVS come after.',
+  },
+  {
+    icon: '🏫', status: 'planned', title: 'Schools & tuition centres',
+    body: 'Bulk enrolment with a teacher view. Get in touch if that is you.',
+  },
 ];
 
 /** Fallbacks so the page never looks broken before the API responds. */

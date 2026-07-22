@@ -45,14 +45,28 @@ export default function Coverage({ coverage }) {
 
         <Reveal delay={0.2} className="mt-10">
           <h3 className="text-center font-extrabold text-brand">Coming next</h3>
+          <p className="text-center text-sm text-muted mt-1 max-w-xl mx-auto">
+            Everything above is available today. These are on the way — marked so you can tell what is
+            weeks away from what is further out.
+          </p>
           <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {COMING_SOON.map((c) => (
-              <div key={c.title} className="rounded-2xl border-2 border-dashed border-line p-5 text-center">
-                <div className="text-2xl" aria-hidden>{c.icon}</div>
-                <h4 className="font-bold text-brand mt-2 text-sm">{c.title}</h4>
-                <p className="text-xs text-muted mt-1">{c.body}</p>
-              </div>
-            ))}
+            {COMING_SOON.map((c) => {
+              const active = c.status === 'progress';
+              return (
+                <div key={c.title}
+                     className={`rounded-2xl border-2 p-5 text-center ${
+                       active ? 'border-brand-accent/40 bg-brand-accent/5' : 'border-dashed border-line'}`}>
+                  <div className="text-2xl" aria-hidden>{c.icon}</div>
+                  <h4 className="font-bold text-brand mt-2 text-sm">{c.title}</h4>
+                  <span className={`inline-block mt-2 text-[10px] font-extrabold uppercase tracking-wider
+                                    px-2.5 py-0.5 rounded-full ${
+                    active ? 'bg-brand-accent text-white' : 'bg-slate-100 text-muted'}`}>
+                    {active ? '● In progress' : 'Planned'}
+                  </span>
+                  <p className="text-xs text-muted mt-2">{c.body}</p>
+                </div>
+              );
+            })}
           </div>
         </Reveal>
       </div>

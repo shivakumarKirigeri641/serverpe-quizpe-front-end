@@ -33,18 +33,22 @@ export default function App() {
   // router, but nginx already serves index.html for unknown paths, so reading
   // the pathname is enough to give each policy its own public URL — which is
   // what WhatsApp/Meta require for business verification.
+  //
+  // The slug is read here but the early return happens AFTER the hooks below:
+  // hooks must run unconditionally and in the same order on every render, so
+  // returning before them would break the Rules of Hooks.
   const slug = policySlug();
-  if (slug) return <Policy slug={slug} />;
 
   const [stats, setStats] = useState(null);
   const [coverage, setCoverage] = useState(null);
   const [legal, setLegal] = useState(null);
 
   useEffect(() => {
+    if (slug) return;            // a policy page needs none of this
     safe(api.stats()).then((d) => d && setStats(d.stats));
     safe(api.coverage()).then(setCoverage);
     safe(api.legal()).then(setLegal);
-  }, []);
+  }, [slug]);
 
   const business = legal?.business || {};
 
@@ -74,7 +78,7 @@ export default function App() {
         name: 'QuizPe — Daily WhatsApp Quiz',
         description:
           'A daily 10-question practice quiz delivered on WhatsApp for school children in Grades 1-10, ' +
-          'aligned to CBSE, ICSE and Karnataka State syllabus, with a full explanation report.',
+          'aligned to the CBSE and Karnataka State syllabus, with a full explanation report.',
         brand: { '@type': 'Brand', name: 'QuizPe' },
         offers: {
           '@type': 'AggregateOffer', priceCurrency: 'INR',
@@ -92,6 +96,9 @@ export default function App() {
       },
     ],
   };
+
+  // all hooks have run — safe to branch now
+  if (slug) return <Policy slug={slug} />;
 
   return (
     <>

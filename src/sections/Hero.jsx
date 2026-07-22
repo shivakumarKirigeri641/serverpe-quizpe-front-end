@@ -47,7 +47,9 @@ export default function Hero({ stats }) {
 
           <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .5 }}
                      className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-brand">
-            {['Free trial, no card', 'Grades 1–10', 'CBSE · ICSE · Karnataka', 'Report every day'].map(t => (
+            {/* Only boards we can actually deliver today. ICSE is in progress and
+                is listed under "Coming next", never claimed as available. */}
+            {['Free trial, no card', 'Grades 1–10', 'CBSE · Karnataka State', 'Report every day'].map(t => (
               <li key={t} className="flex items-center gap-1.5">
                 <span className="text-brand-accent" aria-hidden>✓</span>{t}
               </li>

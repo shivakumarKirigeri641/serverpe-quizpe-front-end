@@ -124,7 +124,9 @@ export default function Preview() {
                         <div className="mt-4 rounded-xl bg-brand-accent/10 p-4 text-sm">
                           <p className="font-bold text-brand">💡 Why</p>
                           <p className="text-muted mt-1">{SAMPLE_Q.why}</p>
-                          <p className="text-[11px] text-muted mt-2">
+                          {/* A caveat parents genuinely care about, so it is set
+                              apart in a soft red rather than lost in grey. */}
+                          <p className="text-[11px] font-semibold text-rose-600/90 mt-2">
                             Your child sees this in the report afterwards — never during the quiz, so the
                             score stays honest.
                           </p>
