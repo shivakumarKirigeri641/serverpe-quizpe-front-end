@@ -9,6 +9,9 @@
 // In production the site is quizpe.in and the API is api.quizpe.in, so this is
 // set to that absolute origin at build time via VITE_API_BASE.
 const BASE = (import.meta.env.VITE_API_BASE || '').replace(/\/$/, '');
+// The static legal/quiz/pay pages are served by the back-end, not the site's
+// own host, so links to them must use the API origin (empty in dev = same host).
+export const API_ORIGIN = BASE;
 
 const call = async (path, opts) => {
   const res = await fetch(`${BASE}${path}`, opts);

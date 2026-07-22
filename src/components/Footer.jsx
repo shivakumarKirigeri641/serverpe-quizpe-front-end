@@ -7,8 +7,13 @@
  */
 
 import { WA_LINK, WA_SUPPORT_LINK, WHATSAPP_DISPLAY, SUPPORT_EMAIL, COMPANY_EMAIL } from '../content';
+import { API_ORIGIN } from '../lib/api';
 
-const LEGAL_BASE = '/legal.html';
+// The legal viewer page is served by the back-end (api.quizpe.in/legal.html),
+// not the site host, so these links must be absolute to the API origin — a
+// relative '/legal.html' on quizpe.in just hits the SPA fallback and shows the
+// homepage instead of the policy.
+const LEGAL_BASE = `${API_ORIGIN}/legal.html`;
 
 export default function Footer({ legal, business }) {
   const docs = legal?.documents || [];

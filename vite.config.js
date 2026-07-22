@@ -7,9 +7,9 @@ export default defineConfig({
     port: 5174,
     // live counts, testimonials, policies and forms all come from the back-end
     proxy: {
-      '/public': { target: 'http://localhost:5008', changeOrigin: true },
-      '/legal':  { target: 'http://localhost:5008', changeOrigin: true },
-      '/assets': { target: 'http://localhost:5008', changeOrigin: true },
+      '/public': { target: 'https://api.quizpe.in', changeOrigin: true },
+      '/legal':  { target: 'https://api.quizpe.in', changeOrigin: true },
+      '/assets': { target: 'https://api.quizpe.in', changeOrigin: true },
     },
   },
   build: { outDir: 'dist', sourcemap: false },
