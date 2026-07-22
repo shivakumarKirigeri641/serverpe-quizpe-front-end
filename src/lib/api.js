@@ -27,6 +27,8 @@ export const api = {
   testimonials: () => call('/public/testimonials'),
   queryTypes: () => call('/public/query-types'),
   legal: () => call('/legal'),
+  // one policy with its sections, for the /privacy, /terms, /data-deletion pages
+  legalDoc: (code) => call(`/legal/${encodeURIComponent(code)}`),
   sendEnquiry: (body) => call('/public/enquiry', {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
   }),

@@ -26,8 +26,16 @@ import Faq from './sections/Faq.jsx';
 import Contact from './sections/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import StickyCta from './components/StickyCta.jsx';
+import Policy, { policySlug } from './sections/Policy.jsx';
 
 export default function App() {
+  // Clean policy URLs (/privacy, /terms, /data-deletion …). The site has no
+  // router, but nginx already serves index.html for unknown paths, so reading
+  // the pathname is enough to give each policy its own public URL — which is
+  // what WhatsApp/Meta require for business verification.
+  const slug = policySlug();
+  if (slug) return <Policy slug={slug} />;
+
   const [stats, setStats] = useState(null);
   const [coverage, setCoverage] = useState(null);
   const [legal, setLegal] = useState(null);
