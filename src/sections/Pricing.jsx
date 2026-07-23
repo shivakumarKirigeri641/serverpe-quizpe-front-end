@@ -31,6 +31,7 @@ export default function Pricing() {
   const [data, setData] = useState(null);
   useEffect(() => { safe(api.plans()).then(setData); }, []);
   const plans = data?.plans || [];
+  const offer = data?.offer;
   const trial = plans.find((p) => p.is_trial);
   const paid = plans.filter((p) => !p.is_trial).sort((a, b) => a.price - b.price);
 
@@ -100,6 +101,30 @@ export default function Pricing() {
           <p className="text-center text-sm text-muted mt-1">
             Each child gets their own quiz, their own progress and their own report — whatever the plan.
           </p>
+
+          {/* Seats remaining, with a bar. Shown only while the offer is really
+              running — the API decides that, not this component. */}
+          {offer?.active && (
+            <div className="mt-6 max-w-md mx-auto rounded-2xl border-2 border-rose-200 bg-rose-50 p-4">
+              <div className="flex items-baseline justify-between gap-2">
+                <p className="text-sm font-extrabold text-rose-700">
+                  {offer.label} — launch pricing
+                </p>
+                <p className="text-xs font-bold text-rose-700">
+                  {offer.remaining} of {offer.cap} left
+                </p>
+              </div>
+              <div className="h-2 rounded-full bg-rose-200/70 overflow-hidden mt-2">
+                <div className="h-full bg-rose-500 rounded-full transition-all"
+                     style={{ width: `${Math.max(3, offer.pct_taken)}%` }} />
+              </div>
+              <p className="text-xs text-rose-700/90 mt-2">
+                {offer.taken === 0
+                  ? 'Be among the first families — these prices go up once the seats are taken.'
+                  : `${offer.taken} student${offer.taken === 1 ? ' has' : 's have'} joined at this price. Prices rise once all ${offer.cap} are taken.`}
+              </p>
+            </div>
+          )}
         </Reveal>
 
         {!plans.length ? (
@@ -125,13 +150,23 @@ export default function Pricing() {
                     </p>
 
                     <div className="mt-4 pt-4 border-t border-line">
+                      {/* the launch price is the one being charged, so it is
+                          the big number; the regular price is struck through
+                          beside it rather than replacing it */}
+                      {p.is_launch_price && (
+                        <s className="text-lg text-muted mr-1.5">₹{p.regular_price}</s>
+                      )}
                       <span className="text-3xl font-black text-brand">₹{p.price}</span>
                       <span className="text-sm text-muted"> / {p.duration} days</span>
                     </div>
                     {p.per_day > 0 && (
                       <p className="text-xs text-muted mt-1">about ₹{p.per_day} a day</p>
                     )}
-                    {saving > 0 && (
+                    {p.is_launch_price ? (
+                      <p className="text-xs mt-1.5 font-bold text-rose-600">
+                        Launch price — save ₹{p.saving}
+                      </p>
+                    ) : saving > 0 && (
                       <p className="text-xs mt-1">
                         <s className="text-muted">₹{p.comparable_price}</s>{' '}
                         <span className="font-bold text-brand-accent">save {saving}%</span>
@@ -164,6 +199,25 @@ export default function Pricing() {
             </Reveal>
           </div>
         )}
+
+        {/* The renewal promise. Worth its own panel rather than a footnote:
+            "will I lose my remaining days?" is the exact worry that makes a
+            parent wait until the last day, and answering it plainly is what
+            gets renewals in early. */}
+        <Reveal delay={0.28}>
+          <div className="mt-10 max-w-2xl mx-auto rounded-2xl bg-cream p-6 text-center">
+            <p className="text-2xl" aria-hidden>🎁</p>
+            <h3 className="font-extrabold text-brand mt-2">Renew early. Lose nothing.</h3>
+            <p className="text-sm text-muted mt-2 leading-relaxed">
+              Renewing before your plan ends does <b className="text-brand">not</b> wipe the days you
+              have left — we add the new days on top of them. Renew on the 15th with 13 days still to
+              run and you get all 13, plus the full new plan.
+            </p>
+            <p className="text-xs text-muted mt-2">
+              Your quizzes never pause, and you are never charged for a day twice.
+            </p>
+          </div>
+        </Reveal>
 
         <Reveal delay={0.3}>
           <p className="text-center text-sm text-muted mt-8 max-w-2xl mx-auto">

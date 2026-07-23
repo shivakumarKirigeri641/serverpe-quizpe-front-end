@@ -20,6 +20,9 @@ import Features from './sections/Features.jsx';
 import Stats from './sections/Stats.jsx';
 import Coverage from './sections/Coverage.jsx';
 import Pricing from './sections/Pricing.jsx';
+import Rewards from './sections/Rewards.jsx';
+import WhyNotAI from './sections/WhyNotAI.jsx';
+import LaunchBanner from './components/LaunchBanner.jsx';
 import About from './sections/About.jsx';
 import Testimonials from './sections/Testimonials.jsx';
 import Faq from './sections/Faq.jsx';
@@ -107,14 +110,21 @@ export default function App() {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
+      <LaunchBanner />
       <Header />
       <main>
         <Hero stats={stats} />
         <HowItWorks />
         <Preview />
         <Features />
+        {/* Answers the objection while the product is still fresh in mind, and
+            before the price is asked for. */}
+        <WhyNotAI />
         <Stats stats={stats} />
         <Coverage coverage={coverage} />
+        {/* Rewards sit immediately before pricing: "will my child keep doing
+            it?" is the doubt that decides whether the price is worth it. */}
+        <Rewards />
         <Pricing />
         <About />
         <Testimonials />

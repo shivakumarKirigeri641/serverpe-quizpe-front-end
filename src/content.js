@@ -164,10 +164,10 @@ export const FAQ = [
   },
   {
     q: 'Which boards and grades do you cover?',
-    a: 'Today: CBSE/NCERT and Karnataka State board, in English medium, for the grades listed on this page. ' +
-       'ICSE is being prepared now, as are Kannada medium and Science. A board, grade or subject appears ' +
-       'here only once its questions are genuinely ready — so what you see listed is what we can deliver ' +
-       'from day one, and nothing is promised before it exists.',
+    a: 'Today: CBSE/NCERT, ICSE and Karnataka State board — all three, Grades 1 to 10, in English medium. ' +
+       'Kannada medium and Science are being written now. A board, grade or subject appears here only once ' +
+       'its questions are genuinely ready — so what you see listed is what we can deliver from day one, ' +
+       'and nothing is promised before it exists.',
   },
   {
     q: 'What if my child misses a day?',
@@ -232,9 +232,10 @@ export const ABOUT = {
     'QuizPe runs every night, including holidays, because the habit is the point. Ten minutes of recall, a ' +
     'little fun, and an explanation for every question — repeated daily — does more than an hour of cramming ' +
     'once a month.',
-    'Today we support CBSE/NCERT and Karnataka State board in English medium. ICSE, Kannada medium and ' +
-    'Science are being written now, with more languages and subjects after that. I add them only as fast ' +
-    'as I can prepare the content properly, because doing it badly would be worse than not doing it at all.',
+    'Today we support CBSE/NCERT, ICSE and Karnataka State board — all three, Grades 1 to 10, in English ' +
+    'medium. Kannada medium and Science are being written now, with more languages and subjects after ' +
+    'that. I add them only as fast as I can prepare the content properly, because doing it badly would be ' +
+    'worse than not doing it at all.',
   ],
   ask:
     'If you find this useful, tell me what is missing. Which board, which grade, which language should come ' +
@@ -251,10 +252,6 @@ export const ABOUT = {
  * questions are genuinely ready.
  */
 export const COMING_SOON = [
-  {
-    icon: '📗', status: 'progress', title: 'ICSE board — all grades',
-    body: 'Being prepared now, grade by grade, the same way CBSE and Karnataka State were.',
-  },
   {
     icon: '🗣️', status: 'progress', title: 'Kannada medium',
     body: 'In progress. Hindi, Urdu and other languages follow — the quiz and report engine already handles them.',
