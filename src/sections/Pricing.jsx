@@ -105,20 +105,20 @@ export default function Pricing() {
           {/* Seats remaining, with a bar. Shown only while the offer is really
               running — the API decides that, not this component. */}
           {offer?.active && (
-            <div className="mt-6 max-w-md mx-auto rounded-2xl border-2 border-rose-200 bg-rose-50 p-4">
+            <div className="mt-6 max-w-md mx-auto rounded-2xl border-2 border-amber-200 bg-amber-50 p-4">
               <div className="flex items-baseline justify-between gap-2">
-                <p className="text-sm font-extrabold text-rose-700">
+                <p className="text-sm font-extrabold text-amber-800">
                   {offer.label} — launch pricing
                 </p>
-                <p className="text-xs font-bold text-rose-700">
+                <p className="text-xs font-bold text-amber-800">
                   {offer.remaining} of {offer.cap} left
                 </p>
               </div>
-              <div className="h-2 rounded-full bg-rose-200/70 overflow-hidden mt-2">
-                <div className="h-full bg-rose-500 rounded-full transition-all"
+              <div className="h-2 rounded-full bg-amber-200/70 overflow-hidden mt-2">
+                <div className="h-full bg-amber-500 rounded-full transition-all"
                      style={{ width: `${Math.max(3, offer.pct_taken)}%` }} />
               </div>
-              <p className="text-xs text-rose-700/90 mt-2">
+              <p className="text-xs text-amber-800/90 mt-2">
                 {offer.taken === 0
                   ? 'Be among the first families — these prices go up once the seats are taken.'
                   : `${offer.taken} student${offer.taken === 1 ? ' has' : 's have'} joined at this price. Prices rise once all ${offer.cap} are taken.`}
@@ -163,7 +163,7 @@ export default function Pricing() {
                       <p className="text-xs text-muted mt-1">about ₹{p.per_day} a day</p>
                     )}
                     {p.is_launch_price ? (
-                      <p className="text-xs mt-1.5 font-bold text-rose-600">
+                      <p className="text-xs mt-1.5 font-bold text-amber-700">
                         Launch price — save ₹{p.saving}
                       </p>
                     ) : saving > 0 && (

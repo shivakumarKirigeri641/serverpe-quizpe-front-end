@@ -113,7 +113,7 @@ export default function Footer({ legal, business }) {
         </div>
         <div className="container-x pb-6 text-[11px] text-white/45 leading-relaxed">
           <p>
-            QuizPe™ and ServerPe App Solutions™ are unregistered trade marks; applications are pending.
+            QuizPe™ and ServerPe App Solutions™ are trade marks of {business.company_name || 'ServerPe App Solutions'}.
             QuizPe provides supplementary practice questions composed in-house on syllabus topics — nothing
             is copied or reproduced from any textbook or publisher.
             We are not affiliated with, endorsed by or connected to CBSE, NCERT, ICSE, any state board,

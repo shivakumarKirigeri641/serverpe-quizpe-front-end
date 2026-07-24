@@ -32,8 +32,11 @@ export default function LaunchBanner() {
     try { sessionStorage.setItem(DISMISS_KEY, '1'); } catch { /* private mode */ }
   };
 
+  // Amber, not red. A launch offer is good news with a deadline, not an error —
+  // gold reads as "special and limited", which is exactly the feeling we want.
+  // The urgent state deepens the same hue rather than switching to alarm-red.
   return (
-    <div className={`relative text-white ${urgent ? 'bg-rose-600' : 'bg-brand'}`}>
+    <div className={`relative text-white ${urgent ? 'bg-amber-600' : 'bg-brand'}`}>
       <div className="container-x py-2.5 pr-9 flex items-center justify-center gap-x-3 gap-y-1 flex-wrap text-center">
         <span className="text-[11px] font-extrabold uppercase tracking-wider
                          bg-white/20 rounded-full px-2.5 py-0.5">

@@ -1,5 +1,5 @@
 /**
- * Streaks, badges, the class leaderboard and the April–May certificate.
+ * Streaks, badges, the class leaderboard and the year-end consistency certificate.
  *
  * The point of this section is not "we gamified it". It is that the hardest
  * part of daily practice is turning up on day nine, and every reward here is
@@ -123,25 +123,19 @@ export default function Rewards() {
             {/* certificate */}
             <div className="card p-6 border-2 border-brand-accent">
               <span className="inline-block bg-brand-accent text-white text-[10px] font-extrabold
-                               uppercase tracking-wider px-3 py-1 rounded-full">April & May</span>
+                               uppercase tracking-wider px-3 py-1 rounded-full">Year-end reward</span>
               <h3 className="font-extrabold text-brand text-lg mt-3">🎓 The consistency certificate</h3>
               <p className="text-sm text-muted mt-1.5 leading-relaxed">
-                Complete <b className="text-brand">every</b> quiz through April and May, with no gap
-                between renewals, and your child gets a signed certificate — free — naming their
-                streak, their accuracy and the number of quizzes they finished.
+                Stay consistent from the day you join right up to <b className="text-brand">31 March</b>,
+                when the school year ends — every quiz attempted, no gap between renewals — and your
+                child earns a signed certificate naming their longest streak, their accuracy and the
+                number of quizzes they finished.
               </p>
               <p className="text-sm text-muted mt-2 leading-relaxed">
-                It is deliberately hard. A certificate every child receives is worth nothing on a
-                wall, so this one means what it says.
+                Join in June and it is a long, proud run. Join in January and the finish line is the
+                same 31 March — a shorter climb, the same reward. Either way it counts only unbroken
+                effort, so a certificate every child gets is not what this is.
               </p>
-              <div className="mt-4 pt-4 border-t border-line">
-                <p className="font-bold text-brand text-sm">☀️ Summer Quiz Challenge</p>
-                <p className="text-sm text-muted mt-1 leading-relaxed">
-                  A timed competition across the April–May holidays.
-                  <b className="text-brand"> Free</b> if your child earned the consistency certificate.
-                  Everyone else is welcome at <b className="text-brand">₹49 + GST</b>.
-                </p>
-              </div>
             </div>
           </div>
         </Reveal>
