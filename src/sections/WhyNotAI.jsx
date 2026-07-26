@@ -18,9 +18,9 @@ import { WA_LINK } from '../content';
 
 const ROWS = [
   {
-    job: 'Getting ten questions',
-    diy: 'Yes — a good prompt gets you ten questions in a minute.',
-    us: 'Ten arrive every evening without anyone asking.',
+    job: 'Getting the questions',
+    diy: 'Yes — a good prompt gets you a set of questions in a minute.',
+    us: 'A fresh set arrives every evening without anyone asking.',
     diyOk: true,
   },
   {
@@ -104,7 +104,7 @@ export default function WhyNotAI() {
               A chat window gives you a question. QuizPe runs the habit.
             </p>
             <p className="text-sm text-muted mt-2 leading-relaxed">
-              Ten questions is five minutes of work. Doing it every evening for a year, in the right
+              One quiz is a few minutes of work. Doing it every evening for a year, in the right
               order, remembering what your child got wrong last week — that is the part nobody keeps
               up manually. That is the part we do.
             </p>

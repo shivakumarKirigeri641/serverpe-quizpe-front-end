@@ -72,7 +72,7 @@ export default function Preview() {
                   <div className="bg-white rounded-2xl rounded-tl-md p-3.5 max-w-[85%] shadow-sm text-sm">
                     <p className="font-bold text-brand mb-1">Shivam's quiz</p>
                     <p className="text-ink">📚 <b>Mathematics</b><br />
-                      <span className="text-muted">15 questions, under 10 minutes.</span></p>
+                      <span className="text-muted">Today’s quiz — under 10 minutes.</span></p>
                     <p className="text-ink mt-2">Tap below to begin — the score and report come straight back here.</p>
                     <div className="mt-3 -mx-3.5 -mb-3.5 border-t border-line py-2.5 text-center
                                     text-[#00a5f4] font-semibold text-sm">▶️ Start quiz</div>
@@ -86,11 +86,11 @@ export default function Preview() {
               {tab === 'quiz' && (
                 <div className="card p-6">
                   <div className="flex justify-between text-xs text-muted mb-2">
-                    <span>Question <b className="text-brand">1</b> of <b className="text-brand">10</b></span>
-                    <span>9 left</span>
+                    <span>Question <b className="text-brand">1</b></span>
+                    <span>just started</span>
                   </div>
                   <div className="h-1.5 rounded-full bg-line overflow-hidden mb-4">
-                    <div className="h-full w-[10%] bg-brand-accent rounded-full" />
+                    <div className="h-full w-[8%] bg-brand-accent rounded-full" />
                   </div>
 
                   <p className="text-[11px] text-muted">{SAMPLE_Q.chapter}</p>
@@ -147,7 +147,7 @@ export default function Preview() {
                   </div>
 
                   <div className="grid grid-cols-4 gap-2 text-center">
-                    {[['Score', '8/10'], ['Accuracy', '80%'], ['Grade', 'A'], ['Time', '4m 12s']].map(([l, v]) => (
+                    {[['Score', '80%'], ['Streak', '5 days'], ['Grade', 'A'], ['Time', '6m 40s']].map(([l, v]) => (
                       <div key={l} className="rounded-xl bg-cream p-3">
                         <p className="text-lg font-black text-brand">{v}</p>
                         <p className="text-[10px] font-bold uppercase text-muted">{l}</p>
@@ -165,7 +165,7 @@ export default function Preview() {
 
                   <div className="mt-4">
                     <p className="text-xs font-extrabold uppercase text-muted mb-2">Chapter breakdown</p>
-                    {[['Numbers up to 999', 4, 4], ['Addition with Regrouping', 3, 4], ['Multiplication Tables', 1, 2]]
+                    {[['Numbers up to 999', 5, 5], ['Addition with Regrouping', 4, 5], ['Multiplication Tables', 3, 5]]
                       .map(([c, got, of]) => (
                       <div key={c} className="flex items-center gap-3 py-1.5 text-sm">
                         <span className="flex-1 truncate">{c}</span>
@@ -180,7 +180,7 @@ export default function Preview() {
                   <div className="mt-4 rounded-xl bg-cream p-4 text-sm">
                     <p className="font-bold text-brand">Every question explained</p>
                     <p className="text-muted mt-1">
-                      The full PDF lists all ten questions, what your child chose, the correct answer,
+                      The full PDF lists every question, what your child chose, the correct answer,
                       and a drawn explanation for number work — place-value blocks, number lines and
                       grouped objects, not just “the answer is 971”.
                     </p>

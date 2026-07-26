@@ -32,7 +32,7 @@ export const HERO = {
   promise: 'The quickest and simplest way to get a daily quiz to your child.',
   title: 'A daily quiz on WhatsApp that your child will actually finish.',
   sub:
-    'Ten fresh questions every evening, matched to your child’s board, grade and everything ' +
+    'A fresh quiz every evening, matched to your child’s board, grade and everything ' +
     'taught since June. Five to ten minutes before dinner. A full explanation report lands ' +
     'in your chat the moment they finish.',
   ctaNote: 'Say “hi” on WhatsApp. That is the entire signup.',
@@ -61,7 +61,7 @@ export const HOW_IT_WORKS = [
     step: '4',
     icon: '🎯',
     title: 'Quiz time, 5–10 minutes',
-    body: 'A link opens ten questions, one at a time. Your child can go back and change an answer before submitting.',
+    body: 'A link opens the quiz, one question at a time. Your child can go back and change an answer before submitting.',
   },
   {
     step: '5',

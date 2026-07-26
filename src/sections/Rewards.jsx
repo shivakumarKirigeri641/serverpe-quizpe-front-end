@@ -28,7 +28,7 @@ const FALLBACK = [
   { badge_code: 'streak_3',  icon: '🔥', badge_name: 'On a Roll',      description: 'Three days in a row', tier: 'bronze' },
   { badge_code: 'streak_7',  icon: '⚡', badge_name: 'Week Warrior',   description: 'Seven days without missing one', tier: 'silver' },
   { badge_code: 'streak_28', icon: '💎', badge_name: 'Unbroken',       description: 'A full month, every single day', tier: 'gold' },
-  { badge_code: 'perfect',   icon: '💯', badge_name: 'Full Marks',     description: 'Scored 10 out of 10', tier: 'silver' },
+  { badge_code: 'perfect',   icon: '💯', badge_name: 'Full Marks',     description: 'Every question correct', tier: 'silver' },
 ];
 
 export default function Rewards() {

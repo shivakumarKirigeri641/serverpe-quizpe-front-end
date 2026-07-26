@@ -81,7 +81,7 @@ export default function App() {
         '@type': 'Product',
         name: 'QuizPe — Daily WhatsApp Quiz',
         description:
-          'A daily 10-question practice quiz delivered on WhatsApp for school children in Grades 1-10, ' +
+          'A daily practice quiz delivered on WhatsApp for school children in Grades 1-10, ' +
           'aligned to the CBSE and Karnataka State syllabus, with a full explanation report.',
         brand: { '@type': 'Brand', name: 'QuizPe' },
         offers: {
