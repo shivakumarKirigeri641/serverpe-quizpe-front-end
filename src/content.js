@@ -272,7 +272,6 @@ export const COMING_SOON = [
 
 /** Fallbacks so the page never looks broken before the API responds. */
 export const STAT_TILES = [
-  { key: 'questions_available', label: 'Questions ready to ask', suffix: '+' },
   { key: 'parents', label: 'Parents enrolled' },
   { key: 'students', label: 'Children practising' },
   { key: 'quizzes_delivered', label: 'Quizzes delivered' },

@@ -40,7 +40,7 @@ export default function Stats({ stats }) {
           <h2 className="text-3xl font-extrabold mt-4">Real numbers, straight from the platform</h2>
         </div>
 
-        <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
           {tiles.map((t, i) => (
             <motion.div key={t.key}
               initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }}
