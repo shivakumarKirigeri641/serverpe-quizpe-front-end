@@ -22,7 +22,7 @@ const SAMPLE_Q = {
 
 const TABS = [
   { k: 'chat', label: '1. It arrives on WhatsApp' },
-  { k: 'quiz', label: '2. Ten questions' },
+  { k: 'quiz', label: '2. Fifteen questions' },
   { k: 'report', label: '3. The report, straight away' },
 ];
 
@@ -72,7 +72,7 @@ export default function Preview() {
                   <div className="bg-white rounded-2xl rounded-tl-md p-3.5 max-w-[85%] shadow-sm text-sm">
                     <p className="font-bold text-brand mb-1">Shivam's quiz</p>
                     <p className="text-ink">📚 <b>Mathematics</b><br />
-                      <span className="text-muted">10 questions, about 5 minutes.</span></p>
+                      <span className="text-muted">15 questions, under 10 minutes.</span></p>
                     <p className="text-ink mt-2">Tap below to begin — the score and report come straight back here.</p>
                     <div className="mt-3 -mx-3.5 -mb-3.5 border-t border-line py-2.5 text-center
                                     text-[#00a5f4] font-semibold text-sm">▶️ Start quiz</div>

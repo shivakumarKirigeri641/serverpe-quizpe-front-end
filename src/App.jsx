@@ -22,6 +22,7 @@ import Coverage from './sections/Coverage.jsx';
 import Pricing from './sections/Pricing.jsx';
 import Rewards from './sections/Rewards.jsx';
 import WhyNotAI from './sections/WhyNotAI.jsx';
+import WhyQuizPe from './sections/WhyQuizPe.jsx';
 import LaunchBanner from './components/LaunchBanner.jsx';
 import About from './sections/About.jsx';
 import Testimonials from './sections/Testimonials.jsx';
@@ -117,6 +118,9 @@ export default function App() {
         <HowItWorks />
         <Preview />
         <Features />
+        {/* The four everyday frustrations QuizPe removes — including the
+            adaptive engine, the one thing a parent can't do with a search box. */}
+        <WhyQuizPe />
         {/* Answers the objection while the product is still fresh in mind, and
             before the price is asked for. */}
         <WhyNotAI />

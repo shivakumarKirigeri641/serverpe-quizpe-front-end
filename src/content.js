@@ -261,6 +261,10 @@ export const COMING_SOON = [
     body: 'In progress alongside Mathematics. Social Science, English and EVS come after.',
   },
   {
+    icon: '🎓', status: 'planned', title: 'JEE / AIEEE / NEET / CET practice',
+    body: 'Daily MCQ practice for the big competitive exams — same habit, built for aspirants. More exams to follow.',
+  },
+  {
     icon: '🏫', status: 'planned', title: 'Schools & tuition centres',
     body: 'Bulk enrolment with a teacher view. Get in touch if that is you.',
   },
