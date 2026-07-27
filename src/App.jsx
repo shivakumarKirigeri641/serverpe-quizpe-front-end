@@ -10,6 +10,7 @@
 import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { api, safe } from './lib/api';
+import { trackView, trackWA } from './lib/track';
 import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER, SUPPORT_EMAIL } from './content';
 
 import Header from './components/Header.jsx';
@@ -53,6 +54,21 @@ export default function App() {
     safe(api.coverage()).then(setCoverage);
     safe(api.legal()).then(setLegal);
   }, [slug]);
+
+  // Visitor tracking: one page view on load, and a site-wide click delegate so
+  // every "Start on WhatsApp" link (there are many) is counted without wiring
+  // each button individually.
+  useEffect(() => {
+    trackView();
+    const onClick = (e) => {
+      const a = e.target.closest?.('a[href]');
+      if (a && /wa\.me|api\.whatsapp\.com|wa\.link/i.test(a.getAttribute('href') || '')) {
+        trackWA((a.textContent || '').trim().slice(0, 60));
+      }
+    };
+    document.addEventListener('click', onClick);
+    return () => document.removeEventListener('click', onClick);
+  }, []);
 
   const business = legal?.business || {};
 
