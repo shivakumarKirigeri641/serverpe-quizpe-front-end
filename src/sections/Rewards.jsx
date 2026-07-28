@@ -146,17 +146,18 @@ export default function Rewards() {
           <div className="mt-6 card p-6 sm:p-8 border-2 border-brand text-center">
             <p className="text-2xl" aria-hidden>🎁</p>
             <h3 className="font-extrabold text-brand text-lg mt-2">
-              Give 7 days. Get 7 days.
+              Invite a friend — you both win.
             </h3>
             <p className="text-sm text-muted mt-2 max-w-xl mx-auto leading-relaxed">
-              Every parent gets their own invite link. Share it with another parent — when they
-              subscribe, <b className="text-brand">you both</b> get 7 free days added to your plans.
-              No cash, no coupons, no catch.
+              Every parent gets their own invite link. Share it with another parent:
+              <b className="text-brand"> your friend</b> gets <b className="text-brand">7 bonus days</b> on
+              their first plan, and <b className="text-brand">you</b> earn <b className="text-brand">7 free days</b> for
+              referring — plus 7 more at each renewal as you keep sharing. No cash, no coupons, no catch.
             </p>
             <div className="mt-5 grid gap-3 sm:grid-cols-3 text-left max-w-2xl mx-auto">
               {[['1', 'Find your link', 'Type “menu” on WhatsApp and tap Refer a friend.'],
                 ['2', 'Share it', 'Forward the ready-made message to a parent or a class group.'],
-                ['3', 'Both get days', 'Added automatically the moment they subscribe.']].map(([n, t, b]) => (
+                ['3', 'You both earn days', 'Your friend’s bonus lands when they subscribe; yours as you refer and renew.']].map(([n, t, b]) => (
                 <div key={n} className="rounded-xl bg-cream p-4">
                   <span className="w-6 h-6 rounded-full bg-brand text-white text-xs font-extrabold
                                    grid place-items-center">{n}</span>
