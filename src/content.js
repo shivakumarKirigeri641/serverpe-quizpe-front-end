@@ -28,6 +28,8 @@ export const COMPANY_EMAIL = 'support@serverpe.in';
 
 export const HERO = {
   eyebrow: 'No app · No login · No registration',
+  // A bold, parent-facing hook shown as a highlight badge in the hero.
+  highlight: 'A daily revision quiz that genuinely improves how your child studies.',
   // Sits directly under the headline: the single-line claim, before any detail.
   promise: 'The quickest and simplest way to get a daily quiz to your child.',
   title: 'A daily quiz on WhatsApp that your child will actually finish.',

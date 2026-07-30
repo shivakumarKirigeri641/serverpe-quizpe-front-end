@@ -32,6 +32,14 @@ export default function Hero({ stats }) {
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: .6, delay: .2 }}
+                      className="mt-6 inline-flex items-center gap-3 rounded-2xl border border-brand-accent/30
+                                 bg-gradient-to-r from-brand-accent/15 to-brand-accent/5 px-5 py-3 max-w-xl">
+            <span className="text-2xl leading-none" aria-hidden>📈</span>
+            <p className="font-extrabold text-brand text-base sm:text-lg leading-snug">{HERO.highlight}</p>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: .6, delay: .25 }}
                       className="mt-8 flex flex-wrap items-center gap-3">
             <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-wa text-base">
