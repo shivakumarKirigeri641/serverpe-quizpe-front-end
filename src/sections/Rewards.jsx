@@ -146,18 +146,20 @@ export default function Rewards() {
           <div className="mt-6 card p-6 sm:p-8 border-2 border-brand text-center">
             <p className="text-2xl" aria-hidden>🎁</p>
             <h3 className="font-extrabold text-brand text-lg mt-2">
-              Invite a friend — you both win.
+              Invite a friend — earn free days.
             </h3>
             <p className="text-sm text-muted mt-2 max-w-xl mx-auto leading-relaxed">
-              Every parent gets their own invite link. Share it with another parent:
-              <b className="text-brand"> your friend</b> gets <b className="text-brand">7 bonus days</b> on
-              their first plan, and <b className="text-brand">you</b> earn <b className="text-brand">7 free days</b> for
-              referring — plus 7 more at each renewal as you keep sharing. No cash, no coupons, no catch.
+              Every parent gets their own invite link. A friend who joins through it starts with the
+              same <b className="text-brand">regular 7-day free trial</b> — nothing changes for them. And
+              for every <b className="text-brand">successful referral</b>,
+              <b className="text-brand"> you get 7 bonus days on your next renewal</b>. Refer two friends
+              and it’s +7 on your next renewal <b className="text-brand">and</b> +7 on the one after — one
+              reward per renewal, for as long as you keep sharing. No cash, no coupons, no catch.
             </p>
             <div className="mt-5 grid gap-3 sm:grid-cols-3 text-left max-w-2xl mx-auto">
               {[['1', 'Find your link', 'Type “menu” on WhatsApp and tap Refer a friend.'],
                 ['2', 'Share it', 'Forward the ready-made message to a parent or a class group.'],
-                ['3', 'You both earn days', 'Your friend’s bonus lands when they subscribe; yours as you refer and renew.']].map(([n, t, b]) => (
+                ['3', 'Earn on renewal', 'Each successful referral adds 7 days to a future renewal of yours.']].map(([n, t, b]) => (
                 <div key={n} className="rounded-xl bg-cream p-4">
                   <span className="w-6 h-6 rounded-full bg-brand text-white text-xs font-extrabold
                                    grid place-items-center">{n}</span>
@@ -167,7 +169,7 @@ export default function Rewards() {
               ))}
             </div>
             <p className="text-[11px] text-muted mt-4">
-              Days are added to your existing plan — they never replace the days you already have.
+              Bonus days are added to your plan at renewal — one referral, one renewal — and never replace the days you already have.
             </p>
           </div>
         </Reveal>
