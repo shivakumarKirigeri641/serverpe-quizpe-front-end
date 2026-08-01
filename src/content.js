@@ -15,6 +15,9 @@ export const WA_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=hi`;
 export const WA_SUPPORT_LINK =
   `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('I have a question about QuizPe')}`;
 export const SUPPORT_EMAIL = 'support@quizpe.in';
+// Our YouTube channel — daily/weekly maths brain-teasers for parents.
+export const YOUTUBE_LINK = 'https://www.youtube.com/@QuizPeIndia';
+export const YOUTUBE_HANDLE = '@QuizPeIndia';
 
 // When we read messages, and how long a parent should expect to wait. Stated in
 // one place so the site, the WhatsApp replies and the support ticket page can
