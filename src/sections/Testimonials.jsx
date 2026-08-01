@@ -39,7 +39,11 @@ export default function Testimonials() {
         <Reveal className="text-center max-w-2xl mx-auto">
           <span className="eyebrow">Reviews</span>
           <h2 className="h2 mt-4">What parents say</h2>
-          <p className="lede mt-3">Every review here is from a real family using QuizPe.</p>
+          <p className="lede mt-3">
+            Real families, real words. We never ask friends or relatives to post reviews —
+            and the <span className="font-semibold text-brand">Verified</span> ones are tied to
+            an actual QuizPe account with daily quiz activity.
+          </p>
         </Reveal>
 
         {rows === null ? (
@@ -49,8 +53,20 @@ export default function Testimonials() {
             {rows.map((t, i) => (
               <Reveal key={i} delay={(i % 3) * 0.07}>
                 <figure className="card h-full p-6">
-                  <div className="text-brand-accent text-lg" aria-label={`${t.rating} out of 5`}>
-                    {'★'.repeat(t.rating || 5)}<span className="text-line">{'★'.repeat(5 - (t.rating || 5))}</span>
+                  <div className="flex items-center justify-between gap-2">
+                    <div className="text-brand-accent text-lg" aria-label={`${t.rating} out of 5`}>
+                      {'★'.repeat(t.rating || 5)}<span className="text-line">{'★'.repeat(5 - (t.rating || 5))}</span>
+                    </div>
+                    {t.verified && (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-brand-accent/10 text-brand
+                                       text-[11px] font-bold px-2.5 py-1" title="From a real QuizPe account with quiz activity">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                          <path d="M12 2l2.4 1.8 3 .1 1 2.8 2.4 1.7-.9 2.9.9 2.9-2.4 1.7-1 2.8-3 .1L12 22l-2.4-1.8-3-.1-1-2.8L3.2 15l.9-2.9L3.2 9.2l2.4-1.7 1-2.8 3-.1L12 2z"/>
+                          <path d="M10.6 14.6l-2.2-2.2-1.2 1.2 3.4 3.4 6-6-1.2-1.2z" fill="#fff"/>
+                        </svg>
+                        Verified
+                      </span>
+                    )}
                   </div>
                   <blockquote className="text-[15px] text-ink mt-3 leading-relaxed">“{t.message}”</blockquote>
                   <figcaption className="mt-4 pt-3 border-t border-line text-sm">
