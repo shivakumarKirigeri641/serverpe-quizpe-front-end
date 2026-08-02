@@ -13,7 +13,7 @@
 import { useEffect, useState } from 'react';
 import Reveal from '../components/Reveal.jsx';
 import { api, safe } from '../lib/api';
-import { WA_LINK, SUPPORT_EMAIL } from '../content';
+import { WA_LINK, SUPPORT_EMAIL, YOUTUBE_LINK } from '../content';
 
 /** What every plan includes — the trial too. Stated once, deliberately. */
 const INCLUDED = [
@@ -125,6 +125,29 @@ export default function Pricing() {
               </p>
             </div>
           )}
+        </Reveal>
+
+        {/* First-premium launch offer — +7 free days and a real tree in the
+            child's name, showcased on YouTube. A one-time welcome that also
+            gives parents a warm, shareable reason to start. */}
+        <Reveal delay={0.16}>
+          <div className="mt-8 max-w-3xl mx-auto rounded-2xl border-2 border-emerald-300
+                          bg-gradient-to-br from-emerald-50 to-white p-6 sm:p-7 text-center">
+            <p className="text-3xl" aria-hidden>🌱</p>
+            <h3 className="font-extrabold text-brand text-xl mt-2">
+              Start any plan — we plant a tree in your child’s name
+            </h3>
+            <p className="text-sm text-muted mt-2 leading-relaxed max-w-xl mx-auto">
+              Your <b className="text-brand">first premium enrollment</b> (₹99, ₹169 or ₹249) gets
+              <b className="text-brand"> 7 bonus days free</b> — and we grow a real sapling in your
+              child’s name. We share every planting on our{' '}
+              <a href={YOUTUBE_LINK} target="_blank" rel="noopener noreferrer"
+                 className="text-brand-accent font-semibold underline">YouTube channel</a>.
+            </p>
+            <p className="text-xs text-muted mt-2">
+              A one-time welcome — a small thank-you for starting your child’s daily revision.
+            </p>
+          </div>
         </Reveal>
 
         {!plans.length ? (
