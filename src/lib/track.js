@@ -32,12 +32,16 @@ function post(path, body) {
   } catch { /* never let tracking break the page */ }
 }
 
+// Include the query string so ?utm_source=instagram / ?utm_source=youtube tags
+// on the links we post are captured — the server classifies traffic sources
+// from these (in-app browsers often strip document.referrer, so the UTM tag is
+// the reliable signal for Instagram/YouTube).
 export function trackView() {
-  post('/public/track/view', { path: location.pathname, ref: document.referrer || '', sid: sid() });
+  post('/public/track/view', { path: location.pathname + location.search, ref: document.referrer || '', sid: sid() });
 }
 
 export function trackWA(label = '') {
-  post('/public/track/wa', { path: location.pathname, ref: document.referrer || '', sid: sid(), label });
+  post('/public/track/wa', { path: location.pathname + location.search, ref: document.referrer || '', sid: sid(), label });
   // also hand it to GTM so GA4 / Google Ads can count it as a conversion
   try {
     window.dataLayer = window.dataLayer || [];
