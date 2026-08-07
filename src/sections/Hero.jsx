@@ -1,7 +1,7 @@
 /** The one thing that matters: say hi. QR for desktop, button for phones. */
 import { motion } from 'framer-motion';
 import { QRCodeCanvas } from 'qrcode.react';
-import { HERO, WA_LINK, WHATSAPP_DISPLAY } from '../content';
+import { HERO, HERO_BENEFITS, HERO_OUTCOMES, WA_LINK, WHATSAPP_DISPLAY } from '../content';
 
 export default function Hero({ stats }) {
   return (
@@ -43,9 +43,9 @@ export default function Hero({ stats }) {
                       transition={{ duration: .6, delay: .25 }}
                       className="mt-8 flex flex-wrap items-center gap-3">
             <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-wa text-base">
-              <span aria-hidden>💬</span> Say “hi” on WhatsApp
+              <span aria-hidden>🎯</span> Start free trial
             </a>
-            <a href="#how-it-works" className="btn-ghost">See how it works</a>
+            <a href="#how-it-works" className="btn-ghost">See how daily revision works</a>
           </motion.div>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .4 }}
@@ -53,13 +53,23 @@ export default function Hero({ stats }) {
             {HERO.ctaNote} <span className="font-bold text-brand">{WHATSAPP_DISPLAY}</span>
           </motion.p>
 
+          {/* Benefit chips — the quick "what's in it for my child?" scan. */}
           <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .5 }}
-                     className="mt-7 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-brand">
-            {/* Only boards we can actually deliver today. ICSE is in progress and
-                is listed under "Coming next", never claimed as available. */}
-            {['Free trial, no card', 'Grades 1–10', 'CBSE · Karnataka State', 'Report every day'].map(t => (
+                     className="mt-7 flex flex-wrap gap-2">
+            {HERO_BENEFITS.map(t => (
+              <li key={t} className="rounded-full border border-brand-accent/30 bg-brand-accent/5
+                                     px-3.5 py-1.5 text-sm font-semibold text-brand">
+                {t}
+              </li>
+            ))}
+          </motion.ul>
+
+          {/* Outcomes — a short emotional reinforcement of the daily habit. */}
+          <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .55 }}
+                     className="mt-4 flex flex-wrap gap-x-5 gap-y-1.5 text-sm font-semibold text-brand-accent">
+            {HERO_OUTCOMES.map(t => (
               <li key={t} className="flex items-center gap-1.5">
-                <span className="text-brand-accent" aria-hidden>✓</span>{t}
+                <span aria-hidden>✅</span>{t}
               </li>
             ))}
           </motion.ul>

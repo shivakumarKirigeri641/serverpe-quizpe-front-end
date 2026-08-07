@@ -32,16 +32,34 @@ export const COMPANY_EMAIL = 'support@serverpe.in';
 export const HERO = {
   eyebrow: 'No app · No login · No registration',
   // A bold, parent-facing hook shown as a highlight badge in the hero.
-  highlight: 'A daily revision quiz that genuinely improves how your child studies.',
-  // Sits directly under the headline: the single-line claim, before any detail.
-  promise: 'The quickest and simplest way to get a daily quiz to your child.',
-  title: 'A daily quiz on WhatsApp that your child will actually finish.',
+  highlight: 'Turn 5 minutes a day into better memory, confidence and exam readiness.',
+  // Sits directly under the headline: the single-line, benefit-driven promise.
+  promise: 'Daily WhatsApp quizzes that build learning habits, improve retention and boost confidence.',
+  // Benefit-driven headline (parents ask "what's in it for my child?").
+  title: 'Help your child revise daily — in just 5 minutes.',
   sub:
-    'A fresh quiz every evening, matched to your child’s board, grade and everything ' +
-    'taught since June. Five to ten minutes before dinner. A full explanation report lands ' +
-    'in your chat the moment they finish.',
-  ctaNote: 'Say “hi” on WhatsApp. That is the entire signup.',
+    'A fresh quiz every evening on WhatsApp, matched to your child’s board, grade and everything ' +
+    'taught since June — with a full explanation report the moment they finish.',
+  ctaNote: 'Say “hi” on WhatsApp — that is the entire signup.',
 };
+
+// Benefit chips shown under the hero headline — the quick "what's in it for us?".
+export const HERO_BENEFITS = [
+  '⏱️ Only 5 minutes a day',
+  '💬 Delivered on WhatsApp',
+  '🎓 Classes 1 to 10',
+  '📊 Track progress',
+  '🎁 Free trial',
+  '👨‍👩‍👧 Parent-friendly',
+];
+
+// The outcomes a daily habit builds — a short, emotional reinforcement band.
+export const HERO_OUTCOMES = [
+  'Daily learning habit',
+  'Better memory retention',
+  'Increased confidence',
+  'Continuous practice',
+];
 
 export const HOW_IT_WORKS = [
   {
