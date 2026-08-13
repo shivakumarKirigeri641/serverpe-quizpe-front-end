@@ -3,8 +3,9 @@
  * components — and so nothing contradicts what the product actually does.
  *
  * Every claim here is true of the built system: the spiral revision model, the
- * adaptive question selection, the 7-9 PM window, the daily PDF with drawn
- * explanations, the one-per-mobile trial, and the WhatsApp-only delivery.
+ * adaptive question selection, the all-day window (6 AM–11:45 PM, once a day),
+ * the daily PDF with drawn explanations, the one-per-mobile trial, and the
+ * WhatsApp-only delivery.
  */
 
 export const WHATSAPP_NUMBER = '918618592876';
@@ -38,8 +39,8 @@ export const HERO = {
   // Benefit-driven headline (parents ask "what's in it for my child?").
   title: 'Help your child revise daily — in just 5 minutes.',
   sub:
-    'A fresh quiz every evening on WhatsApp, matched to your child’s board, grade and everything ' +
-    'taught since June — with a full explanation report the moment they finish.',
+    'A fresh quiz every day on WhatsApp — take it any time that suits you, matched to your child’s board, grade and everything ' +
+    'taught since June, with a full explanation report the moment they finish.',
   ctaNote: 'Say “hi” on WhatsApp — that is the entire signup.',
 };
 
@@ -77,8 +78,8 @@ export const HOW_IT_WORKS = [
   {
     step: '3',
     icon: '🔔',
-    title: 'A reminder before it starts',
-    body: 'One gentle nudge about half an hour ahead, so the evening does not run away. Never more than one. Reply STOP to pause everything, START to resume.',
+    title: 'A gentle reminder each day',
+    body: 'One friendly morning nudge — never more than one. The quiz stays open all day, so take it any time that suits you. Reply STOP to pause everything, START to resume.',
   },
   {
     step: '4',
@@ -163,13 +164,13 @@ export const PARENT_NOTE = {
     'in your hand within seconds of them finishing.',
 };
 
-export const WHY_EVENING = {
-  title: 'Why the evening?',
+export const WHY_ANYTIME = {
+  title: 'Take it any time',
   body:
-    'Your nudge arrives between 7 and 9 PM — after school, after tuition, before dinner — and you choose ' +
-    'the exact time. But the quiz itself stays open until 11:45 PM, so a late class or a long homework ' +
-    'session never costs your child the day. It is deliberately short: five to ten minutes is long enough ' +
-    'to matter and short enough that a tired child will still do it.',
+    'The quiz is open all day, from 6 AM to 11:45 PM — so it fits your family’s routine, not the other way ' +
+    'round. Morning before school, after tuition, or just before dinner: whenever suits you. It is deliberately ' +
+    'short — five to ten minutes is long enough to matter and short enough that a tired child will still do it — ' +
+    'and only once a day, so it never turns into screen time.',
 };
 
 export const FAQ = [
@@ -250,9 +251,9 @@ export const ABOUT = {
     'less like a chore for my child — a fact here, a puzzle there. It worked. What did not work was every ' +
     'app I tried: another download, another account, another password, another subscription to forget about.',
     'So I built the version I actually wanted. No app. No login. No registration. You say “hi” on WhatsApp, ' +
-    'answer a few questions about your child, and the quiz arrives that evening. That is genuinely the whole ' +
+    'answer a few questions about your child, and the quiz is ready to take any time. That is genuinely the whole ' +
     'thing.',
-    'QuizPe runs every night, including holidays, because the habit is the point. Ten minutes of recall, a ' +
+    'QuizPe runs every day, including holidays, because the habit is the point. Ten minutes of recall, a ' +
     'little fun, and an explanation for every question — repeated daily — does more than an hour of cramming ' +
     'once a month.',
     'Today we support CBSE/NCERT, ICSE and Karnataka State board — all three, Grades 1 to 10, in English ' +

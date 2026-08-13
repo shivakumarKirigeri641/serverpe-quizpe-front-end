@@ -18,7 +18,7 @@ const CARDS = [
   {
     icon: '⏱️',
     title: 'Stop hunting for questions',
-    body: 'Why lose your evening searching Google or prompting an AI for the "right" questions? '
+    body: 'Why lose time searching Google or prompting an AI for the "right" questions? '
         + 'QuizPe already knows your child\'s board, grade and month — and delivers the right quiz, '
         + 'at the right time, every single day. From just ₹99.',
     tone: 'accent',
@@ -26,7 +26,7 @@ const CARDS = [
   {
     icon: '🧲',
     title: 'Hard to sit them down?',
-    body: 'No hour-long study battle. Just ten minutes with QuizPe in the evening quietly recalls '
+    body: 'No hour-long study battle. Just ten minutes with QuizPe quietly recalls '
         + 'everything your child learnt in school that day — as a game, not a chore.',
   },
   {
@@ -84,7 +84,7 @@ export default function WhyQuizPe() {
           <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-wa">
             <span aria-hidden>💬</span> Start free — takes one message
           </a>
-          <p className="text-xs text-muted mt-3">No card · the quiz arrives this evening</p>
+          <p className="text-xs text-muted mt-3">No card · take the quiz any time today</p>
         </Reveal>
       </div>
     </section>

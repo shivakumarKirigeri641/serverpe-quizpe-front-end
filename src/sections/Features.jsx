@@ -1,5 +1,5 @@
 import Reveal from '../components/Reveal.jsx';
-import { FEATURES, PARENT_NOTE, WHY_EVENING } from '../content';
+import { FEATURES, PARENT_NOTE, WHY_ANYTIME } from '../content';
 
 export default function Features() {
   return (
@@ -35,8 +35,8 @@ export default function Features() {
           </Reveal>
           <Reveal delay={0.08}>
             <div className="card p-7 h-full">
-              <h3 className="font-extrabold text-brand text-lg">🌙 {WHY_EVENING.title}</h3>
-              <p className="text-[15px] text-muted mt-2 leading-relaxed">{WHY_EVENING.body}</p>
+              <h3 className="font-extrabold text-brand text-lg">🕐 {WHY_ANYTIME.title}</h3>
+              <p className="text-[15px] text-muted mt-2 leading-relaxed">{WHY_ANYTIME.body}</p>
             </div>
           </Reveal>
         </div>

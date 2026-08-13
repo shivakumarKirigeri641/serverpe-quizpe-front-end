@@ -17,7 +17,7 @@ import { WA_LINK, SUPPORT_EMAIL } from '../content';
 
 /** What every plan includes — the trial too. Stated once, deliberately. */
 const INCLUDED = [
-  ['🎯', 'A fresh quiz every evening', 'Fifteen questions matched to your child’s board, grade and month.'],
+  ['🎯', 'A fresh quiz every day', 'Fifteen questions matched to your child’s board, grade and month.'],
   ['📄', 'A full report, immediately', 'Score, chapter breakdown and every question explained — as a PDF in your chat.'],
   ['🧠', 'It adapts to your child', 'Master a chapter and it moves on; struggle and it comes back until it sticks.'],
   ['🔁', 'Never the same question twice', 'Tens of thousands per grade, so that holds for years.'],
