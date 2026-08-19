@@ -3,7 +3,7 @@
  * components — and so nothing contradicts what the product actually does.
  *
  * Every claim here is true of the built system: the spiral revision model, the
- * adaptive question selection, the all-day window (6 AM–11:45 PM, once a day),
+ * adaptive question selection, the all-day window (6 AM–11:45 PM, two quizzes a day; three on weekends for premium),
  * the daily PDF with drawn explanations, the one-per-mobile trial, and the
  * WhatsApp-only delivery.
  */
@@ -39,14 +39,14 @@ export const HERO = {
   // Benefit-driven headline (parents ask "what's in it for my child?").
   title: 'Help your child revise daily — in just 5 minutes.',
   sub:
-    'A fresh quiz every day on WhatsApp — take it any time that suits you, matched to your child’s board, grade and everything ' +
+    'Two fresh quizzes every day on WhatsApp — take them any time that suits you, matched to your child’s board, grade and everything ' +
     'taught since June, with a full explanation report the moment they finish.',
   ctaNote: 'Say “hi” on WhatsApp — that is the entire signup.',
 };
 
 // Benefit chips shown under the hero headline — the quick "what's in it for us?".
 export const HERO_BENEFITS = [
-  '⏱️ Only 5 minutes a day',
+  '🔁 Two quizzes a day',
   '💬 Delivered on WhatsApp',
   '🎓 Classes 1 to 10',
   '📊 Track progress',
@@ -79,13 +79,13 @@ export const HOW_IT_WORKS = [
     step: '3',
     icon: '🔔',
     title: 'A gentle reminder each day',
-    body: 'One friendly morning nudge — never more than one. The quiz stays open all day, so take it any time that suits you. Reply STOP to pause everything, START to resume.',
+    body: 'One friendly morning nudge — never more than one. Quizzes stay open all day, so take them any time that suits you. Reply STOP to pause everything, START to resume.',
   },
   {
     step: '4',
     icon: '🎯',
     title: 'Quiz time, 5–10 minutes',
-    body: 'A link opens the quiz, one question at a time. Your child can go back and change an answer before submitting.',
+    body: 'A link opens the quiz, one question at a time. Your child can go back and change an answer before submitting — then start the second quiz whenever they are ready.',
   },
   {
     step: '5',
@@ -96,6 +96,14 @@ export const HOW_IT_WORKS = [
 ];
 
 export const FEATURES = [
+  {
+    icon: '🔁',
+    title: 'Two quizzes a day — three on weekends',
+    body:
+      'Practice twice a day now, not once — a second fresh quiz unlocks the moment your child finishes the ' +
+      'first, so keen learners can keep going. Premium families get a third on Saturdays and Sundays. Every ' +
+      'quiz is brand-new questions, never a repeat.',
+  },
   {
     icon: '🧠',
     title: 'It adapts to your child',
@@ -167,10 +175,11 @@ export const PARENT_NOTE = {
 export const WHY_ANYTIME = {
   title: 'Take it any time',
   body:
-    'The quiz is open all day, from 6 AM to 11:45 PM — so it fits your family’s routine, not the other way ' +
-    'round. Morning before school, after tuition, or just before dinner: whenever suits you. It is deliberately ' +
-    'short — five to ten minutes is long enough to matter and short enough that a tired child will still do it — ' +
-    'and only once a day, so it never turns into screen time.',
+    'Quizzes are open all day, from 6 AM to 11:45 PM — so they fit your family’s routine, not the other way ' +
+    'round. Morning before school, after tuition, or just before dinner: whenever suits you. Each one is deliberately ' +
+    'short — five to ten minutes is long enough to matter and short enough that a tired child will still do it. ' +
+    'There are two a day (three on weekends for premium), and the second only unlocks once the first is done — so ' +
+    'practice adds up without ever becoming screen time.',
 };
 
 export const FAQ = [
@@ -194,8 +203,14 @@ export const FAQ = [
        'and nothing is promised before it exists.',
   },
   {
+    q: 'How many quizzes does my child get each day?',
+    a: 'Two every day — a second, brand-new quiz unlocks the moment they finish the first, so a keen child ' +
+       'can do both back to back or spread them across the day. Premium families get a third quiz on Saturdays ' +
+       'and Sundays. There is never any pressure to do them all: even one a day builds the habit.',
+  },
+  {
     q: 'What if my child misses a day?',
-    a: 'Nothing is lost. The next quiz still arrives, and missed chapters simply come back around through ' +
+    a: 'Nothing is lost. The next quizzes still arrive, and missed chapters simply come back around through ' +
        'the revision cycle. There is no penalty and no catch-up backlog.',
   },
   {
@@ -218,8 +233,8 @@ export const FAQ = [
        'proprietorship registered with the Government of India for GST — GSTIN 29BSMPK7696H1ZT — with a ' +
        'named proprietor, a registered business address and a Grievance Officer, all published in the ' +
        'footer of this page. Messages reach you through a Meta-verified WhatsApp Business account, not an ' +
-       'anonymous number. In practice that means at most one reminder and one quiz message a day, plus ' +
-       'your report. No promotional broadcasts, ever. Reply STOP and every message stops immediately — ' +
+       'anonymous number. In practice that means at most one reminder a day, plus each quiz and its ' +
+       'report as your child plays. No promotional broadcasts, ever. Reply STOP and every message stops immediately — ' +
        'reply START whenever you want them back.',
   },
   {
