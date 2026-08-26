@@ -48,6 +48,14 @@ export default function Hero({ stats }) {
             <a href="#how-it-works" className="btn-ghost">See how daily revision works</a>
           </motion.div>
 
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .32 }}
+                    className="mt-3 text-sm font-semibold text-violet-700">
+            ⚡ In a hurry?{' '}
+            <a href="#pricing" className="underline underline-offset-2 hover:text-violet-900">
+              Try an <b>Instant Quiz</b> — 12 questions, ₹9, no plan.
+            </a>
+          </motion.p>
+
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .4 }}
                     className="mt-4 text-sm text-muted">
             {HERO.ctaNote} <span className="font-bold text-brand">{WHATSAPP_DISPLAY}</span>

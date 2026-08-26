@@ -70,6 +70,35 @@ export default function Pricing() {
           </Reveal>
         )}
 
+        {/* Instant Quiz — pay-per-quiz, no plan. A distinct low-commitment entry
+            alongside the free trial. Bought on WhatsApp (⚡ Instant Quiz in menu). */}
+        <Reveal delay={0.07}>
+          <div className="mt-4 card p-6 sm:p-7 border-2 border-violet-300 bg-violet-50/40
+                          flex flex-col sm:flex-row sm:items-center gap-5">
+            <div className="flex-1">
+              <span className="inline-block bg-violet-600 text-white text-[10px] font-extrabold
+                               uppercase tracking-wider px-3 py-1 rounded-full">⚡ Instant Quiz</span>
+              <h3 className="font-extrabold text-violet-800 text-xl mt-3">
+                One quick quiz, right now — ₹9 <span className="text-sm font-semibold text-muted">+ GST</span>
+              </h3>
+              <p className="text-sm text-muted mt-1">
+                No plan, no subscription. Pay ₹9, get <b>12 questions</b> instantly — with the same full
+                report and GST invoice. Finished? Pay ₹9 for another. Anytime, anywhere.
+              </p>
+              <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[13px] font-semibold text-violet-900/80">
+                <li>✅ 12 questions</li>
+                <li>✅ Starts instantly</li>
+                <li>✅ Full report + GST invoice</li>
+                <li>✅ Pay per quiz — no commitment</li>
+              </ul>
+            </div>
+            <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+               className="btn-wa !py-3 sm:w-auto w-full text-center">
+              ⚡ Try Instant Quiz
+            </a>
+          </div>
+        </Reveal>
+
         {/* ONE benefits list — because every plan really is the same */}
         <Reveal delay={0.1}>
           <div className="mt-8">
