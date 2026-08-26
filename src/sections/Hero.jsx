@@ -52,8 +52,9 @@ export default function Hero({ stats }) {
                     className="mt-3 text-sm font-semibold text-violet-700">
             ⚡ In a hurry?{' '}
             <a href="#pricing" className="underline underline-offset-2 hover:text-violet-900">
-              Try an <b>Instant Quiz</b> — 12 questions, ₹9, no plan.
-            </a>
+              Try an <b>Instant Quiz</b> — 12 questions, ₹9*, no plan.
+            </a>{' '}
+            <span className="font-normal text-muted">*GST applicable</span>
           </motion.p>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .4 }}
