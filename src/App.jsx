@@ -25,6 +25,7 @@ import Rewards from './sections/Rewards.jsx';
 import WhyNotAI from './sections/WhyNotAI.jsx';
 import WhyQuizPe from './sections/WhyQuizPe.jsx';
 import LaunchBanner from './components/LaunchBanner.jsx';
+import SchoolDemo from './sections/SchoolDemo.jsx';
 import About from './sections/About.jsx';
 import Testimonials from './sections/Testimonials.jsx';
 import Faq from './sections/Faq.jsx';
@@ -148,6 +149,7 @@ export default function App() {
         <Pricing />
         <About />
         <Testimonials />
+        <SchoolDemo />
         <Faq />
         <Contact />
       </main>
