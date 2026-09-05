@@ -41,7 +41,7 @@ export const HERO = {
   sub:
     'Two fresh quizzes every day on WhatsApp — take them any time that suits you, matched to your child’s board, grade and everything ' +
     'taught since June, with a full explanation report the moment they finish.',
-  ctaNote: 'Say “hi” on WhatsApp — that is the entire signup.',
+  ctaNote: 'Say “hi” on WhatsApp — that is the entire signup. Prefer to type it yourself?',
 };
 
 // Benefit chips shown under the hero headline — the quick "what's in it for us?".
@@ -189,6 +189,14 @@ export const FAQ = [
        'page. Most parents sit with their child while they answer — you stay in control of the device the ' +
        'whole time, and there is nothing to browse away to. Children never have an account, a login or a ' +
        'password with us.',
+  },
+  {
+    q: 'What if my child does one quiz and then loses interest?',
+    a: 'That is the honest risk with anything daily, so QuizPe is built around it rather than hoping. '
+      + 'Each quiz is five to ten minutes, not an hour. There is one gentle reminder a day and never more '
+      + 'than one. Quizzes stay open from 6 AM to 11:45 PM so a missed evening is not a missed day. And you '
+      + 'get the report every single time, so you can see interest fading long before a term ends. If it is '
+      + 'not working for your family, reply STOP and everything pauses — no call, no cancellation process.',
   },
   {
     q: 'Is there an app to install?',

@@ -26,8 +26,9 @@ export default function StickyCta() {
           <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-wa w-full">
             💬 Say “hi” — start free
           </a>
-          <p className="text-[10px] text-muted text-center mt-1.5">
-            No app · no login · no card
+          {/* The send step is where most people drop, so say it here too. */}
+          <p className="text-[11px] text-muted text-center mt-1.5 leading-snug">
+            Opens WhatsApp with your message ready — <b className="text-brand">just press send</b>
           </p>
         </motion.div>
       )}

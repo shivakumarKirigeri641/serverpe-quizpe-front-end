@@ -2,6 +2,7 @@
 import { motion } from 'framer-motion';
 import { QRCodeCanvas } from 'qrcode.react';
 import { HERO, HERO_BENEFITS, HERO_OUTCOMES, WA_LINK, WHATSAPP_DISPLAY } from '../content';
+import SendHint from '../components/SendHint.jsx';
 
 export default function Hero({ stats }) {
   return (
@@ -46,6 +47,11 @@ export default function Hero({ stats }) {
               <span aria-hidden>🎯</span> Start free trial
             </a>
             <a href="#how-it-works" className="btn-ghost">See how daily revision works</a>
+          </motion.div>
+
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .3 }}
+                      className="mt-3 max-w-md">
+            <SendHint />
           </motion.div>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .32 }}

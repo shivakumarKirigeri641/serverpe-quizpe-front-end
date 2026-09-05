@@ -1,5 +1,6 @@
 import Reveal from '../components/Reveal.jsx';
 import { HOW_IT_WORKS, WA_LINK } from '../content';
+import SendHint from '../components/SendHint.jsx';
 
 export default function HowItWorks() {
   return (
@@ -31,6 +32,7 @@ export default function HowItWorks() {
           <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-wa">
             <span aria-hidden>💬</span> Start now — it takes one message
           </a>
+          <SendHint className="mt-3 max-w-sm mx-auto" />
         </Reveal>
       </div>
     </section>
