@@ -1,7 +1,7 @@
 /** The one thing that matters: say hi. QR for desktop, button for phones. */
 import { motion } from 'framer-motion';
 import { QRCodeCanvas } from 'qrcode.react';
-import { HERO, HERO_BENEFITS, HERO_OUTCOMES, WA_LINK, WHATSAPP_DISPLAY } from '../content';
+import { HERO, HERO_BENEFITS, HERO_OUTCOMES, WA_LINK, WHATSAPP_DISPLAY, WA_PAUSED } from '../content';
 import SendHint from '../components/SendHint.jsx';
 
 export default function Hero({ stats }) {
@@ -95,9 +95,16 @@ export default function Hero({ stats }) {
                     transition={{ duration: .6, delay: .2 }} className="justify-self-center">
           <div className="card p-7 text-center max-w-xs animate-float">
             <p className="text-xs font-extrabold uppercase tracking-wider text-muted">Scan to start</p>
-            <div className="my-4 inline-block p-3 bg-white rounded-2xl border-2 border-line">
-              <QRCodeCanvas value={WA_LINK} size={168} level="M" includeMargin={false}
-                            fgColor="#075e54" bgColor="#ffffff" />
+            <div className="relative my-4 inline-block p-3 bg-white rounded-2xl border-2 border-line">
+              {/* While WhatsApp is disabled the code is not drawn at all, so it cannot be scanned. */}
+              {WA_PAUSED ? (
+                <div className="grid h-[168px] w-[168px] place-items-center rounded-xl bg-gray-100 px-3 text-xs font-bold text-amber-800">
+                  ⏸️ Paused — WhatsApp is disabled for now. Stay tuned.
+                </div>
+              ) : (
+                <QRCodeCanvas value={WA_LINK} size={168} level="M" includeMargin={false}
+                              fgColor="#075e54" bgColor="#ffffff" />
+              )}
             </div>
             <p className="font-bold text-brand">{WHATSAPP_DISPLAY}</p>
             <p className="text-xs text-muted mt-1">Opens WhatsApp with “hi” ready to send</p>

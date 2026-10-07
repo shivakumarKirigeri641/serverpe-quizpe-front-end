@@ -11,6 +11,10 @@
 export const WHATSAPP_NUMBER = '918618592876';
 export const WHATSAPP_DISPLAY = '+91 86185 92876';
 export const WA_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=hi`;
+// WhatsApp is disabled for QuizPe (user, 2026-10-07): every WhatsApp button is greyed out
+// and does nothing, and the QR is covered. Set to false when WhatsApp is back.
+export const WA_PAUSED = true;
+export const WA_PAUSED_TEXT = 'WhatsApp is disabled for QuizPe right now. We are implementing the alternatives — stay tuned.';
 // Contacting support is a different intent from enrolling. Sending "hi" would
 // drop the parent into the signup flow instead of a conversation.
 export const WA_SUPPORT_LINK =

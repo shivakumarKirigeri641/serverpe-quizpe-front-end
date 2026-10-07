@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { api, safe } from './lib/api';
 import { trackView, trackWA } from './lib/track';
-import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER, SUPPORT_EMAIL } from './content';
+import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER, SUPPORT_EMAIL, WA_PAUSED, WA_PAUSED_TEXT } from './content';
 
 import Header from './components/Header.jsx';
 import Hero from './sections/Hero.jsx';
@@ -62,15 +62,20 @@ export default function App() {
   // each button individually.
   useEffect(() => {
     trackView();
+    if (WA_PAUSED) document.documentElement.classList.add('wa-paused');
     const onClick = (e) => {
       const a = e.target.closest?.('a[href]');
       if (a && /wa\.me|api\.whatsapp\.com|wa\.link/i.test(a.getAttribute('href') || '')) {
+        // While WhatsApp is disabled the button does nothing but say why (2026-10-07).
+        if (WA_PAUSED) { e.preventDefault(); e.stopPropagation(); setWaNote(true); return; }
         trackWA((a.textContent || '').trim().slice(0, 60));
       }
     };
-    document.addEventListener('click', onClick);
-    return () => document.removeEventListener('click', onClick);
+    document.addEventListener('click', onClick, true);
+    return () => document.removeEventListener('click', onClick, true);
   }, []);
+  const [waNote, setWaNote] = useState(false);
+  useEffect(() => { if (!waNote) return undefined; const t = setTimeout(() => setWaNote(false), 5000); return () => clearTimeout(t); }, [waNote]);
 
   const business = legal?.business || {};
 
@@ -130,6 +135,10 @@ export default function App() {
       </Helmet>
 
       <NoticeBanner />
+      {waNote ? (
+        <div role="alert" className="fixed inset-x-0 bottom-24 z-[100] mx-auto w-[92%] max-w-md rounded-2xl bg-amber-50 border border-amber-300 px-4 py-3 text-center text-sm font-semibold text-amber-900 shadow-xl">
+          ⚠️ {WA_PAUSED_TEXT}
+        </div>) : null}
       <LaunchBanner />
       <Header />
       <main>
