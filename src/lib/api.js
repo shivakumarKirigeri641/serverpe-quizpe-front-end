@@ -67,7 +67,7 @@ export const app = {
   startQuiz: (studentId, level) => appCall('/quiz/start', { student_id: studentId, ...(level ? { level } : {}) }),
   reports: () => appCall('/reports'),
   trial: (parentName, email) => appCall('/trial', { parent_name: parentName, email }),
-  checkout: (planCode) => appCall('/checkout', { plan_code: planCode }),
+  checkout: (planCode, someoneElse = false) => appCall('/checkout', { plan_code: planCode, someone_else: someoneElse === true }),
   pushKey: () => appCall('/push-key'),
   pushOn: (subscription) => appCall('/push', { subscription }),
   pushOff: (endpoint) => appCall('/push/off', { endpoint }),

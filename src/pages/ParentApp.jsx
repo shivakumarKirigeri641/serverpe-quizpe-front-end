@@ -168,11 +168,47 @@ function ChildCard({ child, me, onMessage }) {
 }
 
 /* --------------------------------------------------------------- plans */
+/*
+ * TWO WAYS TO PAY (2026-10-02 on WhatsApp, kept on the web 2026-10-08): pay now,
+ * or send the link to whoever is paying — a spouse, a grandparent. The link
+ * works for a set time, needs no sign-in, and switches the plan on for THIS
+ * parent's number.
+ */
+function ShareLink({ link, onClose }) {
+  const [copied, setCopied] = useState(false);
+  const text = `Please pay for my child's QuizPe plan (${link.plan}) here. It switches on for my number — nothing else to do: ${link.url}`;
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(link.url); setCopied(true); setTimeout(() => setCopied(false), 2500); } catch { /* select it by hand */ }
+  };
+  const share = async () => {
+    try { await navigator.share({ title: 'QuizPe payment', text }); } catch { /* cancelled */ }
+  };
+  return (
+    <div className="mt-3 rounded-2xl border-2 border-brand-accent/40 bg-brand-accent/5 p-4">
+      <div className="font-bold text-ink">🔗 Payment link for {link.plan}</div>
+      <p className="text-xs text-muted mt-1">Send this to whoever is paying. They fill in the details and pay; the plan switches on for <b>your</b> number. The link works for <b>{link.validFor}</b>.</p>
+      <input readOnly className="input mt-2 text-xs" value={link.url} onFocus={(e) => e.target.select()} />
+      <div className="mt-2 flex gap-2">
+        {typeof navigator !== 'undefined' && navigator.share ? <button className="btn-wa !px-4 !py-2 !text-sm flex-1" onClick={share}>Share link</button> : null}
+        <button className="btn-ghost !px-4 !py-2 !text-sm flex-1" onClick={copy}>{copied ? 'Copied ✓' : 'Copy link'}</button>
+      </div>
+      <button className="mt-2 text-xs font-semibold text-muted underline" onClick={onClose}>Close</button>
+    </div>
+  );
+}
+
 function Plans({ me, onMessage, title }) {
   const [busy, setBusy] = useState('');
-  const buy = async (code) => {
+  const [picked, setPicked] = useState('');
+  const [link, setLink] = useState(null);
+  const buy = async (code, someoneElse = false) => {
     setBusy(code); onMessage(null);
-    try { const r = await app.checkout(code); window.location.href = r.url; return; } catch (x) { onMessage({ tone: 'error', text: x.message }); }
+    try {
+      const r = await app.checkout(code, someoneElse);
+      if (!someoneElse) { window.location.href = r.url; return; }
+      setLink({ url: r.url, validFor: r.valid_for, plan: me.plans.find((p) => p.code === code)?.name || 'QuizPe' });
+      setPicked('');
+    } catch (x) { onMessage({ tone: 'error', text: x.message }); }
     setBusy('');
   };
   return (
@@ -181,19 +217,28 @@ function Plans({ me, onMessage, title }) {
       <p className="text-xs text-muted mt-0.5">Every plan: daily quizzes, explanations, spiral revision and PDF report cards. Prices include GST · secure payment by Razorpay.</p>
       <div className="mt-3 space-y-2">
         {me.plans.map((p) => (
-          <div key={p.code} className="flex items-center gap-3 rounded-2xl border border-line px-4 py-3">
-            <div className="min-w-0">
-              <div className="font-bold text-ink">{p.name}</div>
-              <div className="text-xs text-muted">{p.children} child{p.children > 1 ? 'ren' : ''} · {p.days} days</div>
+          <div key={p.code} className={`rounded-2xl border px-4 py-3 ${picked === p.code ? 'border-brand-accent' : 'border-line'}`}>
+            <div className="flex items-center gap-3">
+              <div className="min-w-0">
+                <div className="font-bold text-ink">{p.name}</div>
+                <div className="text-xs text-muted">{p.children} child{p.children > 1 ? 'ren' : ''} · {p.days} days</div>
+              </div>
+              <div className="ml-auto text-right">
+                {p.was > p.price ? <div className="text-[11px] text-muted line-through">{rupees(p.was)}</div> : null}
+                <div className="font-extrabold text-brand">{rupees(p.price)}</div>
+              </div>
+              <button className="btn-wa !px-4 !py-2 !text-sm" disabled={Boolean(busy)} onClick={() => setPicked(picked === p.code ? '' : p.code)}>{picked === p.code ? 'Close' : 'Choose'}</button>
             </div>
-            <div className="ml-auto text-right">
-              {p.was > p.price ? <div className="text-[11px] text-muted line-through">{rupees(p.was)}</div> : null}
-              <div className="font-extrabold text-brand">{rupees(p.price)}</div>
-            </div>
-            <button className="btn-wa !px-4 !py-2 !text-sm" disabled={Boolean(busy)} onClick={() => buy(p.code)}>{busy === p.code ? '…' : 'Choose'}</button>
+            {picked === p.code ? (
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                <button className="btn-wa !px-3 !py-2.5 !text-sm" disabled={Boolean(busy)} onClick={() => buy(p.code)}>{busy === p.code ? '…' : '💳 Pay now'}</button>
+                <button className="btn-ghost !px-3 !py-2.5 !text-sm" disabled={Boolean(busy)} onClick={() => buy(p.code, true)}>🔗 Someone else will pay</button>
+              </div>
+            ) : null}
           </div>
         ))}
       </div>
+      {link ? <ShareLink link={link} onClose={() => setLink(null)} /> : null}
     </div>
   );
 }
