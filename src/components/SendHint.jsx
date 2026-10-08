@@ -1,21 +1,17 @@
 /**
- * SendHint — the line that sits under every "say hi" button.
- *
- * Why this exists: of 134 people who tapped a WhatsApp button, only 28 actually
- * sent the message. The site had already done its job — they had decided — and
- * then 106 of them stopped at the one step nothing on the page prepared them
- * for: WhatsApp opens with the text already typed, and they still have to press
- * send. This says so, in advance, wherever the button is.
+ * SendHint — the line that sits under every start button: what happens next,
+ * so nobody stops at a step they were not expecting. Sign-in is a mobile
+ * number and an SMS code (quizpe.in/app, 2026-10-08).
  */
 export default function SendHint({ tone = 'light', className = '' }) {
   const muted = tone === 'dark' ? 'text-white/70' : 'text-muted';
   const strong = tone === 'dark' ? 'text-white' : 'text-brand';
   return (
     <p className={`text-[13px] leading-relaxed ${muted} ${className}`}>
-      WhatsApp opens with your message already typed —{' '}
-      <b className={strong}>just press send ➤</b>
+      Sign in with your mobile number —{' '}
+      <b className={strong}>we send a one-time code by SMS</b>
       <span className="block mt-0.5">
-        No payment, nothing to install. Your child’s first quiz arrives in about two minutes.
+        No payment, nothing to install. Your child’s first quiz is ready in about two minutes.
       </span>
     </p>
   );

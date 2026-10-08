@@ -18,13 +18,13 @@ import { WA_LINK, SUPPORT_EMAIL } from '../content';
 /** What every plan includes — the trial too. Stated once, deliberately. */
 const INCLUDED = [
   ['🔁', 'Two fresh quizzes every day', 'A second unlocks the moment the first is done — plus a third on weekends for paid plans.'],
-  ['📄', 'A full report, immediately', 'Score, chapter breakdown and every question explained — as a PDF in your chat.'],
+  ['📄', 'A full report, immediately', 'Score, chapter breakdown and every question explained — as a PDF in your account.'],
   ['🧠', 'It adapts to your child', 'Master a chapter and it moves on; struggle and it comes back until it sticks.'],
   ['🔁', 'Never the same question twice', 'Tens of thousands per grade, so that holds for years.'],
   ['📚', 'Spiral revision built in', 'June’s chapters return in July, July’s in August — nothing quietly fades.'],
   ['📖', 'Exam-time revision mode', 'Before school exams it shifts to recall across everything covered.'],
   ['⏱️', 'Speed, streaks and progress', 'Personal bests and a daily streak — what turns practice into a habit.'],
-  ['🧾', 'A proper GST invoice', 'Sent to your WhatsApp after every payment.'],
+  ['🧾', 'A proper GST invoice', 'In your QuizPe account after every payment.'],
 ];
 
 export default function Pricing() {
@@ -62,42 +62,16 @@ export default function Pricing() {
                   No payment details. It ends by itself, so there is nothing to cancel and nothing is charged.
                 </p>
               </div>
-              <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
-                 className="btn-wa !py-3 sm:w-auto w-full text-center">
-                💬 Say “hi” to start free
+              <a href={WA_LINK} className="btn-wa !py-3 sm:w-auto w-full text-center">
+                🎁 Start free — sign in
               </a>
             </div>
           </Reveal>
         )}
 
-        {/* Instant Quiz — pay-per-quiz, no plan. A distinct low-commitment entry
-            alongside the free trial. Bought on WhatsApp (⚡ Instant Quiz in menu). */}
-        <Reveal delay={0.07}>
-          <div className="mt-4 card p-6 sm:p-7 border-2 border-violet-300 bg-violet-50/40
-                          flex flex-col sm:flex-row sm:items-center gap-5">
-            <div className="flex-1">
-              <span className="inline-block bg-violet-600 text-white text-[10px] font-extrabold
-                               uppercase tracking-wider px-3 py-1 rounded-full">⚡ Instant Quiz</span>
-              <h3 className="font-extrabold text-violet-800 text-xl mt-3">
-                One quick quiz, right now — ₹9 <span className="text-sm font-semibold text-muted">+ GST</span>
-              </h3>
-              <p className="text-sm text-muted mt-1">
-                No plan, no subscription. Pay ₹9, get <b>12 questions</b> instantly — with the same full
-                report and GST invoice. Finished? Pay ₹9 for another. Anytime, anywhere.
-              </p>
-              <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-[13px] font-semibold text-violet-900/80">
-                <li>✅ 12 questions</li>
-                <li>✅ Starts instantly</li>
-                <li>✅ Full report + GST invoice</li>
-                <li>✅ Pay per quiz — no commitment</li>
-              </ul>
-            </div>
-            <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
-               className="btn-wa !py-3 sm:w-auto w-full text-center">
-              ⚡ Try Instant Quiz
-            </a>
-          </div>
-        </Reveal>
+        {/* The ₹9 Instant Quiz card was here. It could only be bought from the
+            WhatsApp menu, which is retired (2026-10-08), so it is hidden until it
+            is offered in the parent's account at quizpe.in/app. */}
 
         {/* ONE benefits list — because every plan really is the same */}
         <Reveal delay={0.1}>
@@ -202,8 +176,7 @@ export default function Pricing() {
                       </p>
                     )}
 
-                    <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
-                       className="btn-ghost w-full !py-2.5 !text-sm mt-5">
+                    <a href={WA_LINK} className="btn-ghost w-full !py-2.5 !text-sm mt-5">
                       Choose this
                     </a>
                   </div>

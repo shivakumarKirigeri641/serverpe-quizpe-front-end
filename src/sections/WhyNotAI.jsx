@@ -108,11 +108,11 @@ export default function WhyNotAI() {
               order, remembering what your child got wrong last week — that is the part nobody keeps
               up manually. That is the part we do.
             </p>
-            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-wa mt-6">
-              <span aria-hidden>💬</span> Let it arrive on its own
+            <a href={WA_LINK} className="btn-wa mt-6">
+              <span aria-hidden>🎯</span> Let QuizPe run the habit
             </a>
             <p className="text-xs text-muted mt-3">
-              Free trial · no card · stop any time by replying STOP
+              Free trial · no card · stop any time
             </p>
           </div>
         </Reveal>

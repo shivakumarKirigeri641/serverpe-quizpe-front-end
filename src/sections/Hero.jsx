@@ -1,8 +1,11 @@
-/** The one thing that matters: say hi. QR for desktop, button for phones. */
+/** The one thing that matters: start. QR for desktop (opens quizpe.in/app on
+ *  the phone), button for phones. */
 import { motion } from 'framer-motion';
 import { QRCodeCanvas } from 'qrcode.react';
-import { HERO, HERO_BENEFITS, HERO_OUTCOMES, WA_LINK, WHATSAPP_DISPLAY, WA_PAUSED } from '../content';
+import { HERO, HERO_BENEFITS, HERO_OUTCOMES, WA_LINK } from '../content';
 import SendHint from '../components/SendHint.jsx';
+
+const APP_URL = 'https://quizpe.in/app';
 
 export default function Hero({ stats }) {
   return (
@@ -43,7 +46,7 @@ export default function Hero({ stats }) {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: .6, delay: .25 }}
                       className="mt-8 flex flex-wrap items-center gap-3">
-            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-wa text-base">
+            <a href={WA_LINK} className="btn-wa text-base">
               <span aria-hidden>🎯</span> Start free trial
             </a>
             <a href="#how-it-works" className="btn-ghost">See how daily revision works</a>
@@ -54,18 +57,9 @@ export default function Hero({ stats }) {
             <SendHint />
           </motion.div>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .32 }}
-                    className="mt-3 text-sm font-semibold text-violet-700">
-            ⚡ In a hurry?{' '}
-            <a href="#pricing" className="underline underline-offset-2 hover:text-violet-900">
-              Try an <b>Instant Quiz</b> — 12 questions, ₹9*, no plan.
-            </a>{' '}
-            <span className="font-normal text-muted">*GST applicable</span>
-          </motion.p>
-
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .4 }}
                     className="mt-4 text-sm text-muted">
-            {HERO.ctaNote} <span className="font-bold text-brand">{WHATSAPP_DISPLAY}</span>
+            Already with us? <a href={WA_LINK} className="font-bold text-brand underline underline-offset-2">Sign in</a> with the same mobile number.
           </motion.p>
 
           {/* Benefit chips — the quick "what's in it for my child?" scan. */}
@@ -94,20 +88,13 @@ export default function Hero({ stats }) {
         <motion.div initial={{ opacity: 0, scale: .94 }} animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: .6, delay: .2 }} className="justify-self-center">
           <div className="card p-7 text-center max-w-xs animate-float">
-            <p className="text-xs font-extrabold uppercase tracking-wider text-muted">Scan to start</p>
+            <p className="text-xs font-extrabold uppercase tracking-wider text-muted">Scan to open on your phone</p>
             <div className="relative my-4 inline-block p-3 bg-white rounded-2xl border-2 border-line">
-              {/* While WhatsApp is disabled the code is not drawn at all, so it cannot be scanned. */}
-              {WA_PAUSED ? (
-                <div className="grid h-[168px] w-[168px] place-items-center rounded-xl bg-gray-100 px-3 text-xs font-bold text-amber-800">
-                  ⏸️ Paused — WhatsApp is disabled for now. Stay tuned.
-                </div>
-              ) : (
-                <QRCodeCanvas value={WA_LINK} size={168} level="M" includeMargin={false}
-                              fgColor="#075e54" bgColor="#ffffff" />
-              )}
+              <QRCodeCanvas value={APP_URL} size={168} level="M" includeMargin={false}
+                            fgColor="#075e54" bgColor="#ffffff" />
             </div>
-            <p className="font-bold text-brand">{WHATSAPP_DISPLAY}</p>
-            <p className="text-xs text-muted mt-1">Opens WhatsApp with “hi” ready to send</p>
+            <p className="font-bold text-brand">quizpe.in/app</p>
+            <p className="text-xs text-muted mt-1">Sign in with your mobile number</p>
             {stats?.questions_available > 0 && (
               <p className="mt-4 pt-4 border-t border-line text-xs text-muted">
                 <b className="text-brand">{Number(stats.questions_available).toLocaleString('en-IN')}</b> questions

@@ -3,7 +3,7 @@
  *
  * The single biggest reason a parent hesitates is not price — it is not
  * knowing what actually arrives. This section shows the three artefacts:
- * the WhatsApp message, a real question, and the report card. Nothing is
+ * the reminder and account page, a real question, and the report card. Nothing is
  * promised here that the product does not send.
  */
 
@@ -21,7 +21,7 @@ const SAMPLE_Q = {
 };
 
 const TABS = [
-  { k: 'chat', label: '1. It arrives on WhatsApp' },
+  { k: 'chat', label: '1. Ready on your phone' },
   { k: 'quiz', label: '2. Fifteen questions' },
   { k: 'report', label: '3. The report, straight away' },
 ];
@@ -37,7 +37,7 @@ export default function Preview() {
           <span className="eyebrow">See it first</span>
           <h2 className="h2 mt-4">Exactly what lands on your phone</h2>
           <p className="lede mt-3">
-            No mock-ups. This is the real message, a real question and the real report card.
+            No mock-ups. This is the real reminder, a real question and the real report card.
           </p>
         </Reveal>
 
@@ -60,25 +60,28 @@ export default function Preview() {
               transition={{ duration: 0.3 }}>
 
               {tab === 'chat' && (
-                <div className="rounded-3xl bg-[#e5ddd5] p-5 shadow-soft">
-                  <div className="bg-brand text-white rounded-t-2xl px-4 py-3 -mx-5 -mt-5 mb-4 flex items-center gap-3">
-                    <img src="/assets/logo-mark.png" alt="" className="w-9 h-9 rounded-lg bg-white p-1" />
-                    <div>
-                      <p className="font-bold text-sm">QuizPe</p>
-                      <p className="text-[11px] text-white/70">online</p>
+                <div className="rounded-3xl bg-cream border border-line p-5 shadow-soft space-y-3">
+                  <div className="flex items-start gap-3 rounded-2xl bg-white/90 border border-line px-4 py-3 shadow-sm">
+                    <img src="/assets/logo-mark.png" alt="" className="w-8 h-8 rounded-lg" />
+                    <div className="text-sm">
+                      <p className="font-bold text-ink">☀️ Shivam's quiz is ready</p>
+                      <p className="text-muted">Take it any time before 11:45 PM — about 5 minutes.</p>
                     </div>
+                    <span className="ml-auto text-[10px] text-muted">now</span>
                   </div>
-
-                  <div className="bg-white rounded-2xl rounded-tl-md p-3.5 max-w-[85%] shadow-sm text-sm">
-                    <p className="font-bold text-brand mb-1">Shivam's quiz</p>
-                    <p className="text-ink">📚 <b>Mathematics</b><br />
-                      <span className="text-muted">Today’s quiz — under 10 minutes.</span></p>
-                    <p className="text-ink mt-2">Tap below to begin — the score and report come straight back here.</p>
-                    <div className="mt-3 -mx-3.5 -mb-3.5 border-t border-line py-2.5 text-center
-                                    text-[#00a5f4] font-semibold text-sm">▶️ Start quiz</div>
+                  <div className="card p-5">
+                    <div className="flex items-center gap-3">
+                      <div className="w-11 h-11 rounded-2xl bg-brand-accent/10 text-brand font-extrabold text-lg grid place-items-center">S</div>
+                      <div>
+                        <p className="font-extrabold text-ink">Shivam</p>
+                        <p className="text-xs text-muted">CBSE · Grade 2</p>
+                      </div>
+                      <div className="ml-auto text-right"><p className="text-xl font-extrabold text-brand">0/2</p><p className="text-[11px] text-muted">today</p></div>
+                    </div>
+                    <div className="btn-wa w-full mt-4 pointer-events-none">▶ Start today's quiz</div>
                   </div>
-                  <p className="text-[11px] text-muted mt-3 text-center">
-                    One reminder an hour before. Never more.
+                  <p className="text-[11px] text-muted text-center">
+                    One reminder on your phone when it's ready. Never more.
                   </p>
                 </div>
               )}
@@ -187,7 +190,7 @@ export default function Preview() {
                   </div>
 
                   <p className="text-[11px] text-muted mt-4 text-center">
-                    Delivered as a PDF to your WhatsApp within seconds of the last answer.
+                    In your QuizPe account as a PDF within seconds of the last answer.
                   </p>
                 </div>
               )}
@@ -196,10 +199,10 @@ export default function Preview() {
         </div>
 
         <Reveal delay={0.2} className="text-center mt-10">
-          <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-wa">
-            <span aria-hidden>💬</span> Get this for my child
+          <a href={WA_LINK} className="btn-wa">
+            <span aria-hidden>🎯</span> Get this for my child
           </a>
-          <p className="text-xs text-muted mt-3">Free trial · no card · one message to start</p>
+          <p className="text-xs text-muted mt-3">Free trial · no card · sign in with your mobile</p>
         </Reveal>
       </div>
     </section>

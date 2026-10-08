@@ -5,20 +5,15 @@
  * Every claim here is true of the built system: the spiral revision model, the
  * adaptive question selection, the all-day window (6 AM–11:45 PM, two quizzes a day; three on weekends for premium),
  * the daily PDF with drawn explanations, the one-per-mobile trial, and the
- * WhatsApp-only delivery.
+ * parent's account at quizpe.in/app.
  */
 
-export const WHATSAPP_NUMBER = '918618592876';
-export const WHATSAPP_DISPLAY = '+91 86185 92876';
-export const WA_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=hi`;
-// WhatsApp is disabled for QuizPe (user, 2026-10-07): every WhatsApp button is greyed out
-// and does nothing, and the QR is covered. Set to false when WhatsApp is back.
-export const WA_PAUSED = true;
-export const WA_PAUSED_TEXT = 'WhatsApp is disabled for QuizPe right now. We are implementing the alternatives — stay tuned.';
-// Contacting support is a different intent from enrolling. Sending "hi" would
-// drop the parent into the signup flow instead of a conversation.
-export const WA_SUPPORT_LINK =
-  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('I have a question about QuizPe')}`;
+// WhatsApp is retired for QuizPe (user, 2026-10-08: "hide all WhatsApp"). Every
+// sign-up button now opens the parent's account, quizpe.in/app — sign in with a
+// mobile number and an SMS code. The old name is kept so components need no
+// rewiring: WA_LINK is the start link.
+export const START_LINK = '/app';
+export const WA_LINK = START_LINK;
 export const SUPPORT_EMAIL = 'support@quizpe.in';
 // Our YouTube channel — daily/weekly maths brain-teasers for parents.
 export const YOUTUBE_LINK = 'https://www.youtube.com/@QuizPeIndia';
@@ -35,23 +30,23 @@ export const SUPPORT_LINE = `We read messages between ${SUPPORT_HOURS} and reply
 export const COMPANY_EMAIL = 'support@serverpe.in';
 
 export const HERO = {
-  eyebrow: 'No app · No login · No registration',
+  eyebrow: 'No app to install · Sign in with your mobile',
   // A bold, parent-facing hook shown as a highlight badge in the hero.
   highlight: 'Turn 5 minutes a day into better memory, confidence and exam readiness.',
   // Sits directly under the headline: the single-line, benefit-driven promise.
-  promise: 'Daily WhatsApp quizzes that build learning habits, improve retention and boost confidence.',
+  promise: 'Daily quizzes that build learning habits, improve retention and boost confidence.',
   // Benefit-driven headline (parents ask "what's in it for my child?").
   title: 'Help your child revise daily — in just 5 minutes.',
   sub:
-    'Two fresh quizzes every day on WhatsApp — take them any time that suits you, matched to your child’s board, grade and everything ' +
+    'Two fresh quizzes every day — take them any time that suits you, matched to your child’s board, grade and everything ' +
     'taught since June, with a full explanation report the moment they finish.',
-  ctaNote: 'Say “hi” on WhatsApp — that is the entire signup. Prefer to type it yourself?',
+  ctaNote: 'Sign in with your mobile number — a one-time code by SMS, and your free trial starts.',
 };
 
 // Benefit chips shown under the hero headline — the quick "what's in it for us?".
 export const HERO_BENEFITS = [
   '🔁 Two quizzes a day',
-  '💬 Delivered on WhatsApp',
+  '📱 Works in any browser',
   '🎓 Classes 1 to 10',
   '📊 Track progress',
   '🎁 Free trial',
@@ -70,8 +65,8 @@ export const HOW_IT_WORKS = [
   {
     step: '1',
     icon: '👋',
-    title: 'Say “hi” on WhatsApp',
-    body: 'No app to download, no account to create, no password to remember. One message starts everything.',
+    title: 'Sign in with your mobile',
+    body: 'No app to download and no password to remember — just your mobile number and a one-time code by SMS.',
   },
   {
     step: '2',
@@ -83,19 +78,19 @@ export const HOW_IT_WORKS = [
     step: '3',
     icon: '🔔',
     title: 'A gentle reminder each day',
-    body: 'One friendly morning nudge — never more than one. Quizzes stay open all day, so take them any time that suits you. Reply STOP to pause everything, START to resume.',
+    body: 'One friendly nudge on your phone when the quiz is ready — never more. Quizzes stay open all day, so take them any time that suits you. Turn reminders off any time.',
   },
   {
     step: '4',
     icon: '🎯',
     title: 'Quiz time, 5–10 minutes',
-    body: 'A link opens the quiz, one question at a time. Your child can go back and change an answer before submitting — then start the second quiz whenever they are ready.',
+    body: 'Tap Start in your QuizPe account and the quiz opens, one question at a time. Your child can go back and change an answer before submitting — then start the second quiz whenever they are ready.',
   },
   {
     step: '5',
     icon: '📄',
     title: 'Report straight away',
-    body: 'Score, grade, chapter breakdown and every question explained — as a PDF in your WhatsApp, immediately.',
+    body: 'Score, grade, chapter breakdown and every question explained — as a PDF in your QuizPe account, immediately.',
   },
 ];
 
@@ -189,7 +184,7 @@ export const WHY_ANYTIME = {
 export const FAQ = [
   {
     q: 'Does my child need a phone?',
-    a: 'No, and they do not need one of their own. The quiz arrives on your WhatsApp and opens in a single ' +
+    a: 'No, and they do not need one of their own. You start the quiz from your QuizPe account and it opens in a single ' +
        'page. Most parents sit with their child while they answer — you stay in control of the device the ' +
        'whole time, and there is nothing to browse away to. Children never have an account, a login or a ' +
        'password with us.',
@@ -200,12 +195,12 @@ export const FAQ = [
       + 'Each quiz is five to ten minutes, not an hour. There is one gentle reminder a day and never more '
       + 'than one. Quizzes stay open from 6 AM to 11:45 PM so a missed evening is not a missed day. And you '
       + 'get the report every single time, so you can see interest fading long before a term ends. If it is '
-      + 'not working for your family, reply STOP and everything pauses — no call, no cancellation process.',
+      + 'not working for your family, simply stop — reminders can be turned off in one tap, and there is no call and no cancellation process.',
   },
   {
     q: 'Is there an app to install?',
-    a: 'No. Nothing to download, nothing to update, nothing taking up space. Everything happens in WhatsApp ' +
-       'and a single web page that opens from it.',
+    a: 'No. Nothing to download, nothing to update, nothing taking up space. Everything happens in your browser ' +
+       'at quizpe.in/app — sign in with your mobile number.',
   },
   {
     q: 'Which boards and grades do you cover?',
@@ -244,10 +239,9 @@ export const FAQ = [
     a: 'No, and you can check exactly who we are. QuizPe is operated by ServerPe App Solutions, a sole ' +
        'proprietorship registered with the Government of India for GST — GSTIN 29BSMPK7696H1ZT — with a ' +
        'named proprietor, a registered business address and a Grievance Officer, all published in the ' +
-       'footer of this page. Messages reach you through a Meta-verified WhatsApp Business account, not an ' +
-       'anonymous number. In practice that means at most one reminder a day, plus each quiz and its ' +
-       'report as your child plays. No promotional broadcasts, ever. Reply STOP and every message stops immediately — ' +
-       'reply START whenever you want them back.',
+       'footer of this page. In practice you hear from us at most once a day — a reminder on your phone ' +
+       'when the quiz is ready, and a note when a report is ready. No promotional broadcasts, ever. ' +
+       'Reminders can be turned off any time in your QuizPe account.',
   },
   {
     q: 'Where do the questions come from?',
@@ -277,7 +271,7 @@ export const ABOUT = {
     'This started at my own dinner table. I kept looking for small, interesting ways to make studying feel ' +
     'less like a chore for my child — a fact here, a puzzle there. It worked. What did not work was every ' +
     'app I tried: another download, another account, another password, another subscription to forget about.',
-    'So I built the version I actually wanted. No app. No login. No registration. You say “hi” on WhatsApp, ' +
+    'So I built the version I actually wanted. No app. No password. You sign in with your mobile number, ' +
     'answer a few questions about your child, and the quiz is ready to take any time. That is genuinely the whole ' +
     'thing.',
     'QuizPe runs every day, including holidays, because the habit is the point. Ten minutes of recall, a ' +

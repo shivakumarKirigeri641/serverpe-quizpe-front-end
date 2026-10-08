@@ -15,6 +15,7 @@ export default defineConfig({
     proxy: {
       '/public': { target: API, changeOrigin: true },
       '/legal':  { target: API, changeOrigin: true },
+      '/app/api': { target: API, changeOrigin: false },
       '/assets': { target: API, changeOrigin: true },
     },
   },

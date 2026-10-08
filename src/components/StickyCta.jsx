@@ -23,12 +23,11 @@ export default function StickyCta() {
           transition={{ type: 'spring', stiffness: 260, damping: 26 }}
           className="lg:hidden fixed bottom-0 inset-x-0 z-40 p-3 bg-white/95 backdrop-blur border-t border-line"
         >
-          <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-wa w-full">
-            💬 Say “hi” — start free
+          <a href={WA_LINK} className="btn-wa w-full">
+            🎁 Start the free trial
           </a>
-          {/* The send step is where most people drop, so say it here too. */}
           <p className="text-[11px] text-muted text-center mt-1.5 leading-snug">
-            Opens WhatsApp with your message ready — <b className="text-brand">just press send</b>
+            Sign in with your mobile — <b className="text-brand">a one-time code by SMS</b>, no payment details
           </p>
         </motion.div>
       )}

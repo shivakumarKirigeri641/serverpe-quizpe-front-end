@@ -17,6 +17,8 @@ import Reveal from '../components/Reveal.jsx';
 import { api, safe } from '../lib/api';
 import { WA_LINK } from '../content';
 
+const SHOW_REFERRAL = false;
+
 const TIER = {
   gold:   'bg-amber-50 border-amber-300',
   silver: 'bg-slate-50 border-slate-300',
@@ -75,7 +77,7 @@ export default function Rewards() {
         <Reveal delay={0.1}>
           <h3 className="text-center font-extrabold text-brand text-lg mt-14">Badges worth earning</h3>
           <p className="text-center text-sm text-muted mt-1">
-            Awarded automatically, announced on WhatsApp, and never taken away.
+            Awarded automatically, shown in the report, and never taken away.
           </p>
           <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {list.map((b) => (
@@ -141,7 +143,9 @@ export default function Rewards() {
         </Reveal>
 
         {/* Referral. Placed after the rewards rather than before: a parent has
-            to want the thing before being asked to recommend it. */}
+            to want the thing before being asked to recommend it. Hidden while
+            the invite link lives only in the retired WhatsApp menu (2026-10-08). */}
+        {SHOW_REFERRAL && (
         <Reveal delay={0.18}>
           <div className="mt-6 card p-6 sm:p-8 border-2 border-brand text-center">
             <p className="text-2xl" aria-hidden>🎁</p>
@@ -173,12 +177,13 @@ export default function Rewards() {
             </p>
           </div>
         </Reveal>
+        )}
 
         <Reveal delay={0.2} className="text-center mt-10">
-          <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-wa">
-            <span aria-hidden>💬</span> Start my child’s streak
+          <a href={WA_LINK} className="btn-wa">
+            <span aria-hidden>🎯</span> Start my child’s streak
           </a>
-          <p className="text-xs text-muted mt-3">Free trial · no card · one message to start</p>
+          <p className="text-xs text-muted mt-3">Free trial · no card · sign in with your mobile</p>
         </Reveal>
       </div>
     </section>

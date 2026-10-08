@@ -29,8 +29,8 @@ export default function HowItWorks() {
         </ol>
 
         <Reveal delay={0.3} className="text-center mt-12">
-          <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-wa">
-            <span aria-hidden>💬</span> Start now — it takes one message
+          <a href={WA_LINK} className="btn-wa">
+            <span aria-hidden>🎯</span> Start the free trial
           </a>
           <SendHint className="mt-3 max-w-sm mx-auto" />
         </Reveal>

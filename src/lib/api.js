@@ -39,5 +39,39 @@ export const api = {
   }),
 };
 
+/* ---- the parent's account, quizpe.in/app (2026-10-08, WhatsApp retired) ----
+   Signed in by an SMS code; the session is a bearer token kept on this device. */
+const TOKEN_KEY = 'quizpe_app_token';
+export const appToken = {
+  get: () => { try { return localStorage.getItem(TOKEN_KEY) || ''; } catch { return ''; } },
+  set: (t) => { try { if (t) localStorage.setItem(TOKEN_KEY, t); else localStorage.removeItem(TOKEN_KEY); } catch { /* private mode */ } },
+};
+const appCall = async (path, body) => {
+  const t = appToken.get();
+  const res = await fetch(`${BASE}/app/api${path}`, {
+    method: body === undefined ? 'GET' : 'POST',
+    headers: { 'Content-Type': 'application/json', ...(t ? { Authorization: `Bearer ${t}` } : {}) },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (res.status === 401) { appToken.set(''); const e = new Error(data.error || 'Please sign in again.'); e.signIn = true; throw e; }
+  if (!res.ok || data.success === false) throw new Error(data.error || 'Something went wrong. Please try again.');
+  return data;
+};
+export const app = {
+  sendCode: (mobile) => appCall('/code', { mobile }),
+  verify: (mobile, code, termsAccepted) => appCall('/verify', { mobile, code, terms_accepted: termsAccepted === true }),
+  signOut: () => appCall('/signout', {}).catch(() => null),
+  me: () => appCall('/me'),
+  profile: (body) => appCall('/profile', body),
+  startQuiz: (studentId, level) => appCall('/quiz/start', { student_id: studentId, ...(level ? { level } : {}) }),
+  reports: () => appCall('/reports'),
+  trial: (parentName, email) => appCall('/trial', { parent_name: parentName, email }),
+  checkout: (planCode) => appCall('/checkout', { plan_code: planCode }),
+  pushKey: () => appCall('/push-key'),
+  pushOn: (subscription) => appCall('/push', { subscription }),
+  pushOff: (endpoint) => appCall('/push/off', { endpoint }),
+};
+
 /** Never let a failed fetch blank the page. */
 export const safe = (p, fallback = null) => p.then((d) => d).catch(() => fallback);

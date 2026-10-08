@@ -63,7 +63,7 @@ export default function SchoolDemo() {
           <h2 className="h2 mt-4">Invite us to your school</h2>
           <p className="lede mt-3">
             We do not cold-call schools. If you would like your teachers and parents to see what daily
-            revision on WhatsApp actually looks like, send us an invitation — and we will come and show you.
+            revision with QuizPe actually looks like, send us an invitation — and we will come and show you.
           </p>
         </Reveal>
 

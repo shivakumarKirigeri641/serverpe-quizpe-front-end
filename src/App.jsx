@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { api, safe } from './lib/api';
 import { trackView, trackWA } from './lib/track';
-import { WHATSAPP_DISPLAY, WHATSAPP_NUMBER, SUPPORT_EMAIL, WA_PAUSED, WA_PAUSED_TEXT } from './content';
+import { SUPPORT_EMAIL } from './content';
 
 import Header from './components/Header.jsx';
 import Hero from './sections/Hero.jsx';
@@ -34,6 +34,7 @@ import Contact from './sections/Contact.jsx';
 import Footer from './components/Footer.jsx';
 import StickyCta from './components/StickyCta.jsx';
 import Policy, { policySlug } from './sections/Policy.jsx';
+import ParentApp from './pages/ParentApp.jsx';
 
 export default function App() {
   // Clean policy URLs (/privacy, /terms, /data-deletion …). The site has no
@@ -45,37 +46,36 @@ export default function App() {
   // hooks must run unconditionally and in the same order on every render, so
   // returning before them would break the Rules of Hooks.
   const slug = policySlug();
+  // The parent's account, quizpe.in/app (2026-10-08: WhatsApp is retired).
+  const isApp = /^\/app(\/|$)/.test(window.location.pathname);
 
   const [stats, setStats] = useState(null);
   const [coverage, setCoverage] = useState(null);
   const [legal, setLegal] = useState(null);
 
   useEffect(() => {
-    if (slug) return;            // a policy page needs none of this
+    if (slug || isApp) return;   // a policy page or the account needs none of this
     safe(api.stats()).then((d) => d && setStats(d.stats));
     safe(api.coverage()).then(setCoverage);
     safe(api.legal()).then(setLegal);
-  }, [slug]);
+  }, [slug, isApp]);
 
   // Visitor tracking: one page view on load, and a site-wide click delegate so
-  // every "Start on WhatsApp" link (there are many) is counted without wiring
-  // each button individually.
+  // every start / sign-in button (there are many, all to quizpe.in/app since
+  // 2026-10-08) is counted without wiring each button individually. The
+  // counter keeps its old name in the visitor log.
   useEffect(() => {
+    if (isApp) return undefined;
     trackView();
-    if (WA_PAUSED) document.documentElement.classList.add('wa-paused');
     const onClick = (e) => {
       const a = e.target.closest?.('a[href]');
-      if (a && /wa\.me|api\.whatsapp\.com|wa\.link/i.test(a.getAttribute('href') || '')) {
-        // While WhatsApp is disabled the button does nothing but say why (2026-10-07).
-        if (WA_PAUSED) { e.preventDefault(); e.stopPropagation(); setWaNote(true); return; }
+      if (a && /^\/app(\/|$|\?)/.test(a.getAttribute('href') || '')) {
         trackWA((a.textContent || '').trim().slice(0, 60));
       }
     };
     document.addEventListener('click', onClick, true);
     return () => document.removeEventListener('click', onClick, true);
-  }, []);
-  const [waNote, setWaNote] = useState(false);
-  useEffect(() => { if (!waNote) return undefined; const t = setTimeout(() => setWaNote(false), 5000); return () => clearTimeout(t); }, [waNote]);
+  }, [isApp]);
 
   const business = legal?.business || {};
 
@@ -96,15 +96,15 @@ export default function App() {
         },
         contactPoint: {
           '@type': 'ContactPoint', contactType: 'customer support',
-          telephone: `+${WHATSAPP_NUMBER}`, email: SUPPORT_EMAIL,
+          email: SUPPORT_EMAIL,
           areaServed: 'IN', availableLanguage: ['en'],
         },
       },
       {
         '@type': 'Product',
-        name: 'QuizPe — Daily WhatsApp Quiz',
+        name: 'QuizPe — Daily Revision Quiz',
         description:
-          'A daily practice quiz delivered on WhatsApp for school children in Grades 1-10, ' +
+          'A daily practice quiz for school children in Grades 1-10, taken in the browser at quizpe.in, ' +
           'aligned to the CBSE and Karnataka State syllabus, with a full explanation report.',
         brand: { '@type': 'Brand', name: 'QuizPe' },
         offers: {
@@ -126,6 +126,7 @@ export default function App() {
 
   // all hooks have run — safe to branch now
   if (slug) return <Policy slug={slug} />;
+  if (isApp) return <ParentApp />;
 
   return (
     <>
@@ -135,10 +136,6 @@ export default function App() {
       </Helmet>
 
       <NoticeBanner />
-      {waNote ? (
-        <div role="alert" className="fixed inset-x-0 bottom-24 z-[100] mx-auto w-[92%] max-w-md rounded-2xl bg-amber-50 border border-amber-300 px-4 py-3 text-center text-sm font-semibold text-amber-900 shadow-xl">
-          ⚠️ {WA_PAUSED_TEXT}
-        </div>) : null}
       <LaunchBanner />
       <Header />
       <main>

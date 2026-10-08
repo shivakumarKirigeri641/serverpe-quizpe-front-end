@@ -1,14 +1,14 @@
 /**
- * The service notice above everything (user, 2026-10-07): WhatsApp is disabled
- * for QuizPe while the alternatives are built. Always shown — it is the reason
- * a parent's WhatsApp quiz has stopped — and not dismissible for that reason.
+ * The notice above everything (user, 2026-10-08): QuizPe now runs in the
+ * parent's account at quizpe.in/app. Families who used QuizPe before sign in
+ * with the same mobile number and find their children, plan and reports there.
  */
 export default function NoticeBanner() {
   return (
-    <div role="status" className="w-full bg-amber-50 border-b border-amber-200 text-amber-900">
+    <div role="status" className="w-full bg-emerald-50 border-b border-emerald-200 text-emerald-900">
       <div className="mx-auto max-w-6xl px-4 py-2 text-center text-sm leading-snug">
-        <span aria-hidden="true">⚠️ </span>
-        <b>WhatsApp has been disabled for QuizPe.</b> We are in the process of implementing the alternatives. Stay tuned.
+        <span aria-hidden="true">✨ </span>
+        <b>QuizPe now runs right here on the web.</b> Already with us? <a href="/app" className="underline font-bold">Sign in</a> with the same mobile number — your children, plan and reports are waiting.
       </div>
     </div>
   );

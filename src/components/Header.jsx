@@ -1,4 +1,4 @@
-/** Sticky header. The WhatsApp button follows you down the page — it is the
+/** Sticky header. The sign-in button follows you down the page — it is the
  *  only action that matters, so it is never more than one tap away. */
 import { useEffect, useState } from 'react';
 import { WA_LINK } from '../content';
@@ -43,9 +43,8 @@ export default function Header() {
           ))}
         </nav>
 
-        <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
-           className="btn-wa ml-auto !px-5 !py-2.5 !text-sm">
-          <span aria-hidden>💬</span> Start on WhatsApp
+        <a href={WA_LINK} className="btn-wa ml-auto !px-5 !py-2.5 !text-sm whitespace-nowrap shrink-0">
+          Sign in · Start free
         </a>
 
         <button className="lg:hidden p-2 -mr-2" onClick={() => setOpen(!open)} aria-label="Menu">

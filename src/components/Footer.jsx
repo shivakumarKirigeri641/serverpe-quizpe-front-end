@@ -7,7 +7,7 @@
  * the product actually uses.
  */
 
-import { WA_LINK, WA_SUPPORT_LINK, WHATSAPP_DISPLAY, SUPPORT_EMAIL, COMPANY_EMAIL, YOUTUBE_LINK, YOUTUBE_HANDLE } from '../content';
+import { WA_LINK, SUPPORT_EMAIL, COMPANY_EMAIL, YOUTUBE_LINK, YOUTUBE_HANDLE } from '../content';
 import { API_ORIGIN } from '../lib/api';
 import { policyHref } from '../sections/Policy.jsx';
 
@@ -29,12 +29,12 @@ export default function Footer({ legal, business }) {
             </div>
           </div>
           <p className="text-sm mt-4 leading-relaxed">
-            A daily quiz on WhatsApp for school children. No app, no login, no registration.
+            A daily quiz for school children. No app to install — sign in with your mobile number.
           </p>
-          <a href={WA_LINK} target="_blank" rel="noopener noreferrer"
+          <a href={WA_LINK}
              className="inline-flex items-center gap-2 mt-5 rounded-full bg-brand-accent text-white
                         px-5 py-2.5 text-sm font-bold hover:bg-brand-light transition">
-            💬 Say “hi” to start
+            🎁 Sign in · Start free
           </a>
 
           <a href={YOUTUBE_LINK} target="_blank" rel="noopener noreferrer"
@@ -84,8 +84,6 @@ export default function Footer({ legal, business }) {
         <div>
           <h3 className="text-white font-bold text-sm uppercase tracking-wide">Contact</h3>
           <ul className="mt-4 space-y-2 text-sm">
-            <li>💬 <a href={WA_SUPPORT_LINK} target="_blank" rel="noopener noreferrer"
-                     className="hover:text-white">{WHATSAPP_DISPLAY}</a></li>
             <li>✉️ <a href={`mailto:${SUPPORT_EMAIL}`} className="hover:text-white">{SUPPORT_EMAIL}</a></li>
             <li className="flex items-center gap-2">
               <svg width="18" height="13" viewBox="0 0 28 20" aria-hidden="true">
