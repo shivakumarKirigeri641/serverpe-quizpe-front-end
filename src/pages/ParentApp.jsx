@@ -109,6 +109,75 @@ function InstallCard({ onClose }) {
   );
 }
 
+/* WhatsApp's *bold* and _italic_, as the bot wrote them. */
+function BotText({ text }) {
+  return String(text || '').split('\n').map((line, i) => (
+    <span key={i} className="block min-h-[0.5em]">
+      {line.split(/(\*[^*\n]+\*|_[^_\n]+_)/g).map((p, j) => (/^\*[^*]+\*$/.test(p) ? <b key={j}>{p.slice(1, -1)}</b>
+        : /^_[^_]+_$/.test(p) ? <i key={j}>{p.slice(1, -1)}</i> : <span key={j}>{p}</span>))}
+    </span>
+  ));
+}
+
+/*
+ * THE MENU, AS ON WHATSAPP (user, 2026-10-10: "the many tappable options WhatsApp gave —
+ * include them the same way"). The same choices, in the same order as the bot's list
+ * (whatsapp/userContext.js buildMainMenu): trial, subscribe / renew, start quiz, my
+ * subscription, reports, schedule, plans, support — plus reminders and install, which
+ * only the web has. Refer-a-friend and the ₹9 Instant Quiz stay off: both still finish
+ * on WhatsApp (the invite opens WhatsApp; the paid quiz is sent there).
+ */
+function AppMenu({ me, onGo }) {
+  const hasKids = me.children.length > 0;
+  const plan = me.plan;
+  const rows = [
+    me.can_start_trial ? ['trial', '🎁', 'Start free trial', `${me.trial_days || 7} days free · no payment details needed`] : null,
+    !me.subscribed && me.status !== 'EXPIRED' ? ['plans', '🚀', 'Subscribe', 'Start daily quizzes'] : null,
+    me.status === 'EXPIRED' ? ['plans', '🔄', 'Renew plan', 'Your plan ended — renew to continue'] : null,
+    me.subscribed && hasKids ? ['quiz', '▶️', 'Start quiz now', me.window?.state === 'open' ? `Open now — until ${fmtTime(me.window.closes)}` : me.window?.state === 'before' ? `Opens at ${fmtTime(me.window.opens)}` : "Today's quiz has closed — next one tomorrow"] : null,
+    ['subscription', '📄', 'My subscription', 'Plan, validity and children enrolled'],
+    hasKids ? ['reports', '📊', 'Quiz reports', 'Recent scores and progress'] : null,
+    ['schedule', '📅', 'Quiz schedule', 'When the next quizzes arrive'],
+    ['plans', '💎', 'Premium plans', plan && !plan.trial && me.subscribed ? 'Renew early or change plan' : 'See every plan'],
+    ['reminders', '🔔', 'Reminders', 'Phone notifications and email'],
+    ['support', '💬', 'Support', 'Get help from our team'],
+    install.standalone() ? null : ['install', '📲', 'Install the app', 'QuizPe on your home screen'],
+  ].filter(Boolean);
+  // One button per action (Subscribe and Premium plans both open the plans).
+  const seen = new Set();
+  const list = rows.filter(([k]) => { if (seen.has(k)) return false; seen.add(k); return true; });
+  return (
+    <div className="card p-4" data-test="app-menu">
+      <h2 className="font-extrabold text-brand text-lg">What would you like to do?</h2>
+      <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+        {list.map(([k, icon, label, sub]) => (
+          <button key={`${k}-${label}`} type="button" data-test={`menu-${k}`} onClick={() => onGo(k)}
+            className="flex items-start gap-3 rounded-2xl border border-line bg-white px-3.5 py-3 text-left transition hover:border-brand/40 hover:bg-brand/5 active:scale-[.99]">
+            <span className="text-xl leading-none mt-0.5" aria-hidden="true">{icon}</span>
+            <span className="min-w-0">
+              <span className="block font-bold text-ink text-sm">{label}</span>
+              <span className="block text-xs text-muted mt-0.5">{sub}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* "My subscription" / "Quiz schedule": the bot's own answer, in a card. */
+function InfoCard({ what, onClose }) {
+  const [text, setText] = useState(null);
+  const [err, setErr] = useState('');
+  useEffect(() => { setText(null); setErr(''); app.info(what).then((r) => setText(r.text)).catch((x) => setErr(x.message)); }, [what]);
+  return (
+    <div className="card p-4" data-test={`info-${what}`}>
+      <div className="text-sm text-ink leading-relaxed">{err ? <span className="text-red-700">{err}</span> : text == null ? 'Loading…' : <BotText text={text} />}</div>
+      <button className="btn-ghost !px-4 !py-2 !text-sm mt-3" onClick={onClose}>Close</button>
+    </div>
+  );
+}
+
 function Note({ tone = 'info', children }) {
   const cls = tone === 'error' ? 'bg-red-50 border-red-200 text-red-800'
     : tone === 'good' ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
@@ -489,6 +558,9 @@ export default function ParentApp() {
   const [msg, setMsg] = useState(null);
   // Offered on its own after sign-in (unless installed or put off); the header link brings it back.
   const [showInstall, setShowInstall] = useState(() => install.shouldOffer());
+  // The menu (2026-10-10): an info card open (subscription / schedule), the plans shown on request.
+  const [info, setInfo] = useState(null);
+  const [showPlans, setShowPlans] = useState(false);
   useEffect(() => install.onChange(() => { if (install.shouldOffer()) setShowInstall(true); }), []);
 
   const load = useCallback(() => {
@@ -512,6 +584,22 @@ export default function ParentApp() {
   const first = String(me.parent?.name || '').trim().split(/\s+/)[0];
   const hasKids = me.children.length > 0;
   const plan = me.plan;
+  const scrollTo = (id) => setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+  /* A tap on the menu: go to that part of the page, or open it there. */
+  const go = async (k) => {
+    if (k === 'subscription' || k === 'schedule') { setInfo(k); scrollTo('app-info'); return; }
+    if (k === 'plans') { setShowPlans(true); scrollTo('app-plans'); return; }
+    if (k === 'trial') { scrollTo('app-trial'); return; }
+    if (k === 'quiz') { scrollTo('app-children'); return; }
+    if (k === 'reports') { scrollTo('app-reports'); return; }
+    if (k === 'reminders') { scrollTo('app-reminders'); return; }
+    if (k === 'install') { setShowInstall(true); window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    if (k === 'support') {
+      try { const r = await app.supportLink(); window.location.href = r.url; }
+      catch (x) { setMsg({ tone: 'error', text: `${x.message} You can also write to ${SUPPORT_EMAIL}.` }); }
+    }
+  };
+  const plansDue = !me.can_start_trial && (!me.subscribed || plan?.trial || (plan && plan.days_left != null && plan.days_left <= 7));
   return (
     <Shell onSignOut={signOut} mobile={me.mobile} onInstall={() => { setShowInstall(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
       <div>
@@ -527,16 +615,22 @@ export default function ParentApp() {
       {showInstall ? <InstallCard onClose={() => setShowInstall(false)} /> : null}
 
       {me.needs_email ? <EmailGate me={me} onSaved={() => { setMsg({ tone: 'good', text: 'Thank you — reminders and reports will reach you there.' }); load(); }} /> : (<>
-      {hasKids ? me.children.map((c) => <ChildCard key={c.id} child={c} me={me} onMessage={setMsg} />) : null}
+      {hasKids ? <div id="app-children" className="space-y-4 scroll-mt-20">{me.children.map((c) => <ChildCard key={c.id} child={c} me={me} onMessage={setMsg} />)}</div> : null}
 
-      {me.can_start_trial ? <StartTrial me={me} onMessage={setMsg} /> : null}
-      {!me.can_start_trial && (!me.subscribed || plan?.trial || (plan && plan.days_left != null && plan.days_left <= 7)) ? (
-        <Plans me={me} onMessage={setMsg}
-               title={me.status === 'EXPIRED' ? '🔄 Renew your plan' : plan?.trial ? '💎 Keep going after the trial' : me.subscribed ? '💎 Renew early' : '💎 Choose a plan'} />
+      {/* The WhatsApp menu, on the web (2026-10-10). */}
+      <AppMenu me={me} onGo={go} />
+      {info ? <div id="app-info" className="scroll-mt-20"><InfoCard what={info} onClose={() => setInfo(null)} /></div> : null}
+
+      {me.can_start_trial ? <div id="app-trial" className="scroll-mt-20"><StartTrial me={me} onMessage={setMsg} /></div> : null}
+      {plansDue || showPlans ? (
+        <div id="app-plans" className="scroll-mt-20">
+          <Plans me={me} onMessage={setMsg}
+                 title={me.status === 'EXPIRED' ? '🔄 Renew your plan' : plan?.trial ? '💎 Keep going after the trial' : me.subscribed ? '💎 Renew early' : '💎 Choose a plan'} />
+        </div>
       ) : null}
 
-      {hasKids ? <Reports /> : null}
-      <Reminders me={me} onSaved={load} />
+      {hasKids ? <div id="app-reports" className="scroll-mt-20"><Reports /></div> : null}
+      <div id="app-reminders" className="scroll-mt-20"><Reminders me={me} onSaved={load} /></div>
       </>)}
     </Shell>
   );

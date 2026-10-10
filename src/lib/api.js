@@ -68,6 +68,9 @@ export const app = {
   reports: () => appCall('/reports'),
   trial: (parentName, email) => appCall('/trial', { parent_name: parentName, email }),
   checkout: (planCode, someoneElse = false) => appCall('/checkout', { plan_code: planCode, someone_else: someoneElse === true }),
+  // The WhatsApp menu on the web (2026-10-10): the bot's own subscription / schedule texts, and the support form.
+  info: (what) => appCall(`/info/${what}`),
+  supportLink: () => appCall('/support', {}),
   pushKey: () => appCall('/push-key'),
   pushOn: (subscription) => appCall('/push', { subscription }),
   pushOff: (endpoint) => appCall('/push/off', { endpoint }),
