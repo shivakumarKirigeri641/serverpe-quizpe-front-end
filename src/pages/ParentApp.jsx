@@ -14,6 +14,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { app, appToken } from '../lib/api';
 import { SUPPORT_EMAIL } from '../content';
+import * as install from '../lib/install';
 
 const fmtDate = (d) => (d ? new Date(d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Kolkata' }) : '');
 const fmtTime = (hhmm) => {
@@ -23,7 +24,7 @@ const fmtTime = (hhmm) => {
 };
 const rupees = (n) => `₹${Number(n).toLocaleString('en-IN')}`;
 
-function Shell({ children, onSignOut, mobile }) {
+function Shell({ children, onSignOut, mobile, onInstall }) {
   return (
     <div className="min-h-screen bg-cream">
       <Helmet><title>My QuizPe</title><meta name="robots" content="noindex" /></Helmet>
@@ -35,7 +36,11 @@ function Shell({ children, onSignOut, mobile }) {
           </a>
           {mobile ? (
             <>
-              <span className="ml-auto text-xs text-muted tabular-nums">+91 {mobile.slice(0, 5)} {mobile.slice(5)}</span>
+              <span className="ml-auto text-xs text-muted tabular-nums hidden sm:inline">+91 {mobile.slice(0, 5)} {mobile.slice(5)}</span>
+              {/* Install the app — not when it is opened as the installed app (2026-10-10). */}
+              {onInstall && !install.standalone() ? (
+                <button onClick={onInstall} data-test="install-link" className="ml-auto sm:ml-0 text-xs font-bold text-white bg-brand rounded-full px-3 py-1.5">📲 Install app</button>
+              ) : <span className="ml-auto sm:hidden" />}
               <button onClick={onSignOut} className="text-xs font-bold text-brand border border-line rounded-full px-3 py-1.5">Sign out</button>
             </>
           ) : null}
@@ -45,6 +50,61 @@ function Shell({ children, onSignOut, mobile }) {
       <footer className="max-w-xl mx-auto px-4 pb-10 pt-2 text-center text-xs text-muted">
         Help: <a className="underline" href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> · <a className="underline" href="/terms">Terms</a> · <a className="underline" href="/privacy">Privacy</a> · <a className="underline" href="/refund">Refunds</a>
       </footer>
+    </div>
+  );
+}
+
+/*
+ * "INSTALL THE APP" (user, 2026-10-10, like GaadiPe): the browser's own pop-up is rare —
+ * never on iPhone — so the app offers it after sign-in, and from the header. Android /
+ * Chrome: the button opens the real install dialog. iPhone: Share → Add to Home Screen
+ * (which is also what lets an iPhone get QuizPe's reminder notifications). Never shown
+ * once installed (lib/install.js); "Not now" hides it for 14 days.
+ */
+function InstallCard({ onClose }) {
+  const [, tick] = useState(0);
+  useEffect(() => install.onChange(() => tick((x) => x + 1)), []);
+  const [note, setNote] = useState(null);
+  const how = install.mode();
+  if (!how && !note) {
+    return (
+      <div className="card p-4 text-sm" data-test="install-card">
+        {install.standalone() ? '✅ QuizPe is already installed on this phone.'
+          : 'Open your browser’s menu (⋮ or ⋯) and tap “Install app” or “Add to Home screen”. On a computer, there is also an install icon at the right of the address bar.'}
+        <button className="ml-2 underline font-semibold" onClick={onClose}>Close</button>
+      </div>
+    );
+  }
+  if (note) return <Note tone="good">{note} <button className="underline font-semibold ml-1" onClick={onClose}>Close</button></Note>;
+  return (
+    <div className="card p-4" data-test="install-card">
+      <div className="flex items-start gap-3">
+        <img src="/icon-192.png" alt="" className="w-11 h-11 rounded-xl shadow-sm shrink-0" />
+        <div className="text-sm">
+          <div className="font-extrabold text-brand">📲 Get QuizPe on your home screen</div>
+          <p className="text-muted mt-0.5">Opens in one tap like an app — today's quiz, reports and reminders. No Play Store, almost no space.</p>
+          {how === 'ios' ? (
+            <ol className="mt-2 space-y-1 text-ink">
+              <li>1. Tap the <b>Share</b> button <span aria-hidden="true">⬆️</span> at the bottom of Safari</li>
+              <li>2. Choose <b>Add to Home Screen</b></li>
+              <li>3. Tap <b>Add</b> — and reminders can reach this iPhone too</li>
+            </ol>
+          ) : null}
+        </div>
+      </div>
+      <div className="mt-3 flex gap-2">
+        {how === 'prompt' ? (
+          <button className="btn-wa !px-4 !py-2 !text-sm" data-test="install-go" onClick={async () => {
+            const out = await install.promptInstall();
+            if (out === 'accepted') setNote('🎉 QuizPe is on your home screen now — open it from there any time.');
+            else onClose();
+          }}>Install QuizPe</button>
+        ) : (
+          // "Got it" on iPhone: they have the steps — not offered again for a while.
+          <button className="btn-wa !px-4 !py-2 !text-sm" data-test="install-ok" onClick={() => { install.later(); onClose(); }}>Got it</button>
+        )}
+        <button className="btn-ghost !px-4 !py-2 !text-sm" data-test="install-later" onClick={() => { install.later(); onClose(); }}>Not now</button>
+      </div>
     </div>
   );
 }
@@ -427,6 +487,9 @@ export default function ParentApp() {
   const [me, setMe] = useState(null);
   const [err, setErr] = useState('');
   const [msg, setMsg] = useState(null);
+  // Offered on its own after sign-in (unless installed or put off); the header link brings it back.
+  const [showInstall, setShowInstall] = useState(() => install.shouldOffer());
+  useEffect(() => install.onChange(() => { if (install.shouldOffer()) setShowInstall(true); }), []);
 
   const load = useCallback(() => {
     setErr('');
@@ -450,7 +513,7 @@ export default function ParentApp() {
   const hasKids = me.children.length > 0;
   const plan = me.plan;
   return (
-    <Shell onSignOut={signOut} mobile={me.mobile}>
+    <Shell onSignOut={signOut} mobile={me.mobile} onInstall={() => { setShowInstall(true); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
       <div>
         <h1 className="text-2xl font-extrabold text-brand">{first ? `Hi ${first} 👋` : 'Welcome 👋'}</h1>
         {plan && hasKids ? (
@@ -461,6 +524,7 @@ export default function ParentApp() {
         ) : null}
       </div>
       {msg ? <Note tone={msg.tone}>{msg.text}</Note> : null}
+      {showInstall ? <InstallCard onClose={() => setShowInstall(false)} /> : null}
 
       {me.needs_email ? <EmailGate me={me} onSaved={() => { setMsg({ tone: 'good', text: 'Thank you — reminders and reports will reach you there.' }); load(); }} /> : (<>
       {hasKids ? me.children.map((c) => <ChildCard key={c.id} child={c} me={me} onMessage={setMsg} />) : null}

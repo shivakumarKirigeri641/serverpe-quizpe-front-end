@@ -4,6 +4,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import TagManager from 'react-gtm-module';
 import App from './App.jsx';
 import './index.css';
+import { capture as installCapture } from './lib/install';
 
 // Google Tag Manager — injects the GTM container once, on app load, so
 // analytics/marketing tags (Google Ads conversions, GA4) can be managed from
@@ -17,6 +18,8 @@ TagManager.initialize({ gtmId: 'GTM-MV5QN3HH' });
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => { navigator.serviceWorker.register('/app-sw.js').catch(() => {}); });
 }
+// The browser's install offer, caught before it fires, for our own "Install the app" (lib/install.js).
+installCapture();
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
