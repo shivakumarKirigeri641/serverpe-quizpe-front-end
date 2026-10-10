@@ -134,11 +134,12 @@ function BotText({ text }) {
  * Quiz stay off: both still finish on WhatsApp.
  *
  * Every answer ends with TAPPABLE REPLIES (<Replies>), like the bot's reply buttons, so
- * the parent always sees what to do next and "🏠 Main menu" is always one tap away.
+ * the parent always sees what to do next, with "☰ Menu" and "🏠 Home" one tap away.
  */
 const plansLabel = (me) => (me.status === 'EXPIRED' ? ['🔄', 'Renew plan'] : !me.subscribed ? ['🚀', 'View plans'] : ['💎', 'View plans']);
 const LABELS = {
-  home: ['🏠', 'Main menu'],
+  home: ['🏠', 'Home'],
+  menu: ['☰', 'Menu'],
   profile: ['👤', 'My profile'],
   quiz: ['▶️', 'Start quiz now'],
   trial: ['🎁', 'Start free trial'],
@@ -240,10 +241,10 @@ function Replies({ me, keys, onGo }) {
 function Panel({ me, title, replies, onGo, children, test }) {
   return (
     <div className="space-y-3" data-test={test}>
-      <button className="text-sm font-bold text-brand" onClick={() => onGo('home')}>← Main menu</button>
+      <button className="text-sm font-bold text-brand" onClick={() => onGo('home')}>← Home</button>
       {title ? <h1 className="text-xl font-extrabold text-brand">{title}</h1> : null}
       {children}
-      <Replies me={me} keys={[...(replies || []), 'home']} onGo={onGo} />
+      <Replies me={me} keys={[...(replies || []), 'menu', 'home']} onGo={onGo} />
     </div>
   );
 }
@@ -967,6 +968,90 @@ function Reminders({ me, onGo }) {
   );
 }
 
+/*
+ * THIS WEEK + RECENT ACTIVITY (user, 2026-10-10: "you have the menu option — why show the
+ * full menu again? show recent activities or more instead"). Each child's last 7 days
+ * (quizzes, average, best, streak), then what happened lately: quizzes finished (tap for
+ * the report), plans, payments (tap for the invoice) and sign-ins with the device.
+ */
+const ago = (d) => {
+  const s = Math.max(0, (Date.now() - new Date(d)) / 1000);
+  if (s < 60) return 'just now';
+  if (s < 3600) return `${Math.floor(s / 60)} min ago`;
+  if (s < 86400) return `${Math.floor(s / 3600)} h ago`;
+  if (s < 2 * 86400) return 'yesterday';
+  if (s < 7 * 86400) return `${Math.floor(s / 86400)} days ago`;
+  return fmtDate(d);
+};
+function Activity({ me, onGo }) {
+  const [d, setD] = useState(null);
+  const [err, setErr] = useState('');
+  const [all, setAll] = useState(false);
+  useEffect(() => { app.activity().then(setD).catch((x) => setErr(x.message)); }, [me]);
+  if (err) return null;
+  if (!d) return <div className="card p-5 text-sm text-muted">Loading recent activity…</div>;
+  const items = all ? d.activity : d.activity.slice(0, 6);
+  const line = (a) => {
+    if (a.kind === 'quiz') return [a.weekly ? '🗓️' : '🧠', `${a.child} ${a.weekly ? 'got the weekly report' : `finished ${a.subject || 'a quiz'}`}`, `${a.score} (${a.pct}%)${a.grade ? ` · ${a.grade}` : ''}`, a.url, '⬇ Report'];
+    if (a.kind === 'payment') return ['💳', `Paid for ${a.plan || 'a plan'}`, `${a.total != null ? rupees(a.total) : ''} · invoice ${a.number}`, a.url, '⬇ Invoice'];
+    if (a.kind === 'plan') return [a.trial ? '🎁' : '✨', a.trial ? 'Free trial started' : `${a.plan} started`, `${fmtDate(a.starts)} → ${fmtDate(a.ends)}`, null, null];
+    return ['🔐', `Signed in — ${a.device}`, a.this_device ? 'this device' : '', null, null];
+  };
+  return (
+    <>
+      {d.week.length ? (
+        <div className="card p-5" data-test="week">
+          <h2 className="font-extrabold text-brand text-lg">📈 This week</h2>
+          <div className="mt-3 space-y-3">
+            {d.week.map((w) => (
+              <div key={w.id}>
+                {d.week.length > 1 ? <div className="text-sm font-bold text-ink mb-1.5">{w.child}</div> : null}
+                <div className="grid grid-cols-4 gap-2 text-center">
+                  {[[w.quizzes, w.quizzes === 1 ? 'quiz' : 'quizzes'], [w.avg_pct != null ? `${w.avg_pct}%` : '—', 'average'], [w.best_pct != null ? `${w.best_pct}%` : '—', 'best'], [`${w.streak}🔥`, w.streak === 1 ? 'day streak' : 'days streak']].map(([v, l]) => (
+                    <div key={l} className="rounded-2xl bg-brand/5 px-1 py-2.5">
+                      <div className="font-extrabold text-brand text-lg tabular-nums leading-none">{v}</div>
+                      <div className="text-[11px] text-muted mt-1">{l}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          {d.week.every((w) => !w.quizzes) ? <p className="text-xs text-muted mt-3">No quiz in the last 7 days — a 5-minute quiz a day builds the habit.</p> : null}
+        </div>
+      ) : null}
+      <div className="card p-5" data-test="activity">
+        <h2 className="font-extrabold text-brand text-lg">🕘 Recent activity</h2>
+        {!d.activity.length ? <p className="text-sm text-muted mt-1">Nothing yet — finished quizzes, plans and payments will show here.</p> : (
+          <ul className="mt-2 divide-y divide-line">
+            {items.map((a, i) => {
+              const [icon, title, sub, url, action] = line(a);
+              const body = (
+                <>
+                  <span className="text-lg w-7 text-center shrink-0" aria-hidden="true">{icon}</span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold text-ink">{title}</span>
+                    <span className="block text-xs text-muted">{[sub, ago(a.at)].filter(Boolean).join(' · ')}</span>
+                  </span>
+                  {url ? <span className="ml-auto shrink-0 rounded-full bg-brand-accent/10 px-2.5 py-1 text-xs font-bold text-brand-accent">{action}</span> : null}
+                </>
+              );
+              return (
+                <li key={`${a.kind}-${a.at}-${i}`}>
+                  {url ? <a href={url} target="_blank" rel="noopener" className="flex items-center gap-3 py-2.5">{body}</a>
+                    : <div className="flex items-center gap-3 py-2.5">{body}</div>}
+                </li>
+              );
+            })}
+          </ul>
+        )}
+        {d.activity.length > 6 ? <button className="mt-1 text-sm font-semibold text-brand" onClick={() => setAll(!all)}>{all ? 'Show less' : 'Show more'}</button> : null}
+        <Replies me={me} keys={[me.children.length ? 'reports' : null, 'subscription', 'schedule']} onGo={onGo} />
+      </div>
+    </>
+  );
+}
+
 /* ---------------------------------------------------------------- page */
 const todayIST = () => new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
 const POP_KEY = 'qp.quizpop.later';
@@ -1056,6 +1141,7 @@ export default function ParentApp() {
   const go = async (k) => {
     setMsg(null);
     if (k === 'home') { setView('home'); top(); return; }
+    if (k === 'menu') { setMenuOpen(true); return; }
     if (k === 'quiz') { setQuizPop(true); return; }
     if (k === 'install') { setView('home'); setShowInstall(true); top(); return; }
     if (k === 'signout') { await signOut(); return; }
@@ -1106,7 +1192,7 @@ export default function ParentApp() {
     <div>
       <Note tone={msg.tone}>{msg.text}</Note>
       {/* Inside an answer its own replies follow, so a note's replies show only on the dashboard. */}
-      {msg.replies && view === 'home' ? <Replies me={me} keys={[...msg.replies, 'home']} onGo={go} /> : null}
+      {msg.replies && view === 'home' ? <Replies me={me} keys={[...msg.replies, 'menu']} onGo={go} /> : null}
     </div>
   ) : null;
 
@@ -1130,11 +1216,8 @@ export default function ParentApp() {
           {/* Where QuizPe stands right now (2026-10-10). */}
           <StatusCard me={me} onGo={go} />
           {hasKids ? <div className="space-y-4">{me.children.map((c) => <ChildCard key={c.id} child={c} me={me} onMessage={setMsg} />)}</div> : null}
-          {/* The WhatsApp main menu, on the web (2026-10-10). */}
-          <div className="card px-5 pt-4 pb-2" data-test="app-menu">
-            <h2 className="font-extrabold text-brand text-lg">☰ Main menu</h2>
-            <MenuList me={me} onGo={go} />
-          </div>
+          {/* The menu lives in the header (☰ Menu); the dashboard shows the week and what happened lately. */}
+          <Activity me={me} onGo={go} />
         </>)}
       </>)}
       {menuOpen ? <MenuSheet me={me} onGo={go} onClose={() => setMenuOpen(false)} /> : null}

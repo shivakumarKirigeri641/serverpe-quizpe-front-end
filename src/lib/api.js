@@ -76,6 +76,7 @@ export const app = {
   deactivate: (reason) => appCall('/deactivate', { reason }),
   resume: () => appCall('/resume', {}),
   subscriptions: () => appCall('/subscriptions'),
+  activity: () => appCall('/activity'),
   childName: (studentId, name) => appCall('/child', { student_id: studentId, name }),
   pushKey: () => appCall('/push-key'),
   pushOn: (subscription) => appCall('/push', { subscription }),
