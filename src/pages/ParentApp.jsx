@@ -23,6 +23,8 @@ const fmtTime = (hhmm) => {
   return `${((h + 11) % 12) + 1}:${String(m || 0).padStart(2, '0')} ${h >= 12 ? 'PM' : 'AM'}`;
 };
 const rupees = (n) => `₹${Number(n).toLocaleString('en-IN')}`;
+// The line in the welcome (user, 2026-10-10), the same news as the hanging notice.
+const WEB_NOTE = 'QuizPe now serves you here on the web — our WhatsApp account was disabled. Quiz reminders and reports reach you by browser notifications, email and SMS.';
 
 function Shell({ children, onSignOut, mobile, onInstall, onMenu, who }) {
   return (
@@ -639,6 +641,7 @@ function SignIn({ onDone, note }) {
     <div className="card p-6">
       {note ? <div className="mb-4"><Note tone="good">{note}</Note></div> : null}
       <h1 className="text-2xl font-extrabold text-brand">Sign in to QuizPe</h1>
+      <p className="text-xs text-muted mt-1">📢 <i>{WEB_NOTE}</i></p>
       <p className="text-sm text-muted mt-1">Daily 5-minute quizzes for your child, with a full report after each one. Use the mobile number you use for QuizPe — new here? The same step starts your free trial.</p>
       {!sent ? (
         <form onSubmit={send} className="mt-5 space-y-3">
@@ -1208,6 +1211,8 @@ export default function ParentApp() {
         <div>
           <h1 className="text-2xl font-extrabold text-brand">{first ? `Hi ${first} 👋` : 'Welcome 👋'}</h1>
           {hasKids ? <p className="text-sm text-muted mt-0.5">{names.join(' & ')}’s QuizPe</p> : null}
+          {/* In the welcome too (user, 2026-10-10), with the hanging notice: WhatsApp is gone. */}
+          <p className="text-xs text-muted mt-1.5" data-test="web-note">📢 <i>{WEB_NOTE}</i></p>
         </div>
         {shownMsg}
         {showInstall ? <InstallCard onClose={() => setShowInstall(false)} /> : null}
