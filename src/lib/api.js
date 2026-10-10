@@ -71,6 +71,12 @@ export const app = {
   // The WhatsApp menu on the web (2026-10-10): the bot's own subscription / schedule texts, and the support form.
   info: (what) => appCall(`/info/${what}`),
   supportLink: () => appCall('/support', {}),
+  // The account (2026-10-10): every device out, deactivate (with the reason), resume after a pause.
+  signOutAll: () => appCall('/signout-all', {}),
+  deactivate: (reason) => appCall('/deactivate', { reason }),
+  resume: () => appCall('/resume', {}),
+  subscriptions: () => appCall('/subscriptions'),
+  childName: (studentId, name) => appCall('/child', { student_id: studentId, name }),
   pushKey: () => appCall('/push-key'),
   pushOn: (subscription) => appCall('/push', { subscription }),
   pushOff: (endpoint) => appCall('/push/off', { endpoint }),

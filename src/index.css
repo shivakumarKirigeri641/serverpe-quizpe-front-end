@@ -25,6 +25,10 @@
   .label    { @apply block text-xs font-bold text-muted mb-1.5; }
 }
 
+/* The "quiz is ready" pop-up in /app rises into place (2026-10-10). */
+@keyframes qp-pop { from { transform: translateY(24px) scale(.97); opacity: 0; } to { transform: none; opacity: 1; } }
+.qp-pop { animation: qp-pop .28s cubic-bezier(.2,.9,.3,1.2) both; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
