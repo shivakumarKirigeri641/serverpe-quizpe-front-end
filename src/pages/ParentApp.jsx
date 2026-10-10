@@ -972,7 +972,7 @@ function Reminders({ me, onGo }) {
  * THIS WEEK + RECENT ACTIVITY (user, 2026-10-10: "you have the menu option — why show the
  * full menu again? show recent activities or more instead"). Each child's last 7 days
  * (quizzes, average, best, streak), then what happened lately: quizzes finished (tap for
- * the report), plans, payments (tap for the invoice) and sign-ins with the device.
+ * the report), plans started and ended, and payments (tap for the invoice) — no sign-ins.
  */
 const ago = (d) => {
   const s = Math.max(0, (Date.now() - new Date(d)) / 1000);
@@ -995,7 +995,7 @@ function Activity({ me, onGo }) {
     if (a.kind === 'quiz') return [a.weekly ? '🗓️' : '🧠', `${a.child} ${a.weekly ? 'got the weekly report' : `finished ${a.subject || 'a quiz'}`}`, `${a.score} (${a.pct}%)${a.grade ? ` · ${a.grade}` : ''}`, a.url, '⬇ Report'];
     if (a.kind === 'payment') return ['💳', `Paid for ${a.plan || 'a plan'}`, `${a.total != null ? rupees(a.total) : ''} · invoice ${a.number}`, a.url, '⬇ Invoice'];
     if (a.kind === 'plan') return [a.trial ? '🎁' : '✨', a.trial ? 'Free trial started' : `${a.plan} started`, `${fmtDate(a.starts)} → ${fmtDate(a.ends)}`, null, null];
-    return ['🔐', `Signed in — ${a.device}`, a.this_device ? 'this device' : '', null, null];
+    return ['⌛', a.trial ? 'Free trial ended' : `${a.plan} ended`, '', null, null];
   };
   return (
     <>
