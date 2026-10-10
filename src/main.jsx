@@ -10,6 +10,14 @@ import './index.css';
 // GTM without further code changes here.
 TagManager.initialize({ gtmId: 'GTM-MV5QN3HH' });
 
+/* INSTALLABLE AS AN APP, like GaadiPe (user, 2026-10-10: "I got a popup to install the
+   GaadiPe app, do it for QuizPe too"). With the manifest and the icons in index.html,
+   a registered service worker is what lets the phone offer "Install QuizPe". It is the
+   app's own reminder worker (public/app-sw.js): it caches nothing, so no page goes stale. */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => { navigator.serviceWorker.register('/app-sw.js').catch(() => {}); });
+}
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <HelmetProvider>

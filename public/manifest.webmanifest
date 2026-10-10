@@ -1,0 +1,19 @@
+{
+  "name": "QuizPe — Daily Revision Quiz",
+  "short_name": "QuizPe",
+  "description": "A fresh daily revision quiz for classes 1–10, matched to your child's syllabus, with a full explanation report. CBSE, ICSE & State board.",
+  "id": "/app",
+  "start_url": "/app?utm_source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f3f8f7",
+  "theme_color": "#075e54",
+  "lang": "en-IN",
+  "categories": ["education", "kids"],
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
