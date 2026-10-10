@@ -137,7 +137,7 @@ export default function App() {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      <HangingNotice top={0} />
+      <HangingNotice />
       <NoticeBanner />
       <LaunchBanner />
       <Header />

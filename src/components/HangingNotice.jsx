@@ -1,4 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+/*
+ * The nail sits on the header's bottom edge, wherever that is (below the banners on the
+ * home page, at the top of the parent app), following it as the page scrolls — so the
+ * sign never covers the header's buttons.
+ */
+function useNailY(fallback) {
+  const [y, setY] = useState(fallback);
+  useEffect(() => {
+    const place = () => {
+      const h = document.querySelector('header');
+      setY(h ? Math.max(0, Math.round(h.getBoundingClientRect().bottom) - 4) : fallback);
+    };
+    place();
+    const late = [setTimeout(place, 400), setTimeout(place, 1500)];
+    window.addEventListener('scroll', place, { passive: true });
+    window.addEventListener('resize', place);
+    return () => { late.forEach(clearTimeout); window.removeEventListener('scroll', place); window.removeEventListener('resize', place); };
+  }, [fallback]);
+  return y;
+}
 
 /*
  * THE HANGING NOTICE (user, 2026-10-10: "a hanging label saying QuizPe is now serving on
@@ -16,14 +37,15 @@ const foldedNow = () => {
   try { return Date.now() - Number(localStorage.getItem(KEY) || 0) < DAYS * 864e5; } catch { return false; }
 };
 
-// top: where the nail is — under the app's header (52px), or the top edge on the home page (0).
+// top: where the nail goes when the page has no header.
 export default function HangingNotice({ top = 52 }) {
   const [folded, setFolded] = useState(foldedNow);
+  const nailY = useNailY(top);
   const fold = () => { try { localStorage.setItem(KEY, String(Date.now())); } catch { /* private mode */ } setFolded(true); };
   const unfold = () => { try { localStorage.removeItem(KEY); } catch { /* private mode */ } setFolded(false); };
   if (Date.now() > UNTIL.getTime()) return null;
   return (
-    <div className="pointer-events-none fixed right-3 z-40" style={{ top: `calc(env(safe-area-inset-top) + ${top}px)` }} data-test="hanging-notice">
+    <div className="pointer-events-none fixed right-3 z-40" style={{ top: `${nailY}px` }} data-test="hanging-notice">
       <div className={`hang-sign pointer-events-auto relative pt-4 ${folded ? 'hang-sway' : 'hang-swing'}`} key={folded ? 'tag' : 'sign'}>
         {/* the strings and the nail */}
         <span aria-hidden="true" className="absolute left-1/2 top-0 h-1.5 w-1.5 -translate-x-1/2 rounded-full bg-brand" />
