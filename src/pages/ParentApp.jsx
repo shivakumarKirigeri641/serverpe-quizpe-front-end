@@ -152,6 +152,7 @@ const LABELS = {
   support: ['💬', 'Help & support'],
   install: ['📲', 'Install the app'],
   resume: ['▶️', 'Resume QuizPe'],
+  comeback: ['🎁', 'Start my free days'],
   signout: ['🚪', 'Sign out'],
   signout_all: ['📵', 'Sign out from all devices'],
   deactivate: ['🗑️', 'Deactivate account'],
@@ -164,6 +165,7 @@ function menuRows(me) {
   return [
     ['profile', 'Name, email, mobile and children'],
     me.paused ? ['resume', 'QuizPe is paused — switch quizzes and reminders back on'] : null,
+    me.comeback && !me.subscribed ? ['comeback', `Welcome back — ${me.comeback.days} days free, no payment`] : null,
     me.subscribed && hasKids ? ['quiz', w === 'open' ? `Open now — until ${fmtTime(me.window.closes)}` : w === 'before' ? `Arrives at ${fmtTime(me.window.opens)}` : "Today's has closed — next one tomorrow"] : null,
     me.can_start_trial ? ['trial', `${me.trial_days || 7} days free · no payment details needed`] : null,
     ['schedule', 'When the next quizzes arrive'],
@@ -281,6 +283,12 @@ function StatusCard({ me, onGo }) {
     head = '⏸ QuizPe is paused';
     body = 'No quizzes, reminders or messages are sent while it is paused.';
     keys = ['resume', 'support'];
+  } else if (me.comeback && !me.subscribed) {
+    // THE COMEBACK OFFER (2026-10-10): a lapsed family restarts free, once — when switched on in the admin.
+    tone = 'gift';
+    head = `🎁 Welcome back! ${me.comeback.days} days of QuizPe, free`;
+    body = `${me.children.length > 1 ? 'Your children’s' : 'Your child’s'} daily quizzes start again today — no payment, nothing to fill in. ${plan?.ends ? `Your last plan ended on ${fmtDate(plan.ends)}.` : ''}`;
+    keys = ['comeback', 'plans'];
   } else if (me.status === 'EXPIRED' && !me.subscribed) {
     tone = 'red';
     const n = plan?.ended_days_ago;
@@ -320,7 +328,8 @@ function StatusCard({ me, onGo }) {
     keys = ready.length ? ['quiz', 'schedule'] : ['reports', 'schedule'];
     if (plan && plan.days_left != null && plan.days_left <= 7) keys.push('plans');
   }
-  const ring = tone === 'red' ? 'border-red-200 bg-red-50/60' : tone === 'amber' ? 'border-amber-200 bg-amber-50/60' : 'border-brand/20 bg-white';
+  const ring = tone === 'red' ? 'border-red-200 bg-red-50/60' : tone === 'amber' ? 'border-amber-200 bg-amber-50/60'
+    : tone === 'gift' ? 'border-amber-300 bg-gradient-to-br from-amber-50 to-emerald-50' : 'border-brand/20 bg-white';
   return (
     <div className={`rounded-3xl border-2 p-5 shadow-sm ${ring}`} data-test="status-card">
       <div className="font-extrabold text-ink text-lg leading-snug">{head}</div>
@@ -1151,6 +1160,16 @@ export default function ParentApp() {
     if (k === 'support') {
       try { const r = await app.supportLink(); window.location.href = r.url; }
       catch (x) { setMsg({ tone: 'error', text: `${x.message} You can also write to ${SUPPORT_EMAIL}.` }); }
+      return;
+    }
+    if (k === 'comeback') {
+      try {
+        const r = await app.comeback();
+        setView('home'); top();
+        setMsg({ tone: 'good', text: `🎉 Welcome back! QuizPe is on for ${r.days} free days, till ${fmtDate(r.ends)}. Today's quiz is ready whenever your child is.`, replies: ['quiz', 'schedule'] });
+        try { localStorage.removeItem(POP_KEY); } catch { /* private mode */ }
+        load();
+      } catch (x) { setMsg({ tone: 'error', text: x.message, replies: ['plans'] }); }
       return;
     }
     if (k === 'resume') {
