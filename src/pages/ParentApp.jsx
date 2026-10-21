@@ -908,6 +908,53 @@ function Reports() {
   );
 }
 
+/*
+ * CONFIRM THE EMAIL (user, 2026-10-21: "all do it" — like GaadiPe): the address was asked for, never
+ * checked. A 4-digit code goes to it; typed here, the address is confirmed and the broadcast emails and
+ * reports can safely go there. Shown on the home screen until it is done.
+ */
+function ConfirmEmail({ me, onDone }) {
+  const email = me.parent?.email || '';
+  const [stage, setStage] = useState('ask');      // ask -> code -> done
+  const [code, setCode] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [note, setNote] = useState(null);
+  const send = async () => {
+    setBusy(true); setNote(null);
+    try { const r = await app.emailCode(email); setStage('code'); setNote({ ok: true, text: r.message }); }
+    catch (x) { setNote({ ok: false, text: x.message }); }
+    setBusy(false);
+  };
+  const confirm = async (e) => {
+    e.preventDefault();
+    setBusy(true); setNote(null);
+    try { await app.emailVerify(email, code.trim()); setStage('done'); onDone && onDone(); }
+    catch (x) { setNote({ ok: false, text: x.message }); }
+    setBusy(false);
+  };
+  if (!email || stage === 'done') return null;
+  return (
+    <div className="card p-4 border-amber-300 bg-amber-50" data-test="confirm-email">
+      <div className="font-extrabold text-brand">📧 Please confirm your email</div>
+      <p className="text-sm text-muted mt-1 break-all">Reports, invoices and reminders go to <b className="text-ink">{email}</b>. Confirm it is yours with a 4-digit code.</p>
+      {stage === 'ask' ? (
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button className="btn-wa !px-4 !py-2 !text-sm" disabled={busy} onClick={send}>{busy ? 'Sending…' : 'Send me the code'}</button>
+          <button className="btn-ghost !px-4 !py-2 !text-sm" onClick={() => onDone && onDone('profile')}>Change email</button>
+        </div>
+      ) : (
+        <form className="mt-3 flex flex-wrap items-center gap-2" onSubmit={confirm}>
+          <input className="input !w-32 text-center tracking-[0.4em] font-bold" inputMode="numeric" maxLength={4} autoComplete="one-time-code"
+            placeholder="0000" value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))} />
+          <button className="btn-wa !px-4 !py-2 !text-sm" disabled={busy || code.length !== 4}>{busy ? 'Checking…' : 'Confirm'}</button>
+          <button type="button" className="btn-ghost !px-3 !py-2 !text-xs" disabled={busy} onClick={send}>Send again</button>
+        </form>
+      )}
+      {note ? <p className={`text-xs mt-2 ${note.ok ? 'text-emerald-700' : 'text-rose-700'}`}>{note.text}</p> : null}
+    </div>
+  );
+}
+
 /* --------------------------------------------------- reminders: push, email */
 const pushSupported = () => typeof window !== 'undefined' && 'serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window;
 const b64ToBytes = (s) => {
@@ -971,7 +1018,7 @@ function Reminders({ me, onGo }) {
       <div className="mt-4 flex items-center gap-3">
         <div className="text-sm min-w-0">
           <div className="font-semibold text-ink">Email</div>
-          <div className="text-xs text-muted break-all">{me.parent?.email ? `Reminders, reports and invoices go to ${me.parent.email}` : 'Not added yet'}</div>
+          <div className="text-xs text-muted break-all">{me.parent?.email ? `Reminders, reports and invoices go to ${me.parent.email}${me.parent?.email_verified ? ' ✓ confirmed' : ' — not confirmed yet (see the home screen)'}` : 'Not added yet'}</div>
         </div>
         <button className="btn-ghost !px-4 !py-2 !text-sm ml-auto shrink-0" onClick={() => onGo('profile')}>{me.parent?.email ? 'Change' : 'Add'}</button>
       </div>
@@ -1239,6 +1286,11 @@ export default function ParentApp() {
         {me.needs_email ? <EmailGate me={me} onSaved={() => { setMsg({ tone: 'good', text: 'Thank you — reminders and reports will reach you there.' }); load(); }} /> : (<>
           {/* Where QuizPe stands right now (2026-10-10). */}
           <StatusCard me={me} onGo={go} />
+          {/* Until the email is confirmed (2026-10-21). */}
+          {me.parent?.email && !me.parent?.email_verified ? <ConfirmEmail me={me} onDone={(where) => {
+            if (where === 'profile') { go('profile'); return; }
+            setMsg({ tone: 'good', text: '✅ Your email is confirmed. Reports, invoices and reminders will come there.' }); load();
+          }} /> : null}
           {hasKids ? <div className="space-y-4">{me.children.map((c) => <ChildCard key={c.id} child={c} me={me} onMessage={setMsg} />)}</div> : null}
           {/* The menu lives in the header (☰ Menu); the dashboard shows the week and what happened lately. */}
           <Activity me={me} onGo={go} />

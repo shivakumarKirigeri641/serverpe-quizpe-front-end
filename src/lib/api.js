@@ -64,6 +64,9 @@ export const app = {
   signOut: () => appCall('/signout', {}).catch(() => null),
   me: () => appCall('/me'),
   profile: (body) => appCall('/profile', body),
+  // Confirm the email with a 4-digit code (2026-10-21, web/email.js).
+  emailCode: (email) => appCall('/email/code', email ? { email } : {}),
+  emailVerify: (email, code) => appCall('/email/verify', { email, code }),
   startQuiz: (studentId, level) => appCall('/quiz/start', { student_id: studentId, ...(level ? { level } : {}) }),
   reports: () => appCall('/reports'),
   trial: (parentName, email) => appCall('/trial', { parent_name: parentName, email }),
