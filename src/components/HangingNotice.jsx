@@ -29,9 +29,12 @@ function useNailY(fallback) {
  * for 3 days, and a tap on the tag hangs it again. Shown for a month ("give for month"),
  * then it takes itself down.
  */
-const KEY = 'qp.hang.folded';
+/* PERMANENTLY ON THE WEB (user, 2026-10-21: "similarly for the QuizPe marketing site, put the banner in a
+   similar way" — as gaadipe.in after Meta disabled the WhatsApp account for good). A new key, so families
+   who folded the earlier notice see this one; up until the end of January. */
+const KEY = 'qp.hang.folded.web';
 const DAYS = 3;
-const UNTIL = new Date('2026-11-10T23:59:59+05:30');
+const UNTIL = new Date('2027-01-31T23:59:59+05:30');
 
 const foldedNow = () => {
   try { return Date.now() - Number(localStorage.getItem(KEY) || 0) < DAYS * 864e5; } catch { return false; }
@@ -59,11 +62,11 @@ export default function HangingNotice({ top = 52 }) {
         ) : (
           <div role="status" className="w-[17.5rem] max-w-[calc(100vw-1.5rem)] rounded-2xl border-2 border-brand bg-amber-300 px-3.5 pb-3 pt-2.5 text-brand shadow-xl">
             <div className="flex items-start gap-2">
-              <div className="text-[13.5px] font-black leading-snug">📢 QuizPe is now on the web</div>
+              <div className="text-[13.5px] font-black leading-snug">📢 QuizPe is now fully on the web</div>
               <button type="button" onClick={fold} aria-label="Fold the notice" data-test="hanging-fold"
                 className="-mr-1 ml-auto shrink-0 rounded-full px-1.5 text-[15px] font-black leading-none text-brand/70 hover:text-brand">✕</button>
             </div>
-            <p className="mt-1 text-[12.5px] font-semibold leading-snug">Our WhatsApp account was disabled, so QuizPe now serves you right here — quiz reminders and reports by browser notifications, email and SMS.</p>
+            <p className="mt-1 text-[12.5px] font-semibold leading-snug">Meta has closed QuizPe’s WhatsApp account, so we have moved permanently to this website. Daily quizzes, reports and reminders all work here — by browser notification, email and SMS. QuizPe will not message you on WhatsApp any more.</p>
           </div>
         )}
       </div>

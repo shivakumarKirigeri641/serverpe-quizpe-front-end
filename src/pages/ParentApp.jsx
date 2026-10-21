@@ -24,7 +24,7 @@ const fmtTime = (hhmm) => {
 };
 const rupees = (n) => `₹${Number(n).toLocaleString('en-IN')}`;
 // The line in the welcome (user, 2026-10-10), the same news as the hanging notice.
-const WEB_NOTE = 'QuizPe now serves you here on the web — our WhatsApp account was disabled. Quiz reminders and reports reach you by browser notifications, email and SMS.';
+const WEB_NOTE = 'QuizPe has moved permanently to the web — Meta closed our WhatsApp account. Everything is here, and quiz reminders and reports reach you by browser notifications, email and SMS.';
 
 function Shell({ children, onSignOut, mobile, onInstall, onMenu, who }) {
   return (
