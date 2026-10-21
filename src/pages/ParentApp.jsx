@@ -963,6 +963,56 @@ const b64ToBytes = (s) => {
   return Uint8Array.from([...raw].map((ch) => ch.charCodeAt(0)));
 };
 
+/*
+ * "GET TODAY'S QUIZ ALERT ON THIS PHONE" (user, 2026-10-21: "you have taken care of asking for
+ * notifications, installing the app, email confirmation right?"). The switch lived only under Menu →
+ * Notifications, where few parents look; with WhatsApp gone, a phone notification is how a family hears
+ * that today's quiz is ready. Shown on the home screen while it is off on this phone; "Not now" hides
+ * it for 7 days. The same subscription as Reminders below.
+ */
+const NOTIFY_LATER = 'qp.notify.later';
+const notifyLaterNow = () => { try { return Date.now() - Number(localStorage.getItem(NOTIFY_LATER) || 0) < 7 * 864e5; } catch { return false; } };
+function NotifyCard() {
+  const [state, setState] = useState('checking');   // checking | off | on | denied | unsupported | hidden
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState('');
+  useEffect(() => {
+    if (!pushSupported()) { setState('unsupported'); return; }
+    if (Notification.permission === 'denied') { setState('denied'); return; }
+    if (notifyLaterNow()) { setState('hidden'); return; }
+    navigator.serviceWorker.getRegistration('/app-sw.js')
+      .then((reg) => (reg ? reg.pushManager.getSubscription() : null))
+      .then((sub) => setState(sub ? 'on' : 'off')).catch(() => setState('off'));
+  }, []);
+  const turnOn = async () => {
+    setBusy(true); setErr('');
+    try {
+      const perm = await Notification.requestPermission();
+      if (perm !== 'granted') { setState(perm === 'denied' ? 'denied' : 'off'); setBusy(false); return; }
+      const reg = await navigator.serviceWorker.register('/app-sw.js');
+      await navigator.serviceWorker.ready;
+      const { key } = await app.pushKey();
+      const sub = (await reg.pushManager.getSubscription())
+        || await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToBytes(key) });
+      await app.pushOn(sub.toJSON());
+      setState('on');
+    } catch (x) { setErr(x.message || 'Could not turn notifications on.'); }
+    setBusy(false);
+  };
+  if (state !== 'off') return null;
+  return (
+    <div className="card p-4" data-test="notify-card">
+      <div className="font-extrabold text-brand">🔔 Get today's quiz alert on this phone</div>
+      <p className="text-sm text-muted mt-1">One friendly nudge when the quiz is ready, a note when the report is ready, and a reminder before the plan ends — nothing else.</p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        <button className="btn-wa !px-4 !py-2 !text-sm" disabled={busy} onClick={turnOn}>{busy ? 'Turning on…' : 'Turn on'}</button>
+        <button className="btn-ghost !px-4 !py-2 !text-sm" onClick={() => { try { localStorage.setItem(NOTIFY_LATER, String(Date.now())); } catch { /* private mode */ } setState('hidden'); }}>Not now</button>
+      </div>
+      {err ? <p className="text-xs text-rose-700 mt-2">{err}</p> : null}
+    </div>
+  );
+}
+
 function Reminders({ me, onGo }) {
   const [push, setPush] = useState('unknown');   // unknown | on | off | denied | unsupported
   const [msg, setMsg] = useState(null);
@@ -1286,6 +1336,8 @@ export default function ParentApp() {
         {me.needs_email ? <EmailGate me={me} onSaved={() => { setMsg({ tone: 'good', text: 'Thank you — reminders and reports will reach you there.' }); load(); }} /> : (<>
           {/* Where QuizPe stands right now (2026-10-10). */}
           <StatusCard me={me} onGo={go} />
+          {/* Phone notifications, while they are off here (2026-10-21). */}
+          <NotifyCard />
           {/* Until the email is confirmed (2026-10-21). */}
           {me.parent?.email && !me.parent?.email_verified ? <ConfirmEmail me={me} onDone={(where) => {
             if (where === 'profile') { go('profile'); return; }
