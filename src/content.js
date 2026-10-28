@@ -49,7 +49,7 @@ export const HERO = {
 // Benefit chips shown under the hero headline — the quick "what's in it for us?".
 export const HERO_BENEFITS = [
   '💬 Right on WhatsApp',
-  '💰 Pay as you answer — 20 paise',
+  '💰 Pay as you answer',
   '🎓 Classes 1 to 10',
   '📊 Report after every quiz',
   '🎁 50 questions free',
@@ -233,7 +233,7 @@ export const FAQ = [
   {
     q: 'How much does it cost?',
     a: 'Start with 50 questions free — no payment details, just send Hi on WhatsApp. After that, pay as you ' +
-       'answer: 20 paise a question (+GST), with recharges of ₹50 (250 questions), ₹100 (500) or ₹200 (1,000). ' +
+       'answer: recharges of ₹50 (250 questions), ₹100 (500) or ₹200 (1,000), + GST. ' +
        'Only answered questions are counted, one balance covers the whole family, and it is valid till 31 March. ' +
        'Prefer a fixed price? Daily plans start at ₹99 for 28 days.',
   },

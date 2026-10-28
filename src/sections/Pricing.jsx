@@ -43,7 +43,7 @@ export default function Pricing() {
       <div className="container-x">
         <Reveal className="text-center max-w-2xl mx-auto">
           <span className="eyebrow">Pricing</span>
-          <h2 className="h2 mt-4">Pay as you answer. 20 paise a question.</h2>
+          <h2 className="h2 mt-4">Pay as you answer.</h2>
           <p className="lede mt-3">
             Start with <b>50 questions free</b> — no card. Then recharge only for the questions your
             student actually answers, or take a daily plan.
@@ -83,7 +83,7 @@ export default function Pricing() {
                   <span className="text-3xl font-black text-brand">₹{rupees}</span>
                   <span className="text-sm text-muted"> + GST</span>
                 </div>
-                <p className="text-xs text-muted mt-1">20 paise a question · ₹{(rupees * 1.18).toFixed(0)} with GST</p>
+                <p className="text-xs text-muted mt-1">₹{(rupees * 1.18).toFixed(0)} with GST</p>
                 <a href={WA_LINK} className="btn-ghost w-full !py-2.5 !text-sm mt-5">Recharge on WhatsApp</a>
               </div>
             ))}

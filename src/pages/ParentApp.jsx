@@ -25,7 +25,7 @@ const fmtTime = (hhmm) => {
 const rupees = (n) => `₹${Number(n).toLocaleString('en-IN')}`;
 // The line in the welcome (user, 2026-10-10), the same news as the hanging notice.
 // QuizPe is back on WhatsApp (2026-10-28): the quiz runs in the chat; reports and the account stay here too.
-const WEB_NOTE = 'QuizPe is back on WhatsApp! Questions come right in the chat — send Hi to +91 83173 19463. Pay as you answer: 20 paise per MCQ (+GST). Your reports and invoices stay here too.';
+const WEB_NOTE = 'QuizPe is back on WhatsApp! Questions come right in the chat — send Hi to +91 83173 19463. Pay as you answer — recharges from ₹50 (+GST). Your reports and invoices stay here too.';
 /* The chat with a message ready to send: "Hi" starts a quiz, "Recharge" shows the balance and the recharges. */
 const waLink = (me, text = 'Hi') => (me?.whatsapp_url ? me.whatsapp_url.replace(/text=[^&]*/, `text=${encodeURIComponent(text)}`) : null);
 
@@ -308,7 +308,7 @@ function StatusCard({ me, onGo }) {
     // PAY AS YOU ANSWER (2026-10-28): no plan is needed — the MCQ balance pays, 20 paise per answered MCQ.
     const m = me.mcq || { left: 0 };
     head = m.left > 0 ? `💰 ${m.left} MCQs in your balance`
-      : m.free_eligible ? '🎁 50 free MCQs are waiting' : '💰 Pay as you answer — 20 paise per MCQ';
+      : m.free_eligible ? '🎁 50 free MCQs are waiting' : '💰 Pay as you answer';
     body = m.left > 0 ? `Practise on WhatsApp any time today — valid till ${fmtDate(m.valid_till)}.`
       : m.free_eligible ? 'Start a quiz on WhatsApp — the free MCQs are added on the first one.'
         : 'Recharge ₹50 / ₹100 / ₹200 (+GST) on WhatsApp, or choose a daily plan.';
@@ -512,7 +512,7 @@ function Subscriptions() {
   useEffect(() => { app.subscriptions().then(setD).catch((x) => setErr(x.message)); }, []);
   if (err) return <Note tone="error">{err}</Note>;
   if (!d) return <div className="card p-5 text-sm text-muted">Loading your subscriptions…</div>;
-  if (!d.subscriptions.length) return <div className="card p-5 text-sm text-ink" data-test="subs">You have no subscription yet — pay as you answer (20 paise per MCQ) on WhatsApp, or choose a daily plan.</div>;
+  if (!d.subscriptions.length) return <div className="card p-5 text-sm text-ink" data-test="subs">You have no subscription yet — pay as you answer on WhatsApp, or choose a daily plan.</div>;
   const badge = { current: ['bg-emerald-100 text-emerald-800', 'Active'], upcoming: ['bg-sky-100 text-sky-800', 'Starts soon'], ended: ['bg-gray-100 text-gray-700', 'Ended'], cancelled: ['bg-red-100 text-red-800', 'Cancelled'] };
   return (
     <div className="space-y-3" data-test="subs">
