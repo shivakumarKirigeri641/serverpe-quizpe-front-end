@@ -33,16 +33,16 @@ export const SUPPORT_LINE = `We read messages between ${SUPPORT_HOURS} and reply
 export const COMPANY_EMAIL = 'support@serverpe.in';
 
 export const HERO = {
-  eyebrow: 'No app to install · Sign in with your mobile',
+  eyebrow: 'No app to install · right on WhatsApp',
   // A bold, parent-facing hook shown as a highlight badge in the hero.
   highlight: 'Turn 5 minutes a day into better memory, confidence and exam readiness.',
   // Sits directly under the headline: the single-line, benefit-driven promise.
   promise: 'Daily quizzes that build learning habits, improve retention and boost confidence.',
   // Benefit-driven headline (parents ask "what's in it for my child?").
-  title: 'Help your child revise daily — in just 5 minutes.',
+  title: 'Daily revision quizzes, right on WhatsApp — in just 5 minutes.',
   sub:
-    'Two fresh quizzes every day — take them any time that suits you, matched to your child’s board, grade and everything ' +
-    'taught since June, with a full explanation report the moment they finish.',
+    'For school students today — Classes 1 to 10, matched to the board, grade and everything taught since June, with a full ' +
+    'explanation report the moment they finish. Competitive exam practice (JEE, NEET and more) is coming soon.',
   ctaNote: 'Send Hi on WhatsApp — the first 50 questions are free, no card needed.',
 };
 
@@ -54,6 +54,7 @@ export const HERO_BENEFITS = [
   '📊 Report after every quiz',
   '🎁 50 questions free',
   '👨‍👩‍👧 One balance for the family',
+  '🎯 JEE · NEET — coming soon',
 ];
 
 // The outcomes a daily habit builds — a short, emotional reinforcement band.
@@ -310,8 +311,9 @@ export const COMING_SOON = [
     body: 'In progress alongside Mathematics. Social Science, English and EVS come after.',
   },
   {
-    icon: '🎓', status: 'planned', title: 'JEE / AIEEE / NEET / CET practice',
-    body: 'Daily MCQ practice for the big competitive exams — same habit, built for aspirants. More exams to follow.',
+    // AIEEE became JEE Main in 2013 — the names parents search for today (user, 2026-10-28: "QuizPe a bit general").
+    icon: '🎓', status: 'planned', title: 'Competitive exams — coming soon',
+    body: 'Daily MCQ practice for JEE Main, JEE Advanced, NEET, KCET and Olympiads — the same habit, built for aspirants, on WhatsApp.',
   },
   {
     icon: '🏫', status: 'planned', title: 'Schools & tuition centres',
