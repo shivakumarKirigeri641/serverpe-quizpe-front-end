@@ -13,7 +13,10 @@
 // mobile number and an SMS code. The old name is kept so components need no
 // rewiring: WA_LINK is the start link.
 export const START_LINK = '/app';
-export const WA_LINK = START_LINK;
+// QuizPe is back on WhatsApp (2026-10-28, +91 83173 19463): the start buttons open the chat with "Hi" ready —
+// the quiz runs there. /app (START_LINK) stays for sign-in, reports and invoices.
+export const WA_NUMBER = '918317319463';
+export const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hi')}`;
 export const SUPPORT_EMAIL = 'support@quizpe.in';
 // Our YouTube channel — daily/weekly maths brain-teasers for parents.
 export const YOUTUBE_LINK = 'https://www.youtube.com/@QuizPeIndia';
@@ -40,17 +43,17 @@ export const HERO = {
   sub:
     'Two fresh quizzes every day — take them any time that suits you, matched to your child’s board, grade and everything ' +
     'taught since June, with a full explanation report the moment they finish.',
-  ctaNote: 'Sign in with your mobile number — a one-time code by SMS, and your free trial starts.',
+  ctaNote: 'Send Hi on WhatsApp — the first 50 questions are free, no card needed.',
 };
 
 // Benefit chips shown under the hero headline — the quick "what's in it for us?".
 export const HERO_BENEFITS = [
-  '🔁 Two quizzes a day',
-  '📱 Works in any browser',
+  '💬 Right on WhatsApp',
+  '💰 Pay as you answer — 20 paise',
   '🎓 Classes 1 to 10',
-  '📊 Track progress',
-  '🎁 Free trial',
-  '👨‍👩‍👧 Parent-friendly',
+  '📊 Report after every quiz',
+  '🎁 50 questions free',
+  '👨‍👩‍👧 One balance for the family',
 ];
 
 // The outcomes a daily habit builds — a short, emotional reinforcement band.
@@ -229,10 +232,10 @@ export const FAQ = [
   },
   {
     q: 'How much does it cost?',
-    a: 'Start with the 7-day free trial — it needs no payment details at all and ends by itself. Use those ' +
-       'seven days to see whether your child actually sits down and does it. If it works for your family, ' +
-       'renew onto a paid plan; if it does not, simply let the trial lapse and nothing is charged. Paid ' +
-       'plans start at ₹99 for 28 days, about ₹3.50 a day.',
+    a: 'Start with 50 questions free — no payment details, just send Hi on WhatsApp. After that, pay as you ' +
+       'answer: 20 paise a question (+GST), with recharges of ₹50 (250 questions), ₹100 (500) or ₹200 (1,000). ' +
+       'Only answered questions are counted, one balance covers the whole family, and it is valid till 31 March. ' +
+       'Prefer a fixed price? Daily plans start at ₹99 for 28 days.',
   },
   {
     q: 'Will you spam me? Who is actually behind this?',
@@ -258,8 +261,9 @@ export const FAQ = [
   {
     q: 'Can I cancel?',
     a: 'Yes — you can stop at any time and your plan simply runs to the end of the period you have already ' +
-       'paid for, with no further charge. Paid periods are not refundable, which is exactly why the 7-day ' +
-       'free trial exists: try it properly first, and pay only once you know it suits your child.',
+       'paid for, with no further charge. With pay as you answer there is nothing to cancel — you are only ' +
+       'charged for questions answered. Payments are not refundable, which is exactly why the first 50 ' +
+       'questions are free: try it properly first, and pay only once you know it suits your child.',
   },
 ];
 

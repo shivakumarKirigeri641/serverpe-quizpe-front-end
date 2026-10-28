@@ -47,7 +47,7 @@ export default function Hero({ stats }) {
                       transition={{ duration: .6, delay: .25 }}
                       className="mt-8 flex flex-wrap items-center gap-3">
             <a href={WA_LINK} className="btn-wa text-base">
-              <span aria-hidden>🎯</span> Start free trial
+              <span aria-hidden>🎯</span> Start free — 50 questions
             </a>
             <a href="#how-it-works" className="btn-ghost">See how daily revision works</a>
           </motion.div>

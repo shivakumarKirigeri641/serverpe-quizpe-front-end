@@ -112,7 +112,7 @@ export default function WhyNotAI() {
               <span aria-hidden>🎯</span> Let QuizPe run the habit
             </a>
             <p className="text-xs text-muted mt-3">
-              Free trial · no card · stop any time
+              50 questions free · no card · pay as you answer
             </p>
           </div>
         </Reveal>

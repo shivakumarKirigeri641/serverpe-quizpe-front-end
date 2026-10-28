@@ -24,7 +24,7 @@ export default function StickyCta() {
           className="lg:hidden fixed bottom-0 inset-x-0 z-40 p-3 bg-white/95 backdrop-blur border-t border-line"
         >
           <a href={WA_LINK} className="btn-wa w-full">
-            🎁 Start the free trial
+            🎁 Start free on WhatsApp
           </a>
           <p className="text-[11px] text-muted text-center mt-1.5 leading-snug">
             Sign in with your mobile — <b className="text-brand">a one-time code by SMS</b>, no payment details

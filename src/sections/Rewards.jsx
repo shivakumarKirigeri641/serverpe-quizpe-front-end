@@ -154,7 +154,7 @@ export default function Rewards() {
             </h3>
             <p className="text-sm text-muted mt-2 max-w-xl mx-auto leading-relaxed">
               Every parent gets their own invite link. A friend who joins through it starts with the
-              same <b className="text-brand">regular 7-day free trial</b> — nothing changes for them. And
+              same <b className="text-brand">regular 50 free questions</b> — nothing changes for them. And
               for every <b className="text-brand">successful referral</b>,
               <b className="text-brand"> you get 7 bonus days on your next renewal</b>. Refer two friends
               and it’s +7 on your next renewal <b className="text-brand">and</b> +7 on the one after — one
@@ -183,7 +183,7 @@ export default function Rewards() {
           <a href={WA_LINK} className="btn-wa">
             <span aria-hidden>🎯</span> Start my child’s streak
           </a>
-          <p className="text-xs text-muted mt-3">Free trial · no card · sign in with your mobile</p>
+          <p className="text-xs text-muted mt-3">50 questions free · no card · just send Hi on WhatsApp</p>
         </Reveal>
       </div>
     </section>

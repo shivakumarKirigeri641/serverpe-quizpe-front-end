@@ -32,46 +32,68 @@ export default function Pricing() {
   useEffect(() => { safe(api.plans()).then(setData); }, []);
   const plans = data?.plans || [];
   const offer = data?.offer;
-  const trial = plans.find((p) => p.is_trial);
-  const paid = plans.filter((p) => !p.is_trial).sort((a, b) => a.price - b.price);
+  // The old free-trial plan row only opens the signup now; the free start is 50 MCQs (2026-10-28).
+  const paid = plans.filter((p) => !p.is_trial && Number(p.duration) > 0 && Number(p.price) > 0).sort((a, b) => a.price - b.price);
+  // Jan-Mar: only ₹50 and ₹100 (every balance ends on 31 March).
+  const janMar = new Date().getMonth() <= 2;
+  const PACKS = [[50, 250], [100, 500], [200, 1000]].filter(([r]) => !janMar || r <= 100);
 
   return (
     <section id="pricing" className="py-20">
       <div className="container-x">
         <Reveal className="text-center max-w-2xl mx-auto">
           <span className="eyebrow">Pricing</span>
-          <h2 className="h2 mt-4">Less than a coffee. Every single day.</h2>
+          <h2 className="h2 mt-4">Pay as you answer. 20 paise a question.</h2>
           <p className="lede mt-3">
-            Start with the free trial — no card, nothing to cancel. Move to a paid plan only if your child
-            is actually doing it.
+            Start with <b>50 questions free</b> — no card. Then recharge only for the questions your
+            student actually answers, or take a daily plan.
           </p>
         </Reveal>
 
-        {/* the trial first — trying costs nothing and converts better than copy */}
-        {trial && (
-          <Reveal delay={0.05}>
-            <div className="mt-10 card p-6 sm:p-7 border-2 border-brand-accent shadow-lift
-                            flex flex-col sm:flex-row sm:items-center gap-5">
-              <div className="flex-1">
-                <span className="inline-block bg-brand-accent text-white text-[10px] font-extrabold
-                                 uppercase tracking-wider px-3 py-1 rounded-full">Start here</span>
-                <h3 className="font-extrabold text-brand text-xl mt-3">
-                  {trial.duration} days free — everything below included
-                </h3>
-                <p className="text-sm text-muted mt-1">
-                  No payment details. It ends by itself, so there is nothing to cancel and nothing is charged.
-                </p>
-              </div>
-              <a href={WA_LINK} className="btn-wa !py-3 sm:w-auto w-full text-center">
-                🎁 Start free — sign in
-              </a>
+        {/* PAY AS YOU ANSWER (2026-10-28): the free start first, then the recharges */}
+        <Reveal delay={0.05}>
+          <div className="mt-10 card p-6 sm:p-7 border-2 border-brand-accent shadow-lift
+                          flex flex-col sm:flex-row sm:items-center gap-5">
+            <div className="flex-1">
+              <span className="inline-block bg-brand-accent text-white text-[10px] font-extrabold
+                               uppercase tracking-wider px-3 py-1 rounded-full">Start here</span>
+              <h3 className="font-extrabold text-brand text-xl mt-3">50 questions free — right on WhatsApp</h3>
+              <p className="text-sm text-muted mt-1">
+                No payment details. Valid 7 days, up to 20 a day, for new families. Send <b>Hi</b> to start.
+              </p>
             </div>
-          </Reveal>
-        )}
+            <a href={WA_LINK} className="btn-wa !py-3 sm:w-auto w-full text-center">💬 Send Hi on WhatsApp</a>
+          </div>
+        </Reveal>
 
-        {/* The ₹9 Instant Quiz card was here. It could only be bought from the
-            WhatsApp menu, which is retired (2026-10-08), so it is hidden until it
-            is offered in the parent's account at quizpe.in/app. */}
+        <Reveal delay={0.08}>
+          <h3 className="text-center font-extrabold text-brand text-lg mt-12">Then recharge — pay only for answered questions</h3>
+          <p className="text-center text-sm text-muted mt-1">
+            One balance for the whole family. No monthly plan, no lock-in. A skipped question is never charged.
+          </p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-3 max-w-3xl mx-auto">
+            {PACKS.map(([rupees, mcqs], i) => (
+              <div key={rupees} className={`card p-6 text-center relative ${i === PACKS.length - 1 ? 'border-2 border-brand' : ''}`}>
+                {i === PACKS.length - 1 && (
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand text-white text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full">Most practice</span>
+                )}
+                <p className="text-4xl font-black text-brand-accent leading-none">{mcqs}</p>
+                <p className="text-xs font-bold uppercase tracking-wide text-muted mt-1">questions (MCQs)</p>
+                <div className="mt-4 pt-4 border-t border-line">
+                  <span className="text-3xl font-black text-brand">₹{rupees}</span>
+                  <span className="text-sm text-muted"> + GST</span>
+                </div>
+                <p className="text-xs text-muted mt-1">20 paise a question · ₹{(rupees * 1.18).toFixed(0)} with GST</p>
+                <a href={WA_LINK} className="btn-ghost w-full !py-2.5 !text-sm mt-5">Recharge on WhatsApp</a>
+              </div>
+            ))}
+          </div>
+          <p className="text-center text-xs text-muted mt-3">
+            Every balance is valid till 31 March{janMar ? ' — so from January to March only ₹50 and ₹100 are offered' : ''}. Not refundable.
+          </p>
+        </Reveal>
+
+        {/* The ₹9 Instant Quiz is retired (2026-10-28): pay as you answer replaces it. */}
 
         {/* ONE benefits list — because every plan really is the same */}
         <Reveal delay={0.1}>
@@ -99,10 +121,10 @@ export default function Pricing() {
         {/* plans: price x children only */}
         <Reveal delay={0.15}>
           <h3 className="text-center font-extrabold text-brand text-lg mt-14">
-            Then just pick how many children
+            Prefer a daily plan? Pick how many children
           </h3>
           <p className="text-center text-sm text-muted mt-1">
-            Each child gets their own quiz, their own progress and their own report — whatever the plan.
+            Two quizzes a day (three on weekends and holidays) for a fixed price. A recharge balance tops it up when you want more.
           </p>
 
           {/* Seats remaining, with a bar. Shown only while the offer is really
@@ -223,8 +245,8 @@ export default function Pricing() {
 
         <Reveal delay={0.3}>
           <p className="text-center text-sm text-muted mt-8 max-w-2xl mx-auto">
-            All prices include GST at {data?.gst_pct ?? 18}%. Paid periods are not refundable, which is
-            precisely why the free trial is there: try it fully first, then decide.
+            Plan prices include GST at {data?.gst_pct ?? 18}%; recharges are + GST. Payments are not refundable,
+            which is precisely why the first 50 questions are free: try it fully first, then decide.
           </p>
         </Reveal>
       </div>

@@ -24,7 +24,10 @@ const fmtTime = (hhmm) => {
 };
 const rupees = (n) => `₹${Number(n).toLocaleString('en-IN')}`;
 // The line in the welcome (user, 2026-10-10), the same news as the hanging notice.
-const WEB_NOTE = 'QuizPe has moved permanently to the web — Meta closed our WhatsApp account. Everything is here, and quiz reminders and reports reach you by browser notifications, email and SMS.';
+// QuizPe is back on WhatsApp (2026-10-28): the quiz runs in the chat; reports and the account stay here too.
+const WEB_NOTE = 'QuizPe is back on WhatsApp! Questions come right in the chat — send Hi to +91 83173 19463. Pay as you answer: 20 paise per MCQ (+GST). Your reports and invoices stay here too.';
+/* The chat with a message ready to send: "Hi" starts a quiz, "Recharge" shows the balance and the recharges. */
+const waLink = (me, text = 'Hi') => (me?.whatsapp_url ? me.whatsapp_url.replace(/text=[^&]*/, `text=${encodeURIComponent(text)}`) : null);
 
 function Shell({ children, onSignOut, mobile, onInstall, onMenu, who }) {
   return (
@@ -143,8 +146,9 @@ const LABELS = {
   home: ['🏠', 'Home'],
   menu: ['☰', 'Menu'],
   profile: ['👤', 'My profile'],
-  quiz: ['▶️', 'Start quiz now'],
-  trial: ['🎁', 'Start free trial'],
+  quiz: ['▶️', 'Start quiz on WhatsApp'],
+  balance: ['💰', 'MCQ balance & recharge'],
+  trial: ['🎁', 'Start with 50 free MCQs'],
   schedule: ['📅', 'Quiz schedule'],
   subscription: ['📄', 'My subscription'],
   reports: ['📊', 'My reports'],
@@ -166,8 +170,9 @@ function menuRows(me) {
     ['profile', 'Name, email, mobile and children'],
     me.paused ? ['resume', 'QuizPe is paused — switch quizzes and reminders back on'] : null,
     me.comeback && !me.subscribed ? ['comeback', `Welcome back — ${me.comeback.days} days free, no payment`] : null,
-    me.subscribed && hasKids ? ['quiz', w === 'open' ? `Open now — until ${fmtTime(me.window.closes)}` : w === 'before' ? `Arrives at ${fmtTime(me.window.opens)}` : "Today's has closed — next one tomorrow"] : null,
-    me.can_start_trial ? ['trial', `${me.trial_days || 7} days free · no payment details needed`] : null,
+    hasKids ? ['quiz', w === 'open' ? `Questions in the chat — open until ${fmtTime(me.window.closes)}` : w === 'before' ? `Opens at ${fmtTime(me.window.opens)}` : "Closed for today — opens tomorrow"] : null,
+    me.mcq ? ['balance', `${me.mcq.left} MCQs left · recharge ₹50 / ₹100 / ₹200 (+GST)`] : null,
+    me.can_start_trial ? ['trial', '50 free MCQs · no payment details needed'] : null,
     ['schedule', 'When the next quizzes arrive'],
     ['subscription', 'Plan, validity and children enrolled'],
     hasKids || me.status === 'EXPIRED' ? ['reports', 'Scores, report cards and invoices'] : null,
@@ -296,13 +301,18 @@ function StatusCard({ me, onGo }) {
     body = `It ended on ${fmtDate(plan?.ends)}. Renew to continue the daily quizzes — ${me.children.length > 1 ? 'the children’s' : 'your child’s'} progress so far is kept.`;
     keys = ['plans', 'subscription', 'reports'];
   } else if (me.can_start_trial) {
-    head = `🎁 Start your free ${me.trial_days || 7}-day trial`;
-    body = 'A 5-minute quiz every day, with a report after each one. No payment details needed.';
+    head = '🎁 Start with 50 free MCQs';
+    body = 'Questions come right in WhatsApp, with a report when you end. No payment details needed.';
     keys = ['trial', 'plans'];
   } else if (!me.subscribed) {
-    head = '💎 No active plan';
-    body = 'Choose a plan to start the daily quizzes.';
-    keys = ['plans', 'support'];
+    // PAY AS YOU ANSWER (2026-10-28): no plan is needed — the MCQ balance pays, 20 paise per answered MCQ.
+    const m = me.mcq || { left: 0 };
+    head = m.left > 0 ? `💰 ${m.left} MCQs in your balance`
+      : m.free_eligible ? '🎁 50 free MCQs are waiting' : '💰 Pay as you answer — 20 paise per MCQ';
+    body = m.left > 0 ? `Practise on WhatsApp any time today — valid till ${fmtDate(m.valid_till)}.`
+      : m.free_eligible ? 'Start a quiz on WhatsApp — the free MCQs are added on the first one.'
+        : 'Recharge ₹50 / ₹100 / ₹200 (+GST) on WhatsApp, or choose a daily plan.';
+    keys = hasKids ? ['quiz', 'balance', 'plans'] : ['balance', 'plans', 'support'];
   } else if (plan?.not_started) {
     head = `🗓 Your plan starts on ${fmtDate(plan.starts)}`;
     body = 'The first quiz arrives soon — we will let you know the moment it is ready.';
@@ -337,16 +347,22 @@ function StatusCard({ me, onGo }) {
       {me.subscribed && plan && !plan.not_started ? (
         <div className="text-xs text-muted mt-2">{plan.trial ? 'Free trial' : plan.name} · till {fmtDate(plan.ends)}{plan.days_left != null && plan.days_left >= 0 ? ` · ${plan.days_left} day${plan.days_left === 1 ? '' : 's'} left` : ''}</div>
       ) : null}
+      {me.subscribed && me.mcq?.left > 0 ? (
+        <div className="text-xs text-muted mt-1">💰 Plus {me.mcq.left} MCQs in your balance — used after the plan's daily quizzes.</div>
+      ) : null}
       <Replies me={me} keys={keys} onGo={onGo} />
     </div>
   );
 }
 
-/* Starting a child's quiz — the same steps from the pop-up and the child's card. */
-function useStarter(onMessage) {
+/* Starting a child's quiz — the same steps from the pop-up and the child's card. Since 2026-10-28 the quiz runs
+   in WhatsApp: a tap opens the chat with "Hi" ready to send (the web quiz stays only as a fallback). */
+function useStarter(onMessage, me) {
   const [busy, setBusy] = useState(null);
   const [levels, setLevels] = useState({});
   const start = async (child, level) => {
+    const wa = waLink(me);
+    if (wa) { window.location.href = wa; return; }
     setBusy(child.id);
     try {
       const r = await app.startQuiz(child.id, level);
@@ -367,7 +383,7 @@ function useStarter(onMessage) {
  * shows every child, ready or not.
  */
 function QuizPopup({ me, onClose, onMessage, onGo }) {
-  const { busy, levels, start } = useStarter((m) => { onClose(); onMessage(m); });
+  const { busy, levels, start } = useStarter((m) => { onClose(); onMessage(m); }, me);
   const ready = readyKids(me);
   const open = me.window?.state === 'open';
   return (
@@ -379,7 +395,7 @@ function QuizPopup({ me, onClose, onMessage, onGo }) {
             {!me.subscribed ? 'No active plan' : ready.length ? "Today's quiz is ready!" : open ? "All of today's quizzes are done" : me.window?.state === 'before' ? `Today's quiz arrives at ${fmtTime(me.window.opens)}` : "Today's quiz has closed"}
           </h2>
           <p className="text-sm text-muted mt-1">
-            {!me.subscribed ? (me.status === 'EXPIRED' ? 'Your plan has ended. Renew it to continue the daily quizzes.' : 'Start the free trial or choose a plan to begin the daily quizzes.')
+            {!me.subscribed ? (me.status === 'EXPIRED' ? 'Your plan has ended. Renew it to continue the daily quizzes.' : 'Start with 50 free MCQs on WhatsApp, or choose a daily plan.')
               : ready.length ? `About 5 minutes · open until ${fmtTime(me.window.closes)} · the report comes the moment it's done.`
                 : me.window?.state === 'before' ? 'We will let you know the moment it is ready.' : `The next one opens tomorrow at ${fmtTime(me.window.opens)}.`}
           </p>
@@ -470,7 +486,7 @@ function Profile({ me, onSaved, onMessage }) {
           </dl>
         </div>
       ))}
-      {!me.children.length ? <div className="card p-5 text-sm text-muted">No student added yet — the free trial or a plan starts with your child's details.</div> : null}
+      {!me.children.length ? <div className="card p-5 text-sm text-muted">No student added yet — the 50 free MCQs or a plan start with your student's details.</div> : null}
       <div className="card p-5">
         <label className="label" htmlFor="pf-n">Parent's name</label>
         <input id="pf-n" className="input" maxLength={60} autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} />
@@ -496,7 +512,7 @@ function Subscriptions() {
   useEffect(() => { app.subscriptions().then(setD).catch((x) => setErr(x.message)); }, []);
   if (err) return <Note tone="error">{err}</Note>;
   if (!d) return <div className="card p-5 text-sm text-muted">Loading your subscriptions…</div>;
-  if (!d.subscriptions.length) return <div className="card p-5 text-sm text-ink" data-test="subs">You have no subscription yet. Start the free trial or choose a plan to begin the daily quizzes.</div>;
+  if (!d.subscriptions.length) return <div className="card p-5 text-sm text-ink" data-test="subs">You have no subscription yet — pay as you answer (20 paise per MCQ) on WhatsApp, or choose a daily plan.</div>;
   const badge = { current: ['bg-emerald-100 text-emerald-800', 'Active'], upcoming: ['bg-sky-100 text-sky-800', 'Starts soon'], ended: ['bg-gray-100 text-gray-700', 'Ended'], cancelled: ['bg-red-100 text-red-800', 'Cancelled'] };
   return (
     <div className="space-y-3" data-test="subs">
@@ -651,7 +667,7 @@ function SignIn({ onDone, note }) {
       {note ? <div className="mb-4"><Note tone="good">{note}</Note></div> : null}
       <h1 className="text-2xl font-extrabold text-brand">Sign in to QuizPe</h1>
       <p className="text-xs text-muted mt-1">📢 <i>{WEB_NOTE}</i></p>
-      <p className="text-sm text-muted mt-1">Daily 5-minute quizzes for your child, with a full report after each one. Use the mobile number you use for QuizPe — new here? The same step starts your free trial.</p>
+      <p className="text-sm text-muted mt-1">Daily 5-minute quizzes for your child, with a full report after each one. Use the mobile number you use for QuizPe — new here? The same step starts your 50 free MCQs.</p>
       {!sent ? (
         <form onSubmit={send} className="mt-5 space-y-3">
           <label className="label" htmlFor="m">Mobile number</label>
@@ -686,6 +702,9 @@ function ChildCard({ child, me, onMessage }) {
   const [busy, setBusy] = useState(false);
   const [levels, setLevels] = useState(null);
   const start = async (level) => {
+    // The quiz runs in WhatsApp now (2026-10-28): open the chat with "Hi" ready to send.
+    const wa = waLink(me);
+    if (wa) { window.location.href = wa; return; }
     setBusy(true); onMessage(null);
     try {
       const r = await app.startQuiz(child.id, level);
@@ -824,7 +843,7 @@ function StartTrial({ me, onMessage }) {
   };
   return (
     <form onSubmit={go} className="card p-5">
-      <h2 className="font-extrabold text-brand text-lg">🎁 Start your free {me.trial_days || 7}-day trial</h2>
+      <h2 className="font-extrabold text-brand text-lg">🎁 Start with 50 free MCQs</h2>
       <p className="text-sm text-muted mt-1">No payment details needed. Next you add your child's name, board, medium and grade — it takes about 30 seconds.</p>
       <label className="label mt-4" htmlFor="pn">Your name *</label>
       <input id="pn" className="input" maxLength={60} autoComplete="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Parent's name" />
@@ -1251,7 +1270,14 @@ export default function ParentApp() {
     setMsg(null);
     if (k === 'home') { setView('home'); top(); return; }
     if (k === 'menu') { setMenuOpen(true); return; }
-    if (k === 'quiz') { setQuizPop(true); return; }
+    // The quiz and the recharges are on WhatsApp now (2026-10-28).
+    if (k === 'quiz') { const wa = waLink(me); if (wa) { window.location.href = wa; return; } setQuizPop(true); return; }
+    if (k === 'balance') {
+      const wa = waLink(me, 'Recharge');
+      if (wa) { window.location.href = wa; return; }
+      setMsg({ tone: 'info', text: `💰 ${me.mcq?.left || 0} MCQs in your balance. Recharge on WhatsApp: send "Recharge" to +91 83173 19463.` });
+      return;
+    }
     if (k === 'install') { setView('home'); setShowInstall(true); top(); return; }
     if (k === 'signout') { await signOut(); return; }
     if (k === 'support') {
@@ -1281,7 +1307,8 @@ export default function ParentApp() {
   };
 
   const sub = me.subscribed;
-  const quiz = sub && hasKids ? 'quiz' : null;
+  // Anyone with a student can start (2026-10-28): the plan pays first, then the MCQ balance.
+  const quiz = hasKids ? 'quiz' : null;
   const REPLIES = {
     profile: ['subscription', 'notifications', hasKids ? 'reports' : null],
     subscription: sub ? [quiz, 'plans', 'reports'] : ['plans', me.can_start_trial ? 'trial' : null, 'support'],
@@ -1301,7 +1328,7 @@ export default function ParentApp() {
     plans: () => <Plans me={me} onMessage={setMsg}
                         title={me.status === 'EXPIRED' ? '🔄 Renew your plan' : plan?.trial ? '💎 Keep going after the trial' : sub ? '💎 Renew early or change plan' : '💎 Choose a plan'} />,
     notifications: () => <Reminders me={me} onGo={go} />,
-    trial: () => (me.can_start_trial ? <StartTrial me={me} onMessage={setMsg} /> : <Note>The free trial has already been used on this number — choose a plan to continue.</Note>),
+    trial: () => (me.can_start_trial ? <StartTrial me={me} onMessage={setMsg} /> : <Note>The free MCQs have already been used on this number — recharge on WhatsApp or choose a plan to continue.</Note>),
     signout_all: () => <SignOutAll onMessage={setMsg} onDone={(n) => toSignIn(`📵 Signed out on every device${n > 1 ? ` (${n})` : ''}. Sign in again any time with an SMS code.`)} />,
     deactivate: () => <Deactivate me={me} onMessage={setMsg} onGo={go}
                                   onDone={() => toSignIn('Your QuizPe account is deactivated. Quizzes, reminders and messages have stopped, and every device is signed out. Changed your mind? Sign in again with this number and everything comes back.')} />,

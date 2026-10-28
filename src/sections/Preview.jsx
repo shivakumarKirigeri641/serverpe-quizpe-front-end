@@ -202,7 +202,7 @@ export default function Preview() {
           <a href={WA_LINK} className="btn-wa">
             <span aria-hidden>🎯</span> Get this for my child
           </a>
-          <p className="text-xs text-muted mt-3">Free trial · no card · sign in with your mobile</p>
+          <p className="text-xs text-muted mt-3">50 questions free · no card · just send Hi on WhatsApp</p>
         </Reveal>
       </div>
     </section>
