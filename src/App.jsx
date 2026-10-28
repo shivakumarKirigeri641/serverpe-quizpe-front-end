@@ -25,7 +25,6 @@ import Rewards from './sections/Rewards.jsx';
 import WhyNotAI from './sections/WhyNotAI.jsx';
 import WhyQuizPe from './sections/WhyQuizPe.jsx';
 import LaunchBanner from './components/LaunchBanner.jsx';
-import NoticeBanner from './components/NoticeBanner.jsx';
 import SchoolDemo from './sections/SchoolDemo.jsx';
 import About from './sections/About.jsx';
 import Testimonials from './sections/Testimonials.jsx';
@@ -137,7 +136,6 @@ export default function App() {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      <NoticeBanner />
       <LaunchBanner />
       <Header />
       <main>
