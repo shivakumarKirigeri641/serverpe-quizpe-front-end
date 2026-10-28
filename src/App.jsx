@@ -35,7 +35,6 @@ import Footer from './components/Footer.jsx';
 import StickyCta from './components/StickyCta.jsx';
 import Policy, { policySlug } from './sections/Policy.jsx';
 import ParentApp from './pages/ParentApp.jsx';
-import HangingNotice from './components/HangingNotice.jsx';
 
 export default function App() {
   // Clean policy URLs (/privacy, /terms, /data-deletion …). The site has no
@@ -126,9 +125,10 @@ export default function App() {
   };
 
   // all hooks have run — safe to branch now
-  // The hanging notice (2026-10-10) on every page: WhatsApp is gone, QuizPe is on the web.
-  if (slug) return <><HangingNotice /><Policy slug={slug} /></>;
-  if (isApp) return <><HangingNotice /><ParentApp /></>;
+  // The hanging "WhatsApp is gone" notice came down on 2026-10-28 (user: "remove that banner") - QuizPe
+  // returns to WhatsApp on a new number. components/HangingNotice.jsx is kept for a later notice.
+  if (slug) return <Policy slug={slug} />;
+  if (isApp) return <ParentApp />;
 
   return (
     <>
@@ -137,7 +137,6 @@ export default function App() {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      <HangingNotice />
       <NoticeBanner />
       <LaunchBanner />
       <Header />
