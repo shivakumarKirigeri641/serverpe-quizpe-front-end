@@ -5,7 +5,7 @@ import { QRCodeCanvas } from 'qrcode.react';
 import { HERO, HERO_BENEFITS, HERO_OUTCOMES, WA_LINK } from '../content';
 import SendHint from '../components/SendHint.jsx';
 
-const APP_URL = 'https://quizpe.in/app';
+// (The QR used to open quizpe.in/app; it opens WhatsApp now — WA_LINK.)
 
 export default function Hero({ stats }) {
   return (
@@ -88,13 +88,14 @@ export default function Hero({ stats }) {
         <motion.div initial={{ opacity: 0, scale: .94 }} animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: .6, delay: .2 }} className="justify-self-center">
           <div className="card p-7 text-center max-w-xs animate-float">
-            <p className="text-xs font-extrabold uppercase tracking-wider text-muted">Scan to open on your phone</p>
+            {/* The scan opens WhatsApp with "Hi" ready to send (2026-10-28) — the quiz runs in the chat. */}
+            <p className="text-xs font-extrabold uppercase tracking-wider text-muted">Scan to say Hi on WhatsApp</p>
             <div className="relative my-4 inline-block p-3 bg-white rounded-2xl border-2 border-line">
-              <QRCodeCanvas value={APP_URL} size={168} level="M" includeMargin={false}
+              <QRCodeCanvas value={WA_LINK} size={168} level="M" includeMargin={false}
                             fgColor="#075e54" bgColor="#ffffff" />
             </div>
-            <p className="font-bold text-brand">quizpe.in/app</p>
-            <p className="text-xs text-muted mt-1">Reports &amp; invoices · sign in with your mobile</p>
+            <p className="font-bold text-brand">💬 +91 83173 19463</p>
+            <p className="text-xs text-muted mt-1">Send Hi — the first 50 questions are free</p>
             {stats?.questions_available > 0 && (
               <p className="mt-4 pt-4 border-t border-line text-xs text-muted">
                 <b className="text-brand">{Number(stats.questions_available).toLocaleString('en-IN')}</b> questions
