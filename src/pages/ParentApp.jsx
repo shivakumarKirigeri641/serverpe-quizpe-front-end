@@ -305,7 +305,7 @@ function StatusCard({ me, onGo }) {
     body = 'Questions come right in WhatsApp, with a report when you end. No payment details needed.';
     keys = ['trial', 'plans'];
   } else if (!me.subscribed) {
-    // PAY AS YOU ANSWER (2026-10-28): no plan is needed — the MCQ balance pays, 20 paise per answered MCQ.
+    // PAY AS YOU ANSWER (2026-10-28): no plan is needed — the MCQ balance pays for each answered MCQ.
     const m = me.mcq || { left: 0 };
     head = m.left > 0 ? `💰 ${m.left} MCQs in your balance`
       : m.free_eligible ? '🎁 50 free MCQs are waiting' : '💰 Pay as you answer';
