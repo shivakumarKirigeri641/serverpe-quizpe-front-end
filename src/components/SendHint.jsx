@@ -9,7 +9,7 @@ export default function SendHint({ tone = 'light', className = '' }) {
   return (
     <p className={`text-[13px] leading-relaxed ${muted} ${className}`}>
       Just send Hi on WhatsApp —{' '}
-      <b className={strong}>the first 50 questions are free</b>
+      <b className={strong}>the first questions are free</b>
       <span className="block mt-0.5">
         No payment, nothing to install. The first quiz is ready in about two minutes.
       </span>

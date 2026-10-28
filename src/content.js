@@ -36,24 +36,25 @@ export const HERO = {
   eyebrow: 'No app to install · right on WhatsApp',
   // A bold, parent-facing hook shown as a highlight badge in the hero.
   highlight: 'Turn 5 minutes a day into better memory, confidence and exam readiness.',
+  // PAY AS YOU ANSWER HERO (user, 2026-10-28: option 1, without "50" and "use it whenever they're ready").
   // Sits directly under the headline: the single-line, benefit-driven promise.
-  promise: 'Daily quizzes that build learning habits, improve retention and boost confidence.',
-  // Benefit-driven headline (parents ask "what's in it for my child?").
-  title: 'Daily revision quizzes, right on WhatsApp — in just 5 minutes.',
+  promise: 'Daily revision quizzes right on WhatsApp — no monthly plan, no wasted days.',
+  // Benefit-driven headline: the product in one line.
+  title: 'Your student practises. You pay only for the questions they answer.',
   sub:
-    'For school students today — Classes 1 to 10, matched to the board, grade and everything taught since June, with a full ' +
-    'explanation report the moment they finish. Competitive exam practice (JEE, NEET and more) is coming soon.',
-  ctaNote: 'Send Hi on WhatsApp — the first 50 questions are free, no card needed.',
+    'Classes 1 to 10, matched to the board, grade and everything taught since June — with a full explanation report ' +
+    'the moment they finish. Competitive exam practice (JEE, NEET and more) is coming soon.',
+  ctaNote: 'No app · no card · send Hi to start',
 };
 
 // Benefit chips shown under the hero headline — the quick "what's in it for us?".
 export const HERO_BENEFITS = [
+  '🎁 Start free',
   '💬 Right on WhatsApp',
   '💰 Pay as you answer',
-  '🎓 Classes 1 to 10',
   '📊 Report after every quiz',
-  '🎁 50 questions free',
   '👨‍👩‍👧 One balance for the family',
+  '🎓 Classes 1 to 10',
   '🎯 JEE · NEET — coming soon',
 ];
 

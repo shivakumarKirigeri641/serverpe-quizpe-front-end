@@ -47,7 +47,7 @@ export default function Hero({ stats }) {
                       transition={{ duration: .6, delay: .25 }}
                       className="mt-8 flex flex-wrap items-center gap-3">
             <a href={WA_LINK} className="btn-wa text-base">
-              <span aria-hidden>🎯</span> Start free — 50 questions
+              <span aria-hidden>💬</span> Start free on WhatsApp
             </a>
             <a href="#how-it-works" className="btn-ghost">See how daily revision works</a>
           </motion.div>
@@ -59,7 +59,7 @@ export default function Hero({ stats }) {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .4 }}
                     className="mt-4 text-sm text-muted">
-            Already with us? <a href={WA_LINK} className="font-bold text-brand underline underline-offset-2">Sign in</a> with the same mobile number.
+            Already with us? <a href={WA_LINK} className="font-bold text-brand underline underline-offset-2">Just send Hi</a> — your balance and reports are waiting.
           </motion.p>
 
           {/* Benefit chips — the quick "what's in it for my child?" scan. */}
@@ -95,7 +95,7 @@ export default function Hero({ stats }) {
                             fgColor="#075e54" bgColor="#ffffff" />
             </div>
             <p className="font-bold text-brand">💬 +91 83173 19463</p>
-            <p className="text-xs text-muted mt-1">Send Hi — the first 50 questions are free</p>
+            <p className="text-xs text-muted mt-1">Send Hi — start free</p>
             {stats?.questions_available > 0 && (
               <p className="mt-4 pt-4 border-t border-line text-xs text-muted">
                 <b className="text-brand">{Number(stats.questions_available).toLocaleString('en-IN')}</b> questions
