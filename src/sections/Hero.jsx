@@ -57,10 +57,6 @@ export default function Hero({ stats }) {
             <SendHint />
           </motion.div>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .4 }}
-                    className="mt-4 text-sm text-muted">
-            Already with us? <a href={WA_LINK} className="font-bold text-brand underline underline-offset-2">Just send Hi</a> — your balance and reports are waiting.
-          </motion.p>
 
           {/* Benefit chips — the quick "what's in it for my child?" scan. */}
           <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: .5 }}

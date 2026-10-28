@@ -38,9 +38,10 @@ export const HERO = {
   highlight: 'Turn 5 minutes a day into better memory, confidence and exam readiness.',
   // PAY AS YOU ANSWER HERO (user, 2026-10-28: option 1, without "50" and "use it whenever they're ready").
   // Sits directly under the headline: the single-line, benefit-driven promise.
-  promise: 'Daily revision quizzes right on WhatsApp — no monthly plan, no wasted days.',
-  // Benefit-driven headline: the product in one line.
-  title: 'Your student practises. You pay only for the questions they answer.',
+  // The headline says what it is (user: "Daily revision quizzes, right on WhatsApp is important to attract
+  // parents"); the line under it says how you pay.
+  promise: 'Your student practises. You pay only for the questions they answer — no monthly plan, no wasted days.',
+  title: 'Daily revision quizzes, right on WhatsApp.',
   sub:
     'Classes 1 to 10, matched to the board, grade and everything taught since June — with a full explanation report ' +
     'the moment they finish. Competitive exam practice (JEE, NEET and more) is coming soon.',
