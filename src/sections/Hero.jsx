@@ -96,12 +96,6 @@ export default function Hero({ stats }) {
             </div>
             <p className="font-bold text-brand">💬 +91 83173 19463</p>
             <p className="text-xs text-muted mt-1">Send Hi — start free</p>
-            {stats?.questions_available > 0 && (
-              <p className="mt-4 pt-4 border-t border-line text-xs text-muted">
-                <b className="text-brand">{Number(stats.questions_available).toLocaleString('en-IN')}</b> questions
-                ready across {stats.grades_live} grades
-              </p>
-            )}
           </div>
         </motion.div>
       </div>

@@ -27,8 +27,12 @@ function Count({ to, suffix = '' }) {
   return <span ref={ref}>{n.toLocaleString('en-IN')}{suffix}</span>;
 }
 
+/* "QUIZPE SO FAR", like GaadiPe's (user, 2026-10-28): shown only once 50 families have agreed to the terms —
+   small numbers read as empty, so until then the section stays away. */
+const SHOW_FROM = 50;
+
 export default function Stats({ stats }) {
-  if (!stats) return null;
+  if (!stats || Number(stats.opted_families) < SHOW_FROM) return null;
   const tiles = STAT_TILES.filter((t) => Number(stats[t.key]) > 0);
   if (!tiles.length) return null;
 
@@ -36,8 +40,8 @@ export default function Stats({ stats }) {
     <section className="py-16 bg-brand text-white">
       <div className="container-x">
         <div className="text-center">
-          <span className="eyebrow !bg-white/15 !text-white">QuizPe today</span>
-          <h2 className="text-3xl font-extrabold mt-4">Real numbers, straight from the platform</h2>
+          <span className="eyebrow !bg-white/15 !text-white">QuizPe so far</span>
+          <h2 className="text-3xl font-extrabold mt-4">Real families, real practice — straight from the platform</h2>
         </div>
 
         <div className="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">

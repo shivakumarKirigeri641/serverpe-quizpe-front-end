@@ -323,10 +323,11 @@ export const COMING_SOON = [
 ];
 
 /** Fallbacks so the page never looks broken before the API responds. */
+// "QuizPe so far" (2026-10-28): what families have actually done, not what is in the bank.
 export const STAT_TILES = [
-  { key: 'parents', label: 'Parents enrolled' },
-  { key: 'students', label: 'Children practising' },
-  { key: 'quizzes_delivered', label: 'Quizzes delivered' },
+  { key: 'opted_families', label: 'Families joined' },
+  { key: 'students', label: 'Students practising' },
+  { key: 'questions_answered', label: 'Questions answered' },
+  { key: 'quizzes_completed', label: 'Quizzes completed' },
   { key: 'reports_generated', label: 'Reports sent' },
-  { key: 'boards_live', label: 'Boards supported' },
 ];
