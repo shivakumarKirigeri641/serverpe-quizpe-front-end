@@ -44,7 +44,7 @@ export default function Header() {
         </nav>
 
         <a href={WA_LINK} className="btn-wa ml-auto !px-5 !py-2.5 !text-sm whitespace-nowrap shrink-0">
-          Sign in · Start free
+          💬 Start free
         </a>
 
         <button className="lg:hidden p-2 -mr-2" onClick={() => setOpen(!open)} aria-label="Menu">

@@ -8,10 +8,10 @@ export default function SendHint({ tone = 'light', className = '' }) {
   const strong = tone === 'dark' ? 'text-white' : 'text-brand';
   return (
     <p className={`text-[13px] leading-relaxed ${muted} ${className}`}>
-      Sign in with your mobile number —{' '}
-      <b className={strong}>we send a one-time code by SMS</b>
+      Just send Hi on WhatsApp —{' '}
+      <b className={strong}>the first 50 questions are free</b>
       <span className="block mt-0.5">
-        No payment, nothing to install. Your child’s first quiz is ready in about two minutes.
+        No payment, nothing to install. The first quiz is ready in about two minutes.
       </span>
     </p>
   );

@@ -94,7 +94,7 @@ export default function Hero({ stats }) {
                             fgColor="#075e54" bgColor="#ffffff" />
             </div>
             <p className="font-bold text-brand">quizpe.in/app</p>
-            <p className="text-xs text-muted mt-1">Sign in with your mobile number</p>
+            <p className="text-xs text-muted mt-1">Reports &amp; invoices · sign in with your mobile</p>
             {stats?.questions_available > 0 && (
               <p className="mt-4 pt-4 border-t border-line text-xs text-muted">
                 <b className="text-brand">{Number(stats.questions_available).toLocaleString('en-IN')}</b> questions

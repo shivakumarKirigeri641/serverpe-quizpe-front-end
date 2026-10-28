@@ -82,7 +82,7 @@ export default function WhyQuizPe() {
 
         <Reveal delay={0.25} className="text-center mt-10">
           <a href={WA_LINK} className="btn-wa">
-            <span aria-hidden>🎯</span> Start free — sign in with your mobile
+            <span aria-hidden>🎯</span> Start free on WhatsApp
           </a>
           <p className="text-xs text-muted mt-3">No card · take the quiz any time today</p>
         </Reveal>

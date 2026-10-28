@@ -69,8 +69,8 @@ export const HOW_IT_WORKS = [
   {
     step: '1',
     icon: '👋',
-    title: 'Sign in with your mobile',
-    body: 'No app to download and no password to remember — just your mobile number and a one-time code by SMS.',
+    title: 'Send Hi on WhatsApp',
+    body: 'No app to download and no password to remember — just say Hi to +91 83173 19463. The first 50 questions are free.',
   },
   {
     step: '2',
@@ -203,8 +203,8 @@ export const FAQ = [
   },
   {
     q: 'Is there an app to install?',
-    a: 'No. Nothing to download, nothing to update, nothing taking up space. Everything happens in your browser ' +
-       'at quizpe.in/app — sign in with your mobile number.',
+    a: 'No. Nothing to download, nothing to update, nothing taking up space. Everything happens ' +
+       'on WhatsApp — the questions come right in the chat. Reports and invoices are also at quizpe.in/app.',
   },
   {
     q: 'Which boards and grades do you cover?',
@@ -276,7 +276,7 @@ export const ABOUT = {
     'This started at my own dinner table. I kept looking for small, interesting ways to make studying feel ' +
     'less like a chore for my child — a fact here, a puzzle there. It worked. What did not work was every ' +
     'app I tried: another download, another account, another password, another subscription to forget about.',
-    'So I built the version I actually wanted. No app. No password. You sign in with your mobile number, ' +
+    'So I built the version I actually wanted. No app. No password. You just send Hi on WhatsApp, ' +
     'answer a few questions about your child, and the quiz is ready to take any time. That is genuinely the whole ' +
     'thing.',
     'QuizPe runs every day, including holidays, because the habit is the point. Ten minutes of recall, a ' +

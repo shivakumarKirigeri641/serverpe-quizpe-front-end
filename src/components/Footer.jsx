@@ -29,12 +29,12 @@ export default function Footer({ legal, business }) {
             </div>
           </div>
           <p className="text-sm mt-4 leading-relaxed">
-            A daily quiz for school children. No app to install — sign in with your mobile number.
+            Daily revision quizzes on WhatsApp. No app to install — just send Hi.
           </p>
           <a href={WA_LINK}
              className="inline-flex items-center gap-2 mt-5 rounded-full bg-brand-accent text-white
                         px-5 py-2.5 text-sm font-bold hover:bg-brand-light transition">
-            🎁 Sign in · Start free
+            💬 Start free on WhatsApp
           </a>
 
           <a href={YOUTUBE_LINK} target="_blank" rel="noopener noreferrer"

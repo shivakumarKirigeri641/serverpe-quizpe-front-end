@@ -27,7 +27,7 @@ export default function StickyCta() {
             🎁 Start free on WhatsApp
           </a>
           <p className="text-[11px] text-muted text-center mt-1.5 leading-snug">
-            Sign in with your mobile — <b className="text-brand">a one-time code by SMS</b>, no payment details
+            Send <b className="text-brand">Hi</b> on WhatsApp — 50 questions free, no payment details
           </p>
         </motion.div>
       )}
