@@ -34,9 +34,9 @@ export default function Pricing() {
   const offer = data?.offer;
   // The old free-trial plan row only opens the signup now; the free start is 50 MCQs (2026-10-28).
   const paid = plans.filter((p) => !p.is_trial && Number(p.duration) > 0 && Number(p.price) > 0).sort((a, b) => a.price - b.price);
-  // Jan-Mar: only ₹50 and ₹100 (every balance ends on 31 March).
+  // Jan-Mar: only ₹99 and ₹169 (every balance ends on 31 March).
   const janMar = new Date().getMonth() <= 2;
-  const PACKS = [[50, 250], [100, 500], [200, 1000]].filter(([r]) => !janMar || r <= 100);
+  const PACKS = [[99, 500], [169, 850], [249, 1250]].filter(([r]) => !janMar || r <= 169);
 
   return (
     <section id="pricing" className="py-20">
@@ -89,7 +89,7 @@ export default function Pricing() {
             ))}
           </div>
           <p className="text-center text-xs text-muted mt-3">
-            Every balance is valid till 31 March{janMar ? ' — so from January to March only ₹50 and ₹100 are offered' : ''}. Not refundable.
+            Every balance is valid till 31 March{janMar ? ' — so from January to March only ₹99 and ₹169 are offered' : ''}. Not refundable.
           </p>
         </Reveal>
 
