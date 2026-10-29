@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { api, safe } from './lib/api';
 import { trackView, trackWA } from './lib/track';
-import { SUPPORT_EMAIL } from './content';
+import { SUPPORT_EMAIL, WA_LINK } from './content';
 
 import Header from './components/Header.jsx';
 import Hero from './sections/Hero.jsx';
@@ -34,6 +34,27 @@ import Footer from './components/Footer.jsx';
 import StickyCta from './components/StickyCta.jsx';
 import Policy, { policySlug } from './sections/Policy.jsx';
 import ParentApp from './pages/ParentApp.jsx';
+
+const APP_ON = false;
+
+/** quizpe.in/app → WhatsApp with "Hi", at once; a button in case the browser blocks the jump. */
+function ToWhatsApp() {
+  useEffect(() => { window.location.replace(WA_LINK); }, []);
+  return (
+    <div style={{ minHeight: '100vh', display: 'grid', placeItems: 'center', padding: 16, background: '#f6f7fb', fontFamily: 'system-ui, sans-serif' }}>
+      <div style={{ maxWidth: 360, textAlign: 'center', background: '#fff', borderRadius: 16, padding: '28px 22px', boxShadow: '0 6px 24px rgba(0,0,0,.08)' }}>
+        <div style={{ fontSize: 44 }}>💬</div>
+        <h1 style={{ fontSize: 20, margin: '8px 0', color: '#043d36' }}>QuizPe is on WhatsApp</h1>
+        <p style={{ color: '#555', fontSize: 15, lineHeight: 1.45 }}>
+          Quizzes, your MCQ balance, recharges, reports and invoices — all in the chat. Opening WhatsApp…
+        </p>
+        <a href={WA_LINK} style={{ display: 'inline-block', marginTop: 14, background: '#25d366', color: '#052b1f', fontWeight: 800, padding: '12px 22px', borderRadius: 999, textDecoration: 'none' }}>
+          Open WhatsApp
+        </a>
+      </div>
+    </div>
+  );
+}
 
 export default function App() {
   // Clean policy URLs (/privacy, /terms, /data-deletion …). The site has no
@@ -68,7 +89,8 @@ export default function App() {
     trackView();
     const onClick = (e) => {
       const a = e.target.closest?.('a[href]');
-      if (a && /^\/app(\/|$|\?)/.test(a.getAttribute('href') || '')) {
+      // Every start button opens WhatsApp now (wa.me) — counted the same way.
+      if (a && /^(\/app(\/|$|\?)|https:\/\/wa\.me\/)/.test(a.getAttribute('href') || '')) {
         trackWA((a.textContent || '').trim().slice(0, 60));
       }
     };
@@ -103,12 +125,12 @@ export default function App() {
         '@type': 'Product',
         name: 'QuizPe — Daily Revision Quiz',
         description:
-          'A daily practice quiz for school children in Grades 1-10, taken in the browser at quizpe.in, ' +
-          'aligned to the CBSE and Karnataka State syllabus, with a full explanation report.',
+          'A daily revision quiz for school children in Grades 1-10, right on WhatsApp, ' +
+          'aligned to the CBSE, ICSE and Karnataka State syllabus, with a report after every quiz. Pay as your child answers.',
         brand: { '@type': 'Brand', name: 'QuizPe' },
         offers: {
           '@type': 'AggregateOffer', priceCurrency: 'INR',
-          lowPrice: '99', highPrice: '249', offerCount: 3,
+          lowPrice: '50', highPrice: '249', offerCount: 6,
           availability: 'https://schema.org/InStock',
         },
         ...(stats?.ratings_count > 0 && Number(stats.average_rating) > 0 ? {
@@ -127,7 +149,10 @@ export default function App() {
   // The hanging "WhatsApp is gone" notice came down on 2026-10-28 (user: "remove that banner") - QuizPe
   // returns to WhatsApp on a new number. components/HangingNotice.jsx is kept for a later notice.
   if (slug) return <Policy slug={slug} />;
-  if (isApp) return <ParentApp />;
+  /* /app NOW OPENS WHATSAPP (user, 2026-10-29: "/app is not disabled or not navigating to WhatsApp"). The quiz,
+     balance, recharges, reports and invoices all live in the chat now. The web account (pages/ParentApp.jsx) is
+     kept in the code, switched off — set APP_ON back to true to bring it back. */
+  if (isApp) return APP_ON ? <ParentApp /> : <ToWhatsApp />;
 
   return (
     <>
