@@ -135,8 +135,8 @@ function BotText({ text }) {
  * menu ... profile must be at the top"). The bot's list (whatsapp/userContext.js
  * buildMainMenu) — start quiz, schedule, subscription, reports, plans, support — with
  * the profile first, then what only an account on the web has: notifications, install,
- * sign out, sign out from all devices and deactivate. Refer-a-friend and the ₹9 Instant
- * Quiz stay off: both still finish on WhatsApp.
+ * sign out, sign out from all devices and deactivate. The ₹9 Instant Quiz stays off.
+ * Refer & earn is back (2026-10-29): it shares the parent's invite link from their own phone.
  *
  * Every answer ends with TAPPABLE REPLIES (<Replies>), like the bot's reply buttons, so
  * the parent always sees what to do next, with "☰ Menu" and "🏠 Home" one tap away.
@@ -147,8 +147,9 @@ const LABELS = {
   menu: ['☰', 'Menu'],
   profile: ['👤', 'My profile'],
   quiz: ['▶️', 'Start quiz on WhatsApp'],
-  balance: ['💰', 'MCQ balance & recharge'],
+  balance: ['💰', 'Questions left'],
   trial: ['🎁', 'Start with 50 free MCQs'],
+  refer: ['🎁', 'Refer & earn'],
   schedule: ['📅', 'Quiz schedule'],
   subscription: ['📄', 'My subscription'],
   reports: ['📊', 'My reports'],
@@ -171,8 +172,9 @@ function menuRows(me) {
     me.paused ? ['resume', 'QuizPe is paused — switch quizzes and reminders back on'] : null,
     me.comeback && !me.subscribed ? ['comeback', `Welcome back — ${me.comeback.days} days free, no payment`] : null,
     hasKids ? ['quiz', w === 'open' ? `Questions in the chat — open until ${fmtTime(me.window.closes)}` : w === 'before' ? `Opens at ${fmtTime(me.window.opens)}` : "Closed for today — opens tomorrow"] : null,
-    me.mcq ? ['balance', `${me.mcq.left} MCQs left · recharge ₹50 / ₹100 / ₹200 (+GST)`] : null,
+    me.mcq ? ['balance', me.mcq.left > 0 ? `${me.mcq.left} questions left for your students · add more` : 'No questions left — add more to keep practising'] : null,
     me.can_start_trial ? ['trial', '50 free MCQs · no payment details needed'] : null,
+    me.referral ? ['refer', `${me.referral.reward_mcqs} free questions for every friend who joins`] : null,
     ['schedule', 'When the next quizzes arrive'],
     ['subscription', 'Plan, validity and children enrolled'],
     hasKids || me.status === 'EXPIRED' ? ['reports', 'Scores, report cards and invoices'] : null,
@@ -1276,6 +1278,20 @@ export default function ParentApp() {
       const wa = waLink(me, 'Recharge');
       if (wa) { window.location.href = wa; return; }
       setMsg({ tone: 'info', text: `💰 ${me.mcq?.left || 0} MCQs in your balance. Recharge on WhatsApp: send "Recharge" to +91 83173 19463.` });
+      return;
+    }
+    // Refer & earn (2026-10-29): the phone's share sheet (or WhatsApp) with the ready-made invite.
+    if (k === 'refer' && me.referral) {
+      const r = me.referral;
+      const text = `My child does a daily Maths revision quiz right on WhatsApp — matched to their class, it marks itself and sends me a report. It's called QuizPe. 📚\n\n`
+        + `Join with my link and get ${r.free_mcqs + r.friend_mcqs} questions free — no app, no card. You pay only for the questions your child answers after that:\n${r.link}`;
+      const so = [r.rewarded ? `${r.rewarded} friend${r.rewarded === 1 ? '' : 's'} joined · ${r.mcqs_earned} questions earned.` : '',
+        r.joined ? `${r.joined} still to answer their first ${r.qualify_answers}.` : ''].filter(Boolean).join(' ');
+      setMsg({ tone: 'good', text: `🎁 You get ${r.reward_mcqs} free questions for every friend who joins (once their child answers ${r.qualify_answers}), and they start with ${r.free_mcqs + r.friend_mcqs} instead of ${r.free_mcqs}. Your code: ${r.code}.${so ? ` ${so}` : ''}`, replies: ['quiz', 'menu'] });
+      try {
+        if (navigator.share) { await navigator.share({ text }); return; }
+      } catch { return; }   // the parent closed the share sheet
+      window.location.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
       return;
     }
     if (k === 'install') { setView('home'); setShowInstall(true); top(); return; }
