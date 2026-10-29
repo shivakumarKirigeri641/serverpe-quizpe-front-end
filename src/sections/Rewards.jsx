@@ -17,7 +17,8 @@ import Reveal from '../components/Reveal.jsx';
 import { api, safe } from '../lib/api';
 import { WA_LINK } from '../content';
 
-const SHOW_REFERRAL = false;
+// Back on (2026-10-29): WhatsApp is live again and the reward is now questions (refer & earn).
+const SHOW_REFERRAL = true;
 
 const TIER = {
   gold:   'bg-amber-50 border-amber-300',
@@ -150,20 +151,18 @@ export default function Rewards() {
           <div className="mt-6 card p-6 sm:p-8 border-2 border-brand text-center">
             <p className="text-2xl" aria-hidden>🎁</p>
             <h3 className="font-extrabold text-brand text-lg mt-2">
-              Invite a friend — earn free days.
+              Refer &amp; earn — you both get free questions.
             </h3>
             <p className="text-sm text-muted mt-2 max-w-xl mx-auto leading-relaxed">
-              Every parent gets their own invite link. A friend who joins through it starts with the
-              same <b className="text-brand">regular 50 free questions</b> — nothing changes for them. And
-              for every <b className="text-brand">successful referral</b>,
-              <b className="text-brand"> you get 7 bonus days on your next renewal</b>. Refer two friends
-              and it’s +7 on your next renewal <b className="text-brand">and</b> +7 on the one after — one
-              reward per renewal, for as long as you keep sharing. No cash, no coupons, no catch.
+              Every parent gets their own invite link. A new family who joins through it starts with
+              <b className="text-brand"> 75 free questions</b> instead of 50. And once their child has answered
+              their first 10, <b className="text-brand">you get 50 free questions</b> — for every friend who joins,
+              up to 20 friends a year. No cash, no coupons, no catch.
             </p>
             <div className="mt-5 grid gap-3 sm:grid-cols-3 text-left max-w-2xl mx-auto">
-              {[['1', 'Find your link', 'Type “menu” on WhatsApp and tap Refer a friend.'],
+              {[['1', 'Find your link', 'Type “menu” on WhatsApp and tap Refer & earn.'],
                 ['2', 'Share it', 'Forward the ready-made message to a parent or a class group.'],
-                ['3', 'Earn on renewal', 'Each successful referral adds 7 days to a future renewal of yours.']].map(([n, t, b]) => (
+                ['3', 'Both earn', 'Your friend starts with 75 free; you get +50 when their child answers 10.']].map(([n, t, b]) => (
                 <div key={n} className="rounded-xl bg-cream p-4">
                   <span className="w-6 h-6 rounded-full bg-brand text-white text-xs font-extrabold
                                    grid place-items-center">{n}</span>
@@ -173,7 +172,7 @@ export default function Rewards() {
               ))}
             </div>
             <p className="text-[11px] text-muted mt-4">
-              Bonus days are added to your plan at renewal — one referral, one renewal — and never replace the days you already have.
+              Invite bonuses are for new families only and are valid till 31 March, like every QuizPe balance.
             </p>
           </div>
         </Reveal>
