@@ -25,7 +25,7 @@ const fmtTime = (hhmm) => {
 const rupees = (n) => `₹${Number(n).toLocaleString('en-IN')}`;
 // The line in the welcome (user, 2026-10-10), the same news as the hanging notice.
 // QuizPe is back on WhatsApp (2026-10-28): the quiz runs in the chat; reports and the account stay here too.
-const WEB_NOTE = 'QuizPe is back on WhatsApp! Questions come right in the chat — send Hi to +91 83173 19463. Pay as you answer — recharges from ₹99 (+GST). Your reports and invoices stay here too.';
+const WEB_NOTE = 'QuizPe is back on WhatsApp! Questions come right in the chat — send Hi to +91 83173 19463. Pay as you answer — recharges from ₹50 (+GST). Your reports and invoices stay here too.';
 /* The chat with a message ready to send: "Hi" starts a quiz, "Recharge" shows the balance and the recharges. */
 const waLink = (me, text = 'Hi') => (me?.whatsapp_url ? me.whatsapp_url.replace(/text=[^&]*/, `text=${encodeURIComponent(text)}`) : null);
 
@@ -171,7 +171,7 @@ function menuRows(me) {
     me.paused ? ['resume', 'QuizPe is paused — switch quizzes and reminders back on'] : null,
     me.comeback && !me.subscribed ? ['comeback', `Welcome back — ${me.comeback.days} days free, no payment`] : null,
     hasKids ? ['quiz', w === 'open' ? `Questions in the chat — open until ${fmtTime(me.window.closes)}` : w === 'before' ? `Opens at ${fmtTime(me.window.opens)}` : "Closed for today — opens tomorrow"] : null,
-    me.mcq ? ['balance', `${me.mcq.left} MCQs left · recharge ₹99 / ₹169 / ₹249 (+GST)`] : null,
+    me.mcq ? ['balance', `${me.mcq.left} MCQs left · recharge ₹50 / ₹100 / ₹200 (+GST)`] : null,
     me.can_start_trial ? ['trial', '50 free MCQs · no payment details needed'] : null,
     ['schedule', 'When the next quizzes arrive'],
     ['subscription', 'Plan, validity and children enrolled'],
@@ -311,7 +311,7 @@ function StatusCard({ me, onGo }) {
       : m.free_eligible ? '🎁 50 free MCQs are waiting' : '💰 Pay as you answer';
     body = m.left > 0 ? `Practise on WhatsApp any time today — valid till ${fmtDate(m.valid_till)}.`
       : m.free_eligible ? 'Start a quiz on WhatsApp — the free MCQs are added on the first one.'
-        : 'Recharge ₹99 / ₹169 / ₹249 (+GST) on WhatsApp, or choose a daily plan.';
+        : 'Recharge ₹50 / ₹100 / ₹200 (+GST) on WhatsApp, or choose a daily plan.';
     keys = hasKids ? ['quiz', 'balance', 'plans'] : ['balance', 'plans', 'support'];
   } else if (plan?.not_started) {
     head = `🗓 Your plan starts on ${fmtDate(plan.starts)}`;

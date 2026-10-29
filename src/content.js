@@ -236,7 +236,7 @@ export const FAQ = [
   {
     q: 'How much does it cost?',
     a: 'Start with 50 questions free — no payment details, just send Hi on WhatsApp. After that, pay as you ' +
-       'answer: recharges of ₹99 (500 questions), ₹169 (850) or ₹249 (1,250), + GST.' +
+       'answer: recharges of ₹50 (250 questions), ₹100 (500) or ₹200 (1,000), + GST. ' +
        'Only answered questions are counted, one balance covers the whole family, and it is valid till 31 March. ' +
        'Prefer a fixed price? Daily plans start at ₹99 for 28 days.',
   },
